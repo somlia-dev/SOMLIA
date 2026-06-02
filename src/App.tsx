@@ -22,8 +22,9 @@ import {
   Users,
 } from "lucide-react";
 import logoLockupSrc from "./assets/somlia-logo-cropped.png";
+import { submitWaitlistSignup, type WaitlistRole } from "./lib/waitlist";
 
-type Role = "Learner" | "Company" | "Investor / Partner";
+type Role = WaitlistRole;
 
 const navLinks = [
   { label: "How it works", href: "/#how-it-works" },
@@ -851,13 +852,29 @@ function WaitlistSection() {
     role: "Learner" as Role,
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function clearSubmitFeedback() {
+    setSubmitState("idle");
+    setSubmitMessage("");
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("SOMLIA early access submission", formData);
-    setSubmitted(true);
-    setFormData({ name: "", email: "", role: "Learner", message: "" });
+
+    setSubmitState("loading");
+    setSubmitMessage("");
+
+    try {
+      await submitWaitlistSignup(formData);
+      setSubmitState("success");
+      setSubmitMessage("Thanks. Your interest is logged for early access.");
+      setFormData({ name: "", email: "", role: "Learner", message: "" });
+    } catch (error) {
+      setSubmitState("error");
+      setSubmitMessage(error instanceof Error ? error.message : "We could not save your signup. Please try again.");
+    }
   }
 
   return (
@@ -895,8 +912,12 @@ function WaitlistSection() {
                   name="name"
                   type="text"
                   required
+                  disabled={submitState === "loading"}
                   value={formData.name}
-                  onChange={(event) => setFormData((current) => ({ ...current, name: event.target.value }))}
+                  onChange={(event) => {
+                    clearSubmitFeedback();
+                    setFormData((current) => ({ ...current, name: event.target.value }));
+                  }}
                   className="field"
                   placeholder="Your name"
                 />
@@ -907,8 +928,12 @@ function WaitlistSection() {
                   name="email"
                   type="email"
                   required
+                  disabled={submitState === "loading"}
                   value={formData.email}
-                  onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))}
+                  onChange={(event) => {
+                    clearSubmitFeedback();
+                    setFormData((current) => ({ ...current, email: event.target.value }));
+                  }}
                   className="field"
                   placeholder="you@example.com"
                 />
@@ -919,10 +944,12 @@ function WaitlistSection() {
                 <select
                   id="role"
                   name="role"
+                  disabled={submitState === "loading"}
                   value={formData.role}
-                  onChange={(event) =>
-                    setFormData((current) => ({ ...current, role: event.target.value as Role }))
-                  }
+                  onChange={(event) => {
+                    clearSubmitFeedback();
+                    setFormData((current) => ({ ...current, role: event.target.value as Role }));
+                  }}
                   className="field"
                 >
                   <option>Learner</option>
@@ -937,10 +964,12 @@ function WaitlistSection() {
                   id="message"
                   name="message"
                   rows={5}
+                  disabled={submitState === "loading"}
                   value={formData.message}
-                  onChange={(event) =>
-                    setFormData((current) => ({ ...current, message: event.target.value }))
-                  }
+                  onChange={(event) => {
+                    clearSubmitFeedback();
+                    setFormData((current) => ({ ...current, message: event.target.value }));
+                  }}
                   className="field resize-none"
                   placeholder="Tell us what you want to learn, build, or get help with."
                 />
@@ -950,18 +979,24 @@ function WaitlistSection() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-zinc-200"
+              disabled={submitState === "loading"}
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-4 font-semibold text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:bg-zinc-400"
             >
-              Join early access
+              {submitState === "loading" ? "Saving..." : "Join early access"}
               <ArrowRight className="h-5 w-5" />
             </motion.button>
-            {submitted ? (
+            {submitMessage ? (
               <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm text-zinc-200"
+                aria-live="polite"
+                className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${
+                  submitState === "error"
+                    ? "border-red-400/25 bg-red-950/30 text-red-100"
+                    : "border-white/10 bg-white/[0.05] text-zinc-200"
+                }`}
               >
-                Thanks. Your interest is logged for early access.
+                {submitMessage}
               </motion.p>
             ) : null}
           </form>
