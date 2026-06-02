@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/roadmap",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/roadmap/",
+      "destination": "/index.html"
+    }
+  ]
+}

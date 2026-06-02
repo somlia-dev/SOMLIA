@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -26,10 +26,11 @@ import logoLockupSrc from "./assets/lerni-logo-cropped.png";
 type Role = "Learner" | "Company" | "Investor / Partner";
 
 const navLinks = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "For learners", href: "#learners" },
-  { label: "For companies", href: "#companies" },
-  { label: "Join waitlist", href: "#waitlist" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "For learners", href: "/#learners" },
+  { label: "For companies", href: "/#companies" },
+  { label: "Roadmap", href: "/roadmap" },
+  { label: "Join waitlist", href: "/#waitlist" },
 ];
 
 const problems = [
@@ -133,25 +134,155 @@ const taskStreamRows = [
   ],
 ];
 
+const roadmapPhases = [
+  {
+    phase: "Phase 1",
+    title: "Validate the Problem",
+    status: "Current Stage",
+    description:
+      "Build the first community of ambitious learners and companies willing to experiment with a new way of developing talent.",
+    groups: [
+      {
+        label: "Goals",
+        items: [
+          "Launch LERNI landing page",
+          "Build waitlist",
+          "Recruit first 20-50 beta users",
+          "Conduct user interviews",
+          "Validate demand from companies",
+          "Establish the first learner-company matches",
+        ],
+      },
+    ],
+    metric: "50+ waitlist signups and 10+ active beta participants",
+  },
+  {
+    phase: "Phase 2",
+    title: "Learn -> Apply -> Earn MVP",
+    description: "Create the first version of the LERNI experience.",
+    groups: [
+      {
+        label: "What Users Get",
+        items: [
+          "Curated learning paths",
+          "Real-world micro-projects",
+          "Practical skill verification",
+          "Portfolio-building opportunities",
+          "First paid tasks",
+        ],
+      },
+      {
+        label: "What Companies Get",
+        items: [
+          "Access to motivated talent",
+          "Project-based collaboration",
+          "Lower hiring risk",
+          "Verified practical experience instead of resumes",
+        ],
+      },
+    ],
+    metric: "100+ completed projects and first paying companies",
+  },
+  {
+    phase: "Phase 3",
+    title: "Skill Validation Layer",
+    description: "Move beyond traditional education credentials.",
+    groups: [
+      {
+        label: "Features",
+        items: [
+          "Project-based skill profiles",
+          "Verified practical achievements",
+          "Performance tracking",
+          "Employer feedback system",
+          "Public portfolios",
+        ],
+      },
+    ],
+    vision: "Show what people can actually do, not just what they studied.",
+    metric: "500+ verified learner profiles",
+  },
+  {
+    phase: "Phase 4",
+    title: "Company Marketplace",
+    description: "Scale access between talent and businesses.",
+    groups: [
+      {
+        label: "Features",
+        items: [
+          "Company dashboard",
+          "Project posting",
+          "Team formation",
+          "Talent matching",
+          "Direct collaboration tools",
+        ],
+      },
+    ],
+    vision: "Companies gain access to emerging talent while learners gain access to real opportunities.",
+    metric: "100+ active companies",
+  },
+  {
+    phase: "Phase 5",
+    title: "Global Learning Network",
+    description: "Expand LERNI into a worldwide ecosystem.",
+    groups: [
+      {
+        label: "Features",
+        items: [
+          "International projects",
+          "Remote work opportunities",
+          "Community-led learning tracks",
+          "Industry partnerships",
+          "Career acceleration programs",
+        ],
+      },
+    ],
+    metric: "10,000+ active learners worldwide",
+  },
+  {
+    phase: "Phase 6",
+    title: "The Future of Career Development",
+    description:
+      "Our long-term vision is to replace the traditional path of Study -> Graduate -> Search for Work with Learn -> Apply -> Earn, where people develop skills through real experience from day one.",
+    groups: [],
+  },
+];
+
 function App() {
+  const [path, setPath] = useState(() => window.location.pathname);
+
+  useEffect(() => {
+    const handleNavigation = () => setPath(window.location.pathname);
+    window.addEventListener("popstate", handleNavigation);
+    return () => window.removeEventListener("popstate", handleNavigation);
+  }, []);
+
+  const isRoadmap = path === "/roadmap";
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#020203] text-white">
       <div className="noise" />
       <BackgroundGrid />
       <Navbar />
-      <main>
-        <HeroSection />
-        <TaskStreamSection />
-        <ProblemSection />
-        <SolutionSection />
-        <LearnersSection />
-        <CompaniesSection />
-        <WhyNowSection />
-        <EarlyAccessSection />
-        <WaitlistSection />
-      </main>
+      <main>{isRoadmap ? <RoadmapPage /> : <LandingPage />}</main>
       <Footer />
     </div>
+  );
+}
+
+function LandingPage() {
+  return (
+    <>
+      <HeroSection />
+      <TaskStreamSection />
+      <ProblemSection />
+      <SolutionSection />
+      <LearnersSection />
+      <CompaniesSection />
+      <WhyNowSection />
+      <EarlyAccessSection />
+      <WaitlistSection />
+    </>
   );
 }
 
@@ -159,7 +290,7 @@ function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-3 z-50 px-3 sm:px-5">
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-black/70 px-4 py-3 shadow-soft backdrop-blur-2xl sm:px-5">
-        <a href="#top" className="flex items-center gap-3" aria-label="LERNI home">
+        <a href="/#top" className="flex items-center gap-3" aria-label="LERNI home">
           <LogoLockup size="nav" />
         </a>
         <div className="hidden items-center gap-8 lg:flex">
@@ -174,7 +305,7 @@ function Navbar() {
           ))}
         </div>
         <a
-          href="#waitlist"
+          href="/#waitlist"
           className="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-200"
         >
           Join early access
@@ -423,6 +554,115 @@ function TaskStreamSection() {
         ))}
       </div>
     </section>
+  );
+}
+
+function RoadmapPage() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 pb-24 pt-36 sm:px-6 sm:pt-40 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto max-w-4xl text-center"
+      >
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-4 py-2 text-sm text-zinc-300 backdrop-blur-xl">
+          <Rocket className="h-4 w-4 text-white" />
+          LERNI Roadmap
+        </div>
+        <h1 className="text-5xl font-semibold leading-tight text-white sm:text-6xl">
+          Building the bridge from learning to real work.
+        </h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
+          The roadmap for validating LERNI, launching the first paid micro-projects, and growing into a
+          global network for practical career development.
+        </p>
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <ButtonLink href="/#waitlist" variant="primary">
+            Join early access
+          </ButtonLink>
+          <ButtonLink href="/#top" variant="secondary">
+            Back to landing page
+          </ButtonLink>
+        </div>
+      </motion.div>
+
+      <div className="relative mt-20">
+        <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-white/40 via-white/10 to-transparent lg:block" />
+        <div className="grid gap-5">
+          {roadmapPhases.map((phase, index) => (
+            <Reveal key={phase.title} delay={index * 0.04}>
+              <RoadmapPhaseCard phase={phase} index={index} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RoadmapPhaseCard({
+  phase,
+  index,
+}: {
+  phase: (typeof roadmapPhases)[number];
+  index: number;
+}) {
+  return (
+    <motion.article
+      whileHover={{ y: -4 }}
+      className="relative rounded-[2rem] border border-white/10 bg-white/[0.045] p-5 shadow-soft backdrop-blur-xl sm:p-7 lg:ml-12"
+    >
+      <div className="absolute -left-[3.25rem] top-8 hidden h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white text-sm font-semibold text-black lg:flex">
+        {index + 1}
+      </div>
+      <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-400">
+              {phase.phase}
+            </span>
+            {phase.status ? (
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-black">
+                {phase.status}
+              </span>
+            ) : null}
+          </div>
+          <h2 className="mt-5 text-3xl font-semibold leading-tight text-white">{phase.title}</h2>
+          <p className="mt-4 leading-7 text-zinc-400">{phase.description}</p>
+          {phase.vision ? (
+            <p className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4 leading-7 text-zinc-300">
+              {phase.vision}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="space-y-5">
+          {phase.groups.map((group) => (
+            <div key={group.label}>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">{group.label}</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {group.items.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-3 text-sm text-zinc-300"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+          {phase.metric ? (
+            <div className="rounded-2xl border border-white/10 bg-white px-5 py-4 text-black">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">Success Metric</p>
+              <p className="mt-2 font-semibold">{phase.metric}</p>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </motion.article>
   );
 }
 
@@ -743,14 +983,17 @@ function Footer() {
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-zinc-400">
-          <a className="transition hover:text-white" href="#learners">
+          <a className="transition hover:text-white" href="/#learners">
             Learners
           </a>
-          <a className="transition hover:text-white" href="#companies">
+          <a className="transition hover:text-white" href="/#companies">
             Companies
           </a>
-          <a className="transition hover:text-white" href="#waitlist">
+          <a className="transition hover:text-white" href="/#waitlist">
             Contact
+          </a>
+          <a className="transition hover:text-white" href="/roadmap">
+            Roadmap
           </a>
         </div>
         <p className="text-sm text-zinc-600 md:text-right">© 2026 LERNI. All rights reserved.</p>
