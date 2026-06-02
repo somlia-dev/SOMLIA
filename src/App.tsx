@@ -21,7 +21,7 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import logoLockupSrc from "./assets/lerni-logo-cropped.png";
+import logoLockupSrc from "./assets/somlia-logo-cropped.png";
 
 type Role = "Learner" | "Company" | "Investor / Partner";
 
@@ -145,7 +145,7 @@ const roadmapPhases = [
       {
         label: "Goals",
         items: [
-          "Launch LERNI landing page",
+          "Launch SOMLIA landing page",
           "Build waitlist",
           "Recruit first 20-50 beta users",
           "Conduct user interviews",
@@ -159,7 +159,7 @@ const roadmapPhases = [
   {
     phase: "Phase 2",
     title: "Learn -> Apply -> Earn MVP",
-    description: "Create the first version of the LERNI experience.",
+    description: "Create the first version of the SOMLIA experience.",
     groups: [
       {
         label: "What Users Get",
@@ -224,7 +224,7 @@ const roadmapPhases = [
   {
     phase: "Phase 5",
     title: "Global Learning Network",
-    description: "Expand LERNI into a worldwide ecosystem.",
+    description: "Expand SOMLIA into a worldwide ecosystem.",
     groups: [
       {
         label: "Features",
@@ -290,7 +290,7 @@ function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-3 z-50 px-3 sm:px-5">
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-black/70 px-4 py-3 shadow-soft backdrop-blur-2xl sm:px-5">
-        <a href="/#top" className="flex items-center gap-3" aria-label="LERNI home">
+        <a href="/#top" className="flex items-center gap-3" aria-label="SOMLIA home">
           <LogoLockup size="nav" />
         </a>
         <div className="hidden items-center gap-8 lg:flex">
@@ -334,7 +334,7 @@ function HeroSection() {
             Real skills. Real tasks. Real experience.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl">
-            LERNI helps students and young professionals gain practical experience by completing paid tasks
+            SOMLIA helps students and young professionals gain practical experience by completing paid tasks
             from real startups and companies.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -380,7 +380,7 @@ function HeroVisual() {
               <div className="flex h-12 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-white p-2 shadow-soft sm:h-14 sm:w-28">
                 <img
                   src={logoLockupSrc}
-                  alt="LERNI logo"
+                  alt="SOMLIA logo"
                   className="h-full w-full object-contain mix-blend-multiply"
                 />
               </div>
@@ -510,12 +510,12 @@ function TaskStreamSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section aria-label="LERNI task stream" className="relative overflow-hidden py-8 lg:py-12">
+    <section aria-label="SOMLIA task stream" className="relative overflow-hidden py-8 lg:py-12">
       <div className="mx-auto mb-6 flex max-w-7xl flex-col gap-3 px-5 sm:px-6 lg:px-8">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">Task stream</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl">
-            Practical work moving through the LERNI loop.
+            Practical work moving through the SOMLIA loop.
           </h2>
         </div>
         <p className="max-w-xl text-sm leading-6 text-zinc-500">
@@ -568,13 +568,13 @@ function RoadmapPage() {
       >
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-4 py-2 text-sm text-zinc-300 backdrop-blur-xl">
           <Rocket className="h-4 w-4 text-white" />
-          LERNI Roadmap
+          SOMLIA Roadmap
         </div>
         <h1 className="text-5xl font-semibold leading-tight text-white sm:text-6xl">
           Building the bridge from learning to real work.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
-          The roadmap for validating LERNI, launching the first paid micro-projects, and growing into a
+          The roadmap for validating SOMLIA, launching the first paid micro-projects, and growing into a
           global network for practical career development.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -672,7 +672,7 @@ function ProblemSection() {
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
           Most people finish courses or university projects but still cannot prove real work experience.
-          Companies want people who have already done practical work. LERNI closes this gap by turning
+          Companies want people who have already done practical work. SOMLIA closes this gap by turning
           learning into real tasks.
         </p>
       </div>
@@ -689,7 +689,7 @@ function ProblemSection() {
 
 function SolutionSection() {
   return (
-    <Section id="how-it-works" eyebrow="How it works" title="LERNI turns learning into practical work.">
+    <Section id="how-it-works" eyebrow="How it works" title="SOMLIA turns learning into practical work.">
       <div className="grid gap-4 lg:grid-cols-4">
         {processSteps.map((step, index) => (
           <Reveal key={step.title} delay={index * 0.08}>
@@ -759,8 +759,8 @@ function CompaniesSection() {
     <Section id="companies" eyebrow="For companies" title="Flexible help from motivated talent.">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
-          Companies can use LERNI to get help with practical tasks without hiring full-time. Bring the
-          work that matters, and LERNI helps shape it into clear micro-projects for motivated learners.
+          Companies can use SOMLIA to get help with practical tasks without hiring full-time. Bring the
+          work that matters, and SOMLIA helps shape it into clear micro-projects for motivated learners.
         </p>
       </div>
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -801,7 +801,7 @@ function WhyNowSection() {
             </div>
             <p className="text-lg leading-8 text-zinc-400">
               People need proof of practical skills faster. Companies need flexible help. AI is changing
-              work, but human judgment, research, execution, and adaptability still matter. LERNI creates
+              work, but human judgment, research, execution, and adaptability still matter. SOMLIA creates
               a practical bridge between education and work.
             </p>
           </div>
@@ -816,7 +816,7 @@ function EarlyAccessSection() {
     <Section id="early-access" eyebrow="MVP" title="We are starting manually.">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
-          Before building a complex marketplace, LERNI is starting with a small group of learners and
+          Before building a complex marketplace, SOMLIA is starting with a small group of learners and
           companies. Every first task will be managed manually to understand what actually works.
         </p>
       </div>
@@ -855,7 +855,7 @@ function WaitlistSection() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("LERNI early access submission", formData);
+    console.log("SOMLIA early access submission", formData);
     setSubmitted(true);
     setFormData({ name: "", email: "", role: "Learner", message: "" });
   }
@@ -867,10 +867,10 @@ function WaitlistSection() {
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">Join waitlist</p>
             <h2 className="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Help shape the first LERNI tasks.
+              Help shape the first SOMLIA tasks.
             </h2>
             <p className="mt-6 text-lg leading-8 text-zinc-400">
-              LERNI helps people build real-world experience by completing paid practical tasks from real
+              SOMLIA helps people build real-world experience by completing paid practical tasks from real
               companies. Join early access as a learner, company, investor, or partner.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -978,7 +978,7 @@ function Footer() {
         <div className="flex items-center justify-center gap-4 md:justify-start">
           <LogoLockup size="footer" />
           <div>
-            <p className="font-semibold tracking-[0.2em] text-white">LERNI</p>
+            <p className="font-semibold tracking-[0.2em] text-white">SOMLIA</p>
             <p className="mt-1 text-sm text-zinc-500">Learn by doing. Earn by proving.</p>
           </div>
         </div>
@@ -996,7 +996,7 @@ function Footer() {
             Roadmap
           </a>
         </div>
-        <p className="text-sm text-zinc-600 md:text-right">© 2026 LERNI. All rights reserved.</p>
+        <p className="text-sm text-zinc-600 md:text-right">© 2026 SOMLIA. All rights reserved.</p>
       </div>
     </footer>
   );
@@ -1145,7 +1145,7 @@ function LogoLockup({ size }: { size: "nav" | "footer" }) {
     <span
       className={`flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/15 bg-white px-2.5 py-2 shadow-soft ${dimensions}`}
     >
-      <img src={logoLockupSrc} alt="LERNI logo" className="h-full w-full object-contain mix-blend-multiply" />
+      <img src={logoLockupSrc} alt="SOMLIA logo" className="h-full w-full object-contain mix-blend-multiply" />
     </span>
   );
 }
