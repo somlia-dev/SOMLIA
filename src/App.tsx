@@ -203,7 +203,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#E5E7EB] bg-[#F8FAFC]/92 backdrop-blur-xl">
+    <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#E5E7EB] bg-[#F8FAFC]">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
         <a href="/#top" aria-label="SOMLIA home" className="flex items-center">
           <LogoLockup size="nav" />
@@ -322,7 +322,7 @@ function HeroBackdrop() {
 
 function ProofConsole() {
   return (
-    <div className="border border-[#D9E0EA] bg-white p-5 shadow-[0_28px_70px_rgba(17,24,39,0.10)]">
+    <div className="proof-console-card border border-[#D9E0EA] bg-white p-5 shadow-[0_18px_44px_rgba(17,24,39,0.08)]">
       <div className="flex items-start justify-between border-b border-[#E5E7EB] pb-5">
         <div className="flex items-center gap-3">
           <img src={appSymbolSrc} alt="" width={56} height={56} decoding="async" className="h-14 w-14 rounded-lg object-cover" />
@@ -331,12 +331,12 @@ function ProofConsole() {
             <p className="mt-1 text-sm text-[#64748B]">AI Automation track</p>
           </div>
         </div>
-        <span className="rounded-full bg-[#ECFDF5] px-3 py-1 text-sm font-semibold text-[#16A34A]">Verified</span>
+        <span className="proof-verified-pill rounded-full bg-[#ECFDF5] px-3 py-1 text-sm font-semibold text-[#16A34A]">Verified</span>
       </div>
       <div className="grid grid-cols-3 border-b border-[#E5E7EB]">
-        {proofSignals.map((signal) => (
+        {proofSignals.map((signal, index) => (
           <div key={signal.label} className="border-r border-[#E5E7EB] px-4 py-5 last:border-r-0">
-            <p className="text-3xl font-semibold" style={{ color: signal.color }}>
+            <p className="proof-metric-value text-3xl font-semibold" style={{ color: signal.color, animationDelay: `${0.18 + index * 0.08}s` }}>
               {signal.value}
             </p>
             <p className="mt-2 text-sm leading-5 text-[#64748B]">{signal.label}</p>
@@ -345,14 +345,14 @@ function ProofConsole() {
       </div>
       <div className="grid gap-3 pt-5">
         {["Customer research workflow", "Automation brief", "Peer review revision"].map((item, index) => (
-          <div key={item} className="flex items-center justify-between border border-[#E5E7EB] bg-[#F8FAFC] p-3">
+          <div key={item} className="proof-row-signal flex items-center justify-between border border-[#E5E7EB] bg-[#F8FAFC] p-3" style={{ animationDelay: `${0.28 + index * 0.08}s` }}>
             <div className="flex items-center gap-3">
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm font-semibold text-[#111827]">
                 {index + 1}
               </span>
               <p className="text-sm font-medium text-[#111827]">{item}</p>
             </div>
-            <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />
+            <CheckCircle2 className="proof-checkmark h-5 w-5 text-[#16A34A]" style={{ animationDelay: `${1.1 + index * 0.45}s` }} />
           </div>
         ))}
       </div>
@@ -821,7 +821,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="section-visibility mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section id={id} className="scroll-mt-24 mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
       <Reveal>
         <div className="mb-12 max-w-3xl">
           <p className="text-sm font-semibold text-[#2563EB]">{eyebrow}</p>
@@ -949,7 +949,7 @@ function LogoLockup({ size }: { size: "nav" | "footer" }) {
         width={size === "nav" ? 208 : 192}
         height={size === "nav" ? 44 : 48}
         decoding="async"
-        className="h-full w-full object-contain mix-blend-multiply"
+        className="h-full w-full object-contain"
       />
     </span>
   );
