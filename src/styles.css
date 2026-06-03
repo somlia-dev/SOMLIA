@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  background: #020203;
+  color-scheme: light;
+  background: #f8fafc;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -18,11 +18,8 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    radial-gradient(circle at 20% 8%, rgba(255, 255, 255, 0.08), transparent 32rem),
-    radial-gradient(circle at 86% 16%, rgba(255, 255, 255, 0.06), transparent 28rem),
-    linear-gradient(180deg, #030304 0%, #070708 48%, #020203 100%);
-  color: #f7f7f8;
+  background: #f8fafc;
+  color: #111827;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -34,27 +31,61 @@ textarea {
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(37, 99, 235, 0.16);
 }
 
-.glass {
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035));
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(20px);
+.content-reveal {
+  animation: content-reveal 420ms ease-out both;
+}
+
+.hero-profile-float {
+  animation: hero-profile-float 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.section-visibility {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+@keyframes content-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hero-profile-float {
+  0%,
+  100% {
+    transform: translate3d(8rem, 0, 0);
+  }
+  50% {
+    transform: translate3d(8rem, -6px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
 }
 
 @layer components {
   .field {
-    @apply w-full rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-white/30 focus:bg-black/50;
+    @apply w-full rounded-lg border border-[#CBD5E1] bg-white px-4 py-3 text-[#111827] outline-none transition placeholder:text-[#94A3B8] focus:border-[#2563EB] focus:ring-4 focus:ring-[#2563EB]/10 disabled:cursor-not-allowed disabled:bg-[#F1F5F9];
   }
-}
-
-.noise {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45'/%3E%3C/svg%3E");
 }
