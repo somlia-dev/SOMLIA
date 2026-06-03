@@ -6,7 +6,6 @@ import {
   BarChart3,
   BriefcaseBusiness,
   CheckCircle2,
-  CircleDollarSign,
   ClipboardList,
   FileText,
   GraduationCap,
@@ -25,10 +24,22 @@ import logoLockupSrc from "./assets/somlia-logo-cropped.png";
 import { submitWaitlistSignup, type WaitlistRole } from "./lib/waitlist";
 
 type Role = WaitlistRole;
+type RoadmapPhase = {
+  phase: string;
+  title: string;
+  status?: string;
+  description: string;
+  groups: {
+    label: string;
+    items: string[];
+  }[];
+  vision?: string;
+  metric?: string;
+};
 
 const navLinks = [
   { label: "How it works", href: "/#how-it-works" },
-  { label: "For learners", href: "/#learners" },
+  { label: "Community", href: "/#learners" },
   { label: "For companies", href: "/#companies" },
   { label: "Roadmap", href: "/roadmap" },
   { label: "Join waitlist", href: "/#waitlist" },
@@ -37,215 +48,226 @@ const navLinks = [
 const problems = [
   {
     icon: GraduationCap,
-    title: "No real experience",
-    copy: "Courses and class projects rarely look like the work companies need done.",
+    title: "Knowledge is not enough",
+    copy: "Millions of people learn new skills every year, but the path to real experience is still unclear.",
   },
   {
     icon: BadgeCheck,
-    title: "No proof of skills",
-    copy: "It is hard to show judgment, execution, and reliability without real task history.",
+    title: "Experience is hard to prove",
+    copy: "Students need experience to get jobs, while companies need proof that candidates can deliver.",
   },
   {
     icon: Target,
-    title: "No clear path",
-    copy: "Learning often ends before earning starts, leaving people stuck between both worlds.",
+    title: "The signal is weak",
+    copy: "Certificates show participation. Employers still need stronger evidence of practical judgment and execution.",
+  },
+];
+
+const solutionPillars = [
+  {
+    icon: FileText,
+    title: "Build proof of work",
+    copy: "Instead of collecting certificates, users build visible evidence through completed practical challenges.",
+  },
+  {
+    icon: Users,
+    title: "Improve together",
+    copy: "Instead of studying alone, users collaborate, review, and sharpen each other's work.",
+  },
+  {
+    icon: BriefcaseBusiness,
+    title: "Practice real scenarios",
+    copy: "Instead of guessing what employers want, users train on situations shaped around actual work.",
   },
 ];
 
 const processSteps = [
   {
     step: "01",
-    title: "Learn the task basics",
-    copy: "Get the context, examples, and expectations before work begins.",
+    title: "Learn",
+    copy: "Choose a skill track and start building practical knowledge.",
   },
   {
     step: "02",
-    title: "Complete a real company task",
-    copy: "Work on practical micro-projects from startups and small teams.",
+    title: "Apply",
+    copy: "Complete real-world challenges designed around actual work situations.",
   },
   {
     step: "03",
-    title: "Get feedback and proof",
-    copy: "Turn completed work into evidence of ability, not just effort.",
+    title: "Review",
+    copy: "Receive feedback from the community and review other users' work.",
   },
   {
     step: "04",
-    title: "Earn and unlock better tasks",
-    copy: "Move from simple execution to higher-value work as trust grows.",
+    title: "Build Reputation",
+    copy: "Earn trust through completed challenges, reviews, and consistent performance.",
+  },
+  {
+    step: "05",
+    title: "Earn Opportunities",
+    copy: "Access projects and opportunities after proving your capabilities.",
   },
 ];
 
-const learnerBenefits = [
-  "Build a real portfolio",
-  "Earn from beginner-friendly tasks",
-  "Get feedback from real projects",
-  "Learn skills companies actually need",
-  "Move from simple tasks to more valuable work",
+const communityBenefits = [
+  "Receive useful feedback from peers",
+  "Review other users' work to sharpen judgment",
+  "Build reputation through valuable feedback",
+  "Learn by seeing how others solve the same challenge",
+  "Turn collaboration into credible proof",
 ];
 
-const companyTasks = [
-  { label: "Market research", icon: Search },
-  { label: "Lead generation", icon: Users },
-  { label: "Data collection", icon: BarChart3 },
-  { label: "Content support", icon: MessageSquare },
-  { label: "Competitor analysis", icon: Layers3 },
-  { label: "Operations support", icon: ClipboardList },
+const companySignals = [
+  { label: "Challenge results", icon: ClipboardList },
+  { label: "Community validation", icon: Users },
+  { label: "Skill reputation", icon: BadgeCheck },
+  { label: "AI-native workflows", icon: Sparkles },
+  { label: "Public learner profiles", icon: Layers3 },
+  { label: "Consistent performance", icon: BarChart3 },
 ];
 
 const taskCards = [
   {
-    title: "Market research sprint",
-    label: "Startup task",
-    meta: "3 hrs",
-    amount: "Paid",
-    icon: Search,
+    title: "Practical challenge",
+    label: "Skill track",
+    meta: "Real-world scenario",
+    amount: "Apply",
+    icon: ClipboardList,
   },
   {
-    title: "Lead list cleanup",
-    label: "Beginner-friendly",
-    meta: "Feedback",
-    amount: "$",
+    title: "Community review",
+    label: "Peer feedback",
+    meta: "Improve the work",
+    amount: "Review",
     icon: Users,
   },
   {
-    title: "Content support brief",
-    label: "Portfolio proof",
-    meta: "Review",
-    amount: "Level up",
-    icon: MessageSquare,
+    title: "Reputation signal",
+    label: "Proof of work",
+    meta: "Capabilities shown",
+    amount: "Grow",
+    icon: BadgeCheck,
   },
 ];
 
 const taskStreamRows = [
   [
-    { label: "Research sprint", meta: "Startup task", icon: Search },
-    { label: "Lead list", meta: "Paid micro-project", icon: Users },
-    { label: "Content brief", meta: "Portfolio proof", icon: FileText },
-    { label: "Market map", meta: "Feedback loop", icon: BarChart3 },
-    { label: "Ops checklist", meta: "Beginner-friendly", icon: ClipboardList },
-    { label: "Company handoff", meta: "Real client", icon: Handshake },
+    { label: "Skill track", meta: "Practical learning", icon: GraduationCap },
+    { label: "Challenge brief", meta: "Real scenario", icon: ClipboardList },
+    { label: "Peer review", meta: "Community feedback", icon: MessageSquare },
+    { label: "Improved output", meta: "Iteration loop", icon: MousePointer2 },
+    { label: "Reputation score", meta: "Proof through work", icon: BadgeCheck },
+    { label: "Opportunity path", meta: "After proven ability", icon: Handshake },
   ],
   [
-    { label: "Learn basics", meta: "Task context", icon: GraduationCap },
-    { label: "Apply judgment", meta: "Real output", icon: MousePointer2 },
-    { label: "Earn payout", meta: "Proof of work", icon: CircleDollarSign },
-    { label: "Unlock next task", meta: "Better work", icon: Rocket },
-    { label: "Get reviewed", meta: "Useful feedback", icon: BadgeCheck },
-    { label: "Build portfolio", meta: "Visible progress", icon: Layers3 },
+    { label: "AI workflow", meta: "Modern tools", icon: Sparkles },
+    { label: "Research judgment", meta: "Better decisions", icon: Search },
+    { label: "Clear communication", meta: "Work-ready output", icon: FileText },
+    { label: "Quality scoring", meta: "Credible signal", icon: BarChart3 },
+    { label: "Profile proof", meta: "Visible progress", icon: Layers3 },
+    { label: "Career access", meta: "Real opportunities", icon: Rocket },
   ],
 ];
 
-const roadmapPhases = [
+const roadmapPhases: RoadmapPhase[] = [
   {
-    phase: "Phase 1",
-    title: "Validate the Problem",
+    phase: "PHASE 1",
+    title: "Community Validation",
     status: "Current Stage",
     description:
-      "Build the first community of ambitious learners and companies willing to experiment with a new way of developing talent.",
+      "Start by validating the need for a practical bridge between learning and real experience.",
     groups: [
       {
-        label: "Goals",
+        label: "Focus",
         items: [
-          "Launch SOMLIA landing page",
           "Build waitlist",
-          "Recruit first 20-50 beta users",
-          "Conduct user interviews",
-          "Validate demand from companies",
-          "Establish the first learner-company matches",
+          "Gather early adopters",
+          "Build community",
+          "Validate demand",
         ],
       },
     ],
-    metric: "50+ waitlist signups and 10+ active beta participants",
   },
   {
-    phase: "Phase 2",
-    title: "Learn -> Apply -> Earn MVP",
-    description: "Create the first version of the SOMLIA experience.",
+    phase: "PHASE 2",
+    title: "Skill Tracks",
+    description: "Launch the first practical learning tracks around high-demand, AI-relevant work.",
     groups: [
       {
-        label: "What Users Get",
+        label: "Tracks",
         items: [
-          "Curated learning paths",
-          "Real-world micro-projects",
-          "Practical skill verification",
-          "Portfolio-building opportunities",
-          "First paid tasks",
-        ],
-      },
-      {
-        label: "What Companies Get",
-        items: [
-          "Access to motivated talent",
-          "Project-based collaboration",
-          "Lower hiring risk",
-          "Verified practical experience instead of resumes",
+          "Launch first practical learning tracks",
+          "AI Automation",
+          "Sales",
+          "Marketing",
         ],
       },
     ],
-    metric: "100+ completed projects and first paying companies",
   },
   {
-    phase: "Phase 3",
-    title: "Skill Validation Layer",
-    description: "Move beyond traditional education credentials.",
+    phase: "PHASE 3",
+    title: "Community Review System",
+    description: "Make peer feedback a core part of learning, improvement, and trust.",
     groups: [
       {
         label: "Features",
         items: [
-          "Project-based skill profiles",
-          "Verified practical achievements",
-          "Performance tracking",
-          "Employer feedback system",
-          "Public portfolios",
+          "Peer-to-peer feedback",
+          "Review reputation",
+          "Learning through collaboration",
+          "Quality scoring",
         ],
       },
     ],
-    vision: "Show what people can actually do, not just what they studied.",
-    metric: "500+ verified learner profiles",
   },
   {
-    phase: "Phase 4",
-    title: "Company Marketplace",
-    description: "Scale access between talent and businesses.",
+    phase: "PHASE 4",
+    title: "Reputation Engine",
+    description: "Turn consistent performance into a signal people can carry beyond the platform.",
     groups: [
       {
         label: "Features",
         items: [
-          "Company dashboard",
-          "Project posting",
-          "Team formation",
-          "Talent matching",
-          "Direct collaboration tools",
+          "Challenge completion history",
+          "Community contribution score",
+          "Skill reputation score",
+          "Public learner profiles",
         ],
       },
     ],
-    vision: "Companies gain access to emerging talent while learners gain access to real opportunities.",
-    metric: "100+ active companies",
   },
   {
-    phase: "Phase 5",
-    title: "Global Learning Network",
-    description: "Expand SOMLIA into a worldwide ecosystem.",
+    phase: "PHASE 5",
+    title: "AI-Native Learning",
+    description: "Help users work alongside modern AI tools with confidence and practical judgment.",
     groups: [
       {
         label: "Features",
         items: [
-          "International projects",
-          "Remote work opportunities",
-          "Community-led learning tracks",
-          "Industry partnerships",
-          "Career acceleration programs",
+          "AI-assisted workflows",
+          "AI productivity tools",
+          "Practical AI usage training",
+          "Human + AI collaboration",
         ],
       },
     ],
-    metric: "10,000+ active learners worldwide",
   },
   {
-    phase: "Phase 6",
-    title: "The Future of Career Development",
+    phase: "PHASE 6",
+    title: "Opportunities",
     description:
-      "Our long-term vision is to replace the traditional path of Study -> Graduate -> Search for Work with Learn -> Apply -> Earn, where people develop skills through real experience from day one.",
-    groups: [],
+      "Open access to real opportunities after users have shown what they can do.",
+    groups: [
+      {
+        label: "Pathways",
+        items: [
+          "Real-world projects",
+          "Company partnerships",
+          "Talent discovery",
+          "Career opportunities",
+        ],
+      },
+    ],
   },
 ];
 
@@ -278,6 +300,7 @@ function LandingPage() {
       <TaskStreamSection />
       <ProblemSection />
       <SolutionSection />
+      <HowItWorksSection />
       <LearnersSection />
       <CompaniesSection />
       <WhyNowSection />
@@ -309,7 +332,7 @@ function Navbar() {
           href="/#waitlist"
           className="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-200"
         >
-          Join early access
+          Join Waitlist
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
         </a>
       </nav>
@@ -329,25 +352,25 @@ function HeroSection() {
         >
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-4 py-2 text-sm text-zinc-300 backdrop-blur-xl">
             <Sparkles className="h-4 w-4 text-white" />
-            Learn by doing. Earn by proving.
+            The bridge between learning and real work experience.
           </div>
           <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-normal text-white sm:text-6xl 2xl:text-7xl">
-            Real skills. Real tasks. Real experience.
+            Learn. Apply. Earn.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl">
-            SOMLIA helps students and young professionals gain practical experience by completing paid tasks
-            from real startups and companies.
+            Build real experience while learning. Complete practical challenges, receive community
+            feedback, develop AI-native skills, and create a reputation based on what you can actually do.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="#waitlist" variant="primary">
-              Join as a learner
+              Join Waitlist
             </ButtonLink>
             <ButtonLink href="#companies" variant="secondary">
-              Request help for your company
+              For Companies
             </ButtonLink>
           </div>
           <p className="mt-6 text-sm text-zinc-500">
-            Starting with students, startups, and practical micro-projects.
+            Practical challenges, community feedback, and AI-native skill development.
           </p>
         </motion.div>
         <HeroVisual />
@@ -386,7 +409,7 @@ function HeroVisual() {
                 />
               </div>
               <div className="min-w-0">
-                <p className="text-sm text-zinc-500">Live task path</p>
+                <p className="text-sm text-zinc-500">Experience path</p>
                 <p className="font-medium text-white">Learn - Apply - Earn</p>
               </div>
             </div>
@@ -396,7 +419,7 @@ function HeroVisual() {
                 transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                 className="h-1.5 w-1.5 rounded-full bg-white"
               />
-              Open beta
+              Waitlist open
             </div>
           </div>
 
@@ -511,16 +534,16 @@ function TaskStreamSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section aria-label="SOMLIA task stream" className="relative overflow-hidden py-8 lg:py-12">
+    <section aria-label="SOMLIA experience loop" className="relative overflow-hidden py-8 lg:py-12">
       <div className="mx-auto mb-6 flex max-w-7xl flex-col gap-3 px-5 sm:px-6 lg:px-8">
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">Task stream</p>
+          <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">Experience loop</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl">
-            Practical work moving through the SOMLIA loop.
+            Practical challenges become visible proof.
           </h2>
         </div>
         <p className="max-w-xl text-sm leading-6 text-zinc-500">
-          A calm flow of beginner-friendly work, feedback, and proof.
+          A steady path from learning to application, feedback, reputation, and opportunities.
         </p>
       </div>
       <div className="relative">
@@ -575,12 +598,12 @@ function RoadmapPage() {
           Building the bridge from learning to real work.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-400">
-          The roadmap for validating SOMLIA, launching the first paid micro-projects, and growing into a
-          global network for practical career development.
+          The roadmap moves from community validation to skill tracks, peer review, reputation,
+          AI-native learning, and access to real opportunities.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <ButtonLink href="/#waitlist" variant="primary">
-            Join early access
+            Join Waitlist
           </ButtonLink>
           <ButtonLink href="/#top" variant="secondary">
             Back to landing page
@@ -669,12 +692,12 @@ function RoadmapPhaseCard({
 
 function ProblemSection() {
   return (
-    <Section id="problem" eyebrow="The gap" title="Courses give knowledge. Companies ask for experience." compact>
+    <Section id="problem" eyebrow="The gap" title="The Experience Gap" compact>
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
-          Most people finish courses or university projects but still cannot prove real work experience.
-          Companies want people who have already done practical work. SOMLIA closes this gap by turning
-          learning into real tasks.
+          Millions of people learn new skills every year. Yet employers continue asking for experience.
+          Students need experience to get jobs. Companies need proof that candidates can deliver.
+          Traditional education teaches knowledge. It rarely provides practical experience.
         </p>
       </div>
       <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -690,8 +713,29 @@ function ProblemSection() {
 
 function SolutionSection() {
   return (
-    <Section id="how-it-works" eyebrow="How it works" title="SOMLIA turns learning into practical work.">
-      <div className="grid gap-4 lg:grid-cols-4">
+    <Section id="solution" eyebrow="The solution" title="A New Way To Learn">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-lg leading-8 text-zinc-400">
+          SOMLIA transforms learning into practical experience. Instead of collecting certificates, users
+          build proof of work. Instead of studying alone, users collaborate, review, and improve together.
+          Instead of guessing what employers want, users practice real-world scenarios.
+        </p>
+      </div>
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
+        {solutionPillars.map((pillar, index) => (
+          <Reveal key={pillar.title} delay={index * 0.08}>
+            <FeatureCard icon={pillar.icon} title={pillar.title} copy={pillar.copy} />
+          </Reveal>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function HowItWorksSection() {
+  return (
+    <Section id="how-it-works" eyebrow="How it works" title="Learn through the full experience loop.">
+      <div className="grid gap-4 lg:grid-cols-5">
         {processSteps.map((step, index) => (
           <Reveal key={step.title} delay={index * 0.08}>
             <motion.div
@@ -716,7 +760,7 @@ function SolutionSection() {
 
 function LearnersSection() {
   return (
-    <Section id="learners" eyebrow="For learners" title="For people who want more than certificates.">
+    <Section id="learners" eyebrow="Community" title="Learn Together">
       <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
         <Reveal>
           <div className="glass rounded-[2rem] p-6 sm:p-8">
@@ -724,21 +768,22 @@ function LearnersSection() {
               <GraduationCap className="h-7 w-7" />
             </div>
             <p className="mt-8 text-2xl font-semibold leading-snug text-white">
-              Build experience you can point to.
+              The review process is part of the learning.
             </p>
             <p className="mt-5 leading-8 text-zinc-400">
-              Start with clear, beginner-friendly tasks. Prove that you can research, organize,
-              communicate, and deliver. Then use that proof to access better work.
+              The best learning happens through feedback. Users review each other's work, exchange
+              insights, identify improvements, and grow together. Every useful review strengthens the
+              community and makes the reputation system more credible.
             </p>
             <div className="mt-8">
               <ButtonLink href="#waitlist" variant="primary">
-                Join as a learner
+                Join Waitlist
               </ButtonLink>
             </div>
           </div>
         </Reveal>
         <div className="grid gap-3 sm:grid-cols-2">
-          {learnerBenefits.map((benefit, index) => (
+          {communityBenefits.map((benefit, index) => (
             <Reveal key={benefit} delay={index * 0.06}>
               <motion.div
                 whileHover={{ x: 4 }}
@@ -757,31 +802,32 @@ function LearnersSection() {
 
 function CompaniesSection() {
   return (
-    <Section id="companies" eyebrow="For companies" title="Flexible help from motivated talent.">
+    <Section id="companies" eyebrow="For companies" title="Discover Proven Talent">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
-          Companies can use SOMLIA to get help with practical tasks without hiring full-time. Bring the
-          work that matters, and SOMLIA helps shape it into clear micro-projects for motivated learners.
+          Instead of relying solely on resumes and certificates, companies can discover people who have
+          already demonstrated their skills through practical challenges and community validation. See what
+          candidates can do before hiring them.
         </p>
       </div>
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {companyTasks.map((task, index) => (
-          <Reveal key={task.label} delay={index * 0.06}>
+        {companySignals.map((signal, index) => (
+          <Reveal key={signal.label} delay={index * 0.06}>
             <motion.div
               whileHover={{ y: -5 }}
               className="flex items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.045] p-5"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06]">
-                <task.icon className="h-5 w-5 text-white" />
+                <signal.icon className="h-5 w-5 text-white" />
               </div>
-              <p className="font-medium text-white">{task.label}</p>
+              <p className="font-medium text-white">{signal.label}</p>
             </motion.div>
           </Reveal>
         ))}
       </div>
       <div className="mt-10 flex justify-center">
         <ButtonLink href="#waitlist" variant="secondary">
-          Submit a company task
+          For Companies
         </ButtonLink>
       </div>
     </Section>
@@ -790,7 +836,7 @@ function CompaniesSection() {
 
 function WhyNowSection() {
   return (
-    <Section id="why-now" eyebrow="Why now" title="The traditional path from education to work is broken.">
+    <Section id="ai" eyebrow="AI-native skills" title="Built For The AI Era">
       <Reveal>
         <div className="glass mx-auto max-w-5xl rounded-[2rem] p-6 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
@@ -798,12 +844,13 @@ function WhyNowSection() {
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-black">
                 <Lightbulb className="h-7 w-7" />
               </div>
-              <p className="mt-6 text-2xl font-semibold text-white">A practical bridge is overdue.</p>
+              <p className="mt-6 text-2xl font-semibold text-white">Modern professionals work alongside AI.</p>
             </div>
             <p className="text-lg leading-8 text-zinc-400">
-              People need proof of practical skills faster. Companies need flexible help. AI is changing
-              work, but human judgment, research, execution, and adaptability still matter. SOMLIA creates
-              a practical bridge between education and work.
+              Modern professionals do not compete against AI. They work alongside it. SOMLIA teaches users
+              how to combine practical skills with modern AI tools to improve productivity, decision making,
+              research, communication, and execution. The goal is not simply learning a skill. The goal is
+              becoming an AI-native professional.
             </p>
           </div>
         </div>
@@ -814,29 +861,38 @@ function WhyNowSection() {
 
 function EarlyAccessSection() {
   return (
-    <Section id="early-access" eyebrow="MVP" title="We are starting manually.">
+    <Section id="early-access" eyebrow="Who it is for" title="Everyone helps close the experience gap.">
       <div className="mx-auto max-w-3xl text-center">
         <p className="text-lg leading-8 text-zinc-400">
-          Before building a complex marketplace, SOMLIA is starting with a small group of learners and
-          companies. Every first task will be managed manually to understand what actually works.
+          SOMLIA brings learners, community reviewers, and companies into one practical loop. Learning and
+          teaching happen simultaneously, while opportunities come after people have proven their abilities.
         </p>
       </div>
-      <div className="mt-12 grid gap-4 md:grid-cols-2">
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
         <Reveal>
           <ActionCard
-            icon={CircleDollarSign}
-            title="I want to gain experience"
-            copy="Join the first learner group for paid practical tasks, real feedback, and portfolio proof."
-            button="Join as a learner"
+            icon={GraduationCap}
+            title="Learners"
+            copy="Build practical skills, complete challenges, receive feedback, and create proof of what you can do."
+            button="Join Waitlist"
             href="#waitlist"
           />
         </Reveal>
         <Reveal delay={0.08}>
           <ActionCard
+            icon={MessageSquare}
+            title="Community Reviewers"
+            copy="Review peer work, share useful feedback, and earn reputation by helping others improve."
+            button="Build Reputation"
+            href="#waitlist"
+          />
+        </Reveal>
+        <Reveal delay={0.16}>
+          <ActionCard
             icon={BriefcaseBusiness}
-            title="I need help with tasks"
-            copy="Share the work your team needs done and shape it into a clear, manageable micro-project."
-            button="Request company help"
+            title="Companies"
+            copy="Discover people who have already shown practical ability through challenges and validation."
+            button="For Companies"
             href="#waitlist"
           />
         </Reveal>
@@ -884,14 +940,15 @@ function WaitlistSection() {
           <div>
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">Join waitlist</p>
             <h2 className="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Help shape the first SOMLIA tasks.
+              Help Build The Future Of Learning
             </h2>
             <p className="mt-6 text-lg leading-8 text-zinc-400">
-              SOMLIA helps people build real-world experience by completing paid practical tasks from real
-              companies. Join early access as a learner, company, investor, or partner.
+              Join the waitlist and help shape a platform designed to transform learning into experience.
+              SOMLIA helps people turn learning into real experience through practical challenges, community
+              collaboration, and AI-native skill development.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              {["Students", "Startups", "Practical micro-projects"].map((item) => (
+              {["Practical challenges", "Community feedback", "AI-native skills"].map((item) => (
                 <span
                   key={item}
                   className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-zinc-300"
@@ -1014,7 +1071,7 @@ function Footer() {
           <LogoLockup size="footer" />
           <div>
             <p className="font-semibold tracking-[0.2em] text-white">SOMLIA</p>
-            <p className="mt-1 text-sm text-zinc-500">Learn by doing. Earn by proving.</p>
+            <p className="mt-1 text-sm text-zinc-500">Turning learning into real experience.</p>
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-5 text-sm text-zinc-400">
@@ -1112,7 +1169,7 @@ function ActionCard({
   button,
   href,
 }: {
-  icon: typeof CircleDollarSign;
+  icon: typeof GraduationCap;
   title: string;
   copy: string;
   button: string;
