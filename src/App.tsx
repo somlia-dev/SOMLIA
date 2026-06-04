@@ -8,8 +8,10 @@ import {
   FileText,
   GraduationCap,
   Handshake,
+  LockKeyhole,
   Menu,
   MessageSquare,
+  ShieldCheck,
   X,
 } from "lucide-react";
 import logoLockupSrc from "./assets/somlia-logo-final-lockup.webp";
@@ -200,6 +202,138 @@ const roadmapPhases = [
   "Paid Opportunities",
 ];
 
+const privacyHighlights = [
+  {
+    title: "Minimal collection",
+    copy: "We collect the information needed to manage early access, understand user interest, and contact people who ask to hear from SOMLIA.",
+    icon: ClipboardList,
+    color: brand.blue,
+  },
+  {
+    title: "Clear use",
+    copy: "Waitlist details are used for early access operations, role-specific updates, product research, and basic site performance analytics.",
+    icon: ShieldCheck,
+    color: brand.green,
+  },
+  {
+    title: "Service providers",
+    copy: "Supabase stores waitlist submissions, Loops supports waitlist emails, and Vercel Analytics helps us understand aggregate site usage.",
+    icon: LockKeyhole,
+    color: brand.gold,
+  },
+];
+
+const privacySections = [
+  {
+    title: "1. Scope",
+    body: [
+      "This Privacy Policy explains how SOMLIA collects, uses, discloses, and protects personal information through this website, the waitlist form, related early-access communications, and basic analytics.",
+      "SOMLIA is an early-stage proof-of-progress platform. If we launch additional account, payment, hiring, community, or marketplace features, we will update this policy to describe those practices before or when they become available.",
+    ],
+  },
+  {
+    title: "2. Personal information we collect",
+    body: [
+      "Information you provide directly: name, email address, selected role, and any optional message submitted through the waitlist form.",
+      "Technical and usage information: limited information about visits and interactions with the website, such as page views, referrers, device or browser information, approximate location derived from network data, and similar analytics signals.",
+      "Communications information: information related to waitlist confirmations, early-access messages, support requests, and privacy requests you send to us.",
+    ],
+  },
+  {
+    title: "3. How we use personal information",
+    body: [
+      "We use personal information to operate the waitlist, respond to requests, send early-access and product updates, understand which audiences are interested in SOMLIA, improve the website, maintain security, debug issues, comply with legal obligations, and protect our rights.",
+      "We do not sell personal information, and we do not use waitlist submissions for cross-context behavioral advertising.",
+    ],
+  },
+  {
+    title: "4. Legal bases where applicable",
+    body: [
+      "Where privacy laws require a legal basis, we process waitlist information because you asked to join or hear from us, because we have a legitimate interest in operating and improving SOMLIA, because we need to comply with legal obligations, or because you have given consent where consent is required.",
+      "You may withdraw consent or unsubscribe from non-essential communications at any time, but we may retain limited information when needed for security, legal, or recordkeeping purposes.",
+    ],
+  },
+  {
+    title: "5. How we disclose personal information",
+    body: [
+      "Service providers: we use Supabase to store waitlist submissions, Loops to manage waitlist email events and related communications, and Vercel Analytics to understand aggregate website performance and usage.",
+      "Legal and safety reasons: we may disclose information if required by law, legal process, or a good-faith need to protect rights, safety, security, or prevent abuse.",
+      "Business changes: if SOMLIA is involved in a merger, acquisition, financing, reorganization, or similar transaction, personal information may be transferred as part of that transaction, subject to appropriate protections.",
+    ],
+  },
+  {
+    title: "6. Cookies and analytics",
+    body: [
+      "The website uses Vercel Analytics to measure traffic and performance. Analytics may rely on privacy-preserving technical signals rather than traditional advertising cookies.",
+      "You can control cookies or similar technologies through your browser settings. Blocking some technologies may affect how the website works.",
+    ],
+  },
+  {
+    title: "7. Retention",
+    body: [
+      "We keep waitlist and communication records only as long as reasonably necessary for the purposes described in this policy, including managing early access, maintaining business records, complying with law, resolving disputes, and protecting against misuse.",
+      "If you ask us to delete your waitlist information, we will take reasonable steps to do so unless we need to retain limited information for legal, security, or legitimate business purposes.",
+    ],
+  },
+  {
+    title: "8. Security",
+    body: [
+      "We use reasonable administrative, technical, and organizational safeguards designed to protect personal information. No website, database, or transmission method is completely secure, so we cannot guarantee absolute security.",
+      "Access to waitlist data should be limited to people and service providers who need it for the purposes described in this policy.",
+    ],
+  },
+  {
+    title: "9. Your privacy rights",
+    body: [
+      "Depending on where you live, you may have rights to request access, correction, deletion, restriction, portability, objection, withdrawal of consent, or appeal of certain privacy decisions.",
+      "California residents may request to know, delete, or correct personal information and may opt out of sale or sharing where applicable. SOMLIA does not sell personal information or share it for cross-context behavioral advertising.",
+      "European Economic Area, United Kingdom, and Swiss residents may also have the right to lodge a complaint with a local data protection authority.",
+    ],
+  },
+  {
+    title: "10. International transfers",
+    body: [
+      "SOMLIA and its service providers may process information in the United States and other countries. Where required, we use appropriate safeguards for international transfers.",
+    ],
+  },
+  {
+    title: "11. Children",
+    body: [
+      "SOMLIA is not directed to children under 13, and we do not knowingly collect personal information from children under 13. If you believe a child provided personal information, contact us so we can take appropriate steps.",
+    ],
+  },
+  {
+    title: "12. Changes to this policy",
+    body: [
+      "We may update this Privacy Policy from time to time. The updated version will be posted on this page with a new effective date. Material changes will be communicated in a reasonable way when required.",
+    ],
+  },
+  {
+    title: "13. Contact",
+    body: [
+      "To make a privacy request or ask a privacy question, contact SOMLIA at privacy@somlia.com. Please include enough information for us to verify and respond to your request.",
+    ],
+  },
+];
+
+const noticeAtCollectionRows = [
+  {
+    category: "Identifiers",
+    examples: "Name and email address",
+    purpose: "Operate the waitlist, communicate about early access, and respond to requests",
+  },
+  {
+    category: "User-provided details",
+    examples: "Selected role and optional message",
+    purpose: "Understand audience interest and tailor early-access communications",
+  },
+  {
+    category: "Internet or network activity",
+    examples: "Page views, referrers, device/browser data, and similar analytics signals",
+    purpose: "Measure site performance, improve content, and maintain security",
+  },
+];
+
 function App() {
   const [path, setPath] = useState(() => window.location.pathname);
 
@@ -209,12 +343,16 @@ function App() {
     return () => window.removeEventListener("popstate", handleNavigation);
   }, []);
 
-  const isRoadmap = path === "/roadmap";
+  const normalizedPath = path.replace(/\/$/, "") || "/";
+  const isRoadmap = normalizedPath === "/roadmap";
+  const isPrivacyPolicy = normalizedPath === "/privacy-policy";
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#111827]">
       <Navbar />
-      <main>{isRoadmap ? <RoadmapPage /> : <LandingPage />}</main>
+      <main>
+        {isPrivacyPolicy ? <PrivacyPolicyPage /> : isRoadmap ? <RoadmapPage /> : <LandingPage />}
+      </main>
       <Footer />
     </div>
   );
@@ -832,6 +970,13 @@ function WaitlistSection() {
               {submitState === "loading" ? "Saving..." : "Join early access"}
               <ArrowRight className="h-5 w-5" />
             </button>
+            <p className="mt-4 text-xs leading-5 text-[#64748B]">
+              We use waitlist details to manage early access and send related updates. Read the{" "}
+              <a className="font-semibold text-[#2563EB] transition hover:text-[#1D4ED8]" href="/privacy-policy">
+                Privacy Policy
+              </a>
+              .
+            </p>
             {submitMessage ? (
               <p
                 aria-live="polite"
@@ -866,6 +1011,104 @@ function FaqSection() {
         ))}
       </div>
     </Section>
+  );
+}
+
+function PrivacyPolicyPage() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 pb-24 pt-32 sm:px-6 lg:px-8">
+      <Reveal immediate>
+        <div className="grid gap-10 lg:grid-cols-[0.72fr_0.28fr] lg:items-end">
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold text-[#2563EB]">Privacy Policy</p>
+            <h1 className="mt-4 text-5xl font-semibold leading-tight text-[#111827] sm:text-6xl">
+              How SOMLIA handles personal information.
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[#64748B]">
+              This policy is written for the current SOMLIA website and waitlist. It explains what we collect, why we collect it, which providers support the site, and how people can make privacy requests.
+            </p>
+          </div>
+          <div className="border-l-2 border-[#2563EB] bg-white p-5">
+            <p className="text-sm font-semibold text-[#111827]">Effective date</p>
+            <p className="mt-2 text-sm leading-6 text-[#64748B]">June 4, 2026</p>
+            <p className="mt-5 text-sm font-semibold text-[#111827]">Privacy contact</p>
+            <a className="mt-2 inline-block text-sm font-semibold text-[#2563EB] transition hover:text-[#1D4ED8]" href="mailto:privacy@somlia.com">
+              privacy@somlia.com
+            </a>
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
+        {privacyHighlights.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <Reveal key={item.title} delay={index * 0.06}>
+              <article className="h-full border border-[#D9E0EA] bg-white p-5">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${item.color}14`, color: item.color }}>
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h2 className="mt-6 text-xl font-semibold text-[#111827]">{item.title}</h2>
+                <p className="mt-3 leading-7 text-[#64748B]">{item.copy}</p>
+              </article>
+            </Reveal>
+          );
+        })}
+      </div>
+
+      <Reveal>
+        <div className="mt-12 border border-[#D9E0EA] bg-white p-5 sm:p-7">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-[#2563EB]">California notice at collection</p>
+            <h2 className="mt-3 text-3xl font-semibold text-[#111827]">Personal information categories collected through the site.</h2>
+            <p className="mt-4 leading-7 text-[#64748B]">
+              This notice summarizes the categories of personal information we collect, examples from the current site, and the business purposes for collection.
+            </p>
+          </div>
+          <div className="mt-7 overflow-hidden border border-[#E5E7EB]">
+            <div className="hidden grid-cols-[0.9fr_1fr_1.4fr] bg-[#F8FAFC] text-sm font-semibold text-[#111827] md:grid">
+              <div className="border-r border-[#E5E7EB] p-4">Category</div>
+              <div className="border-r border-[#E5E7EB] p-4">Examples</div>
+              <div className="p-4">Purpose</div>
+            </div>
+            {noticeAtCollectionRows.map((row) => (
+              <div key={row.category} className="grid border-t border-[#E5E7EB] md:grid-cols-[0.9fr_1fr_1.4fr]">
+                <div className="border-b border-[#E5E7EB] p-4 md:border-b-0 md:border-r">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#64748B] md:hidden">Category</p>
+                  <p className="mt-1 font-semibold text-[#111827] md:mt-0">{row.category}</p>
+                </div>
+                <div className="border-b border-[#E5E7EB] p-4 md:border-b-0 md:border-r">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#64748B] md:hidden">Examples</p>
+                  <p className="mt-1 leading-7 text-[#64748B] md:mt-0">{row.examples}</p>
+                </div>
+                <div className="p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#64748B] md:hidden">Purpose</p>
+                  <p className="mt-1 leading-7 text-[#64748B] md:mt-0">{row.purpose}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="mt-8 grid gap-4">
+        {privacySections.map((section) => (
+          <Reveal key={section.title}>
+            <article className="border border-[#D9E0EA] bg-white p-5 sm:p-7">
+              <h2 className="text-2xl font-semibold text-[#111827]">{section.title}</h2>
+              <div className="mt-4 grid gap-4">
+                {section.body.map((paragraph) => (
+                  <p key={paragraph} className="leading-8 text-[#64748B]">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -1066,6 +1309,9 @@ function Footer() {
           </a>
           <a className="transition hover:text-[#111827]" href="/roadmap">
             Roadmap
+          </a>
+          <a className="transition hover:text-[#111827]" href="/privacy-policy">
+            Privacy Policy
           </a>
           <a className="transition hover:text-[#111827]" href="/#waitlist">
             Contact
