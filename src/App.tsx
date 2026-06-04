@@ -2,18 +2,14 @@ import { FormEvent, useEffect, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
-  BarChart3,
   BriefcaseBusiness,
   CheckCircle2,
   ClipboardList,
   FileText,
   GraduationCap,
   Handshake,
-  Layers3,
   Menu,
   MessageSquare,
-  Target,
-  Users,
   X,
 } from "lucide-react";
 import logoLockupSrc from "./assets/somlia-logo-final-lockup.webp";
@@ -37,7 +33,7 @@ const navLinks = [
   { label: "How it works", href: "/#how-it-works" },
   { label: "Proof system", href: "/#proof-system" },
   { label: "Community", href: "/#community" },
-  { label: "Opportunities", href: "/#opportunities" },
+  { label: "Companies", href: "/#companies" },
   { label: "FAQ", href: "/#faq" },
 ];
 
@@ -61,7 +57,7 @@ const progressSteps = [
   {
     label: "Earn",
     title: "Unlock opportunities",
-    copy: "Use verified progress to access projects, partnerships, and career pathways after ability is shown.",
+    copy: "Use verified progress to access paid company briefs, partnerships, and career pathways after ability is shown.",
     color: brand.gold,
     icon: Handshake,
     metric: "Outcome readiness",
@@ -114,22 +110,62 @@ const communityItems = [
   "Build reputation by helping others",
 ];
 
-const opportunityItems = [
+const realOpportunityItems = [
   {
-    title: "Students",
-    copy: "Convert learning into evidence before applying for internships, projects, or first roles.",
-    icon: GraduationCap,
-  },
-  {
-    title: "Career changers",
-    copy: "Show practical ability in a new field without relying only on previous titles.",
-    icon: Target,
-  },
-  {
-    title: "Young professionals",
-    copy: "Build a visible record of applied skill, judgment, and growth.",
+    title: "Company brief",
+    copy: "A business submits a real task that needs to be completed, without opening a hiring process.",
     icon: BriefcaseBusiness,
+    color: brand.blue,
+    examples: ["Research a market", "Create content", "Build an automation"],
   },
+  {
+    title: "Verified contributors",
+    copy: "Only users with proven capability receive access to higher-signal assignments.",
+    icon: BadgeCheck,
+    color: brand.green,
+    examples: ["Proof profile reviewed", "Feedback history visible", "Milestones earned"],
+  },
+  {
+    title: "Outcome",
+    copy: "Work is completed, feedback is recorded, payment is issued, and the proof profile grows.",
+    icon: Handshake,
+    color: brand.gold,
+    examples: ["Completed work", "Payment issued", "New proof added"],
+  },
+];
+
+const opportunityFlow = [
+  {
+    label: "Company",
+    title: "Submits brief",
+    copy: "A real business task enters SOMLIA.",
+    color: brand.blue,
+  },
+  {
+    label: "Verified members",
+    title: "Complete work",
+    copy: "Contributors apply proven skill.",
+    color: brand.green,
+  },
+  {
+    label: "Payment",
+    title: "Outcome unlocked",
+    copy: "Work creates earning potential.",
+    color: brand.gold,
+  },
+  {
+    label: "Proof profile",
+    title: "New proof added",
+    copy: "The result becomes visible evidence.",
+    color: brand.ink,
+  },
+];
+
+const companySteps = [
+  "Submit a task",
+  "Receive completed work",
+  "Review proof profiles",
+  "Identify future hires",
 ];
 
 const faqItems = [
@@ -141,7 +177,7 @@ const faqItems = [
   {
     question: "Is SOMLIA a job board?",
     answer:
-      "No. Opportunities come after users demonstrate capability. The platform is designed to make practical progress visible before access expands.",
+      "No. Opportunities come after users demonstrate capability. SOMLIA is designed to connect proof profiles with real assignments, not list open roles.",
   },
   {
     question: "Who should join the waitlist?",
@@ -151,17 +187,17 @@ const faqItems = [
   {
     question: "What happens after I join?",
     answer:
-      "You will be part of the early access group as SOMLIA validates tracks, project briefs, review flows, and opportunity pathways.",
+      "You will be part of the early access group as SOMLIA validates skill tracks, company briefs, review flows, and paid opportunity pathways.",
   },
 ];
 
 const roadmapPhases = [
-  "Community validation",
-  "Skill tracks",
-  "Review system",
-  "Reputation engine",
-  "AI-native learning",
-  "Opportunity pathways",
+  "Build Proof",
+  "Learn Through Practice",
+  "Community Validation",
+  "Reputation Network",
+  "AI-Augmented Growth",
+  "Paid Opportunities",
 ];
 
 function App() {
@@ -279,7 +315,7 @@ function HeroSection() {
               Build proof of progress.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#475569] sm:mt-7 sm:text-xl sm:leading-8">
-              SOMLIA helps ambitious people learn practical skills, apply them through real projects, receive feedback, and build evidence of what they can do.
+              SOMLIA helps ambitious people learn practical skills, apply them through real projects, and create proof companies can use to discover emerging talent.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#waitlist" variant="primary">
@@ -570,24 +606,81 @@ function CommunitySection() {
 function OpportunitiesSection() {
   return (
     <Section
-      id="opportunities"
-      eyebrow="Future opportunities"
-      title="Opportunities should follow proof."
-      copy="SOMLIA is building pathways toward projects, apprenticeships, freelance work, and career transitions after users demonstrate capability."
+      id="companies"
+      eyebrow="Real opportunities"
+      title="Proof should lead to real assignments."
+      copy="SOMLIA creates a new way to discover talent: company work is matched to verified contributors after capability is demonstrated."
     >
       <div className="grid gap-4 md:grid-cols-3">
-        {opportunityItems.map((item, index) => (
+        {realOpportunityItems.map((item, index) => (
           <Reveal key={item.title} delay={index * 0.08}>
-            <FeatureCard icon={item.icon} title={item.title} copy={item.copy} color={index === 0 ? brand.blue : index === 1 ? brand.green : brand.gold} />
+            <OpportunityCard item={item} />
           </Reveal>
         ))}
       </div>
+
+      <Reveal>
+        <div className="mt-8 border border-[#D9E0EA] bg-white p-6">
+          <div className="grid gap-6 lg:grid-cols-[0.74fr_1.26fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-[#2563EB]">Opportunity loop</p>
+              <h3 className="mt-3 text-3xl font-semibold leading-tight text-[#111827]">
+                Company work becomes measurable progress.
+              </h3>
+              <p className="mt-5 leading-8 text-[#64748B]">
+                The payoff is not a badge. It is a completed assignment, a recorded outcome, and a stronger proof profile.
+              </p>
+            </div>
+            <div className="grid gap-3 md:grid-cols-4">
+              {opportunityFlow.map((step) => (
+                <div key={step.title} className="border border-[#E5E7EB] bg-[#F8FAFC] p-4">
+                  <p className="text-sm font-semibold" style={{ color: step.color }}>
+                    {step.label}
+                  </p>
+                  <h4 className="mt-3 text-lg font-semibold text-[#111827]">{step.title}</h4>
+                  <p className="mt-3 text-sm leading-6 text-[#64748B]">{step.copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal>
+        <div className="mt-8 border border-[#111827] bg-[#111827] p-6 text-white">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-[#93C5FD]">For companies</p>
+              <h3 className="mt-3 text-3xl font-semibold leading-tight">Discover ability before hiring.</h3>
+              <p className="mt-5 leading-8 text-white/70">
+                Instead of relying on resumes, companies can submit real projects and evaluate demonstrated capability.
+              </p>
+              <div className="mt-6 grid gap-2 text-sm font-medium text-white sm:grid-cols-3">
+                {["No resumes required.", "No credentials required.", "Only demonstrated capability."].map((item) => (
+                  <div key={item} className="border border-white/15 bg-white/5 px-3 py-2">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-4">
+              {companySteps.map((step, index) => (
+                <div key={step} className="border border-white/15 bg-white/5 p-4">
+                  <p className="text-sm text-white/45">0{index + 1}</p>
+                  <p className="mt-3 text-sm font-semibold text-white">{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal>
         <div className="mt-8 border border-[#D9E0EA] bg-[#111827] p-6 text-white">
           <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold text-[#93C5FD]">Early access roadmap</p>
-              <h3 className="mt-3 text-3xl font-semibold">A global progress network, built in stages.</h3>
+              <h3 className="mt-3 text-3xl font-semibold">A proof-of-work network for emerging talent, built in stages.</h3>
             </div>
             <div className="grid gap-2 sm:grid-cols-3">
               {roadmapPhases.slice(0, 6).map((phase, index) => (
@@ -642,15 +735,15 @@ function WaitlistSection() {
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-28">
         <Reveal>
           <div>
-            <p className="text-sm font-semibold text-[#2563EB]">Join the first progress network</p>
+            <p className="text-sm font-semibold text-[#2563EB]">Join the first proof-of-work network</p>
             <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#111827] sm:text-5xl">
-              Be early to the platform built for measurable personal progress.
+              Be early to the platform connecting proof profiles to real opportunities.
             </h2>
             <p className="mt-6 text-lg leading-8 text-[#64748B]">
-              Join the waitlist to help shape practical tracks, project briefs, review systems, and opportunity pathways for ambitious learners.
+              Join the waitlist to help shape practical tracks, company briefs, review systems, and paid outcomes for emerging talent.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {["Practical projects", "Feedback loops", "Outcome pathways"].map((item) => (
+              {["Company briefs", "Proof profiles", "Paid opportunities"].map((item) => (
                 <div key={item} className="border border-[#E5E7EB] bg-[#F8FAFC] p-3 text-sm font-medium text-[#111827]">
                   {item}
                 </div>
@@ -786,7 +879,7 @@ function RoadmapPage() {
             Building the bridge from learning to earning in stages.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[#64748B]">
-            The platform starts with community validation, then expands into skill tracks, reviews, reputation, AI-native workflows, and opportunity pathways.
+            The platform starts by helping users build proof, then expands into practice, community validation, reputation, AI-augmented growth, and paid opportunities.
           </p>
         </div>
       </Reveal>
@@ -853,24 +946,23 @@ function Reveal({
   );
 }
 
-function FeatureCard({
-  icon: Icon,
-  title,
-  copy,
-  color,
-}: {
-  icon: IconType;
-  title: string;
-  copy: string;
-  color: string;
-}) {
+function OpportunityCard({ item }: { item: (typeof realOpportunityItems)[number] }) {
+  const Icon = item.icon;
+
   return (
-    <article className="h-full border border-[#D9E0EA] bg-white p-6">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${color}14`, color }}>
+    <article className="flex h-full flex-col border border-[#D9E0EA] bg-white p-6">
+      <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${item.color}14`, color: item.color }}>
         <Icon className="h-5 w-5" />
       </span>
-      <h3 className="mt-7 text-2xl font-semibold text-[#111827]">{title}</h3>
-      <p className="mt-4 leading-7 text-[#64748B]">{copy}</p>
+      <h3 className="mt-7 text-2xl font-semibold text-[#111827]">{item.title}</h3>
+      <p className="mt-4 leading-7 text-[#64748B]">{item.copy}</p>
+      <div className="mt-auto grid gap-2 pt-6">
+        {item.examples.map((example) => (
+          <div key={example} className="border border-[#E5E7EB] bg-[#F8FAFC] px-3 py-2 text-sm font-medium text-[#111827]">
+            {example}
+          </div>
+        ))}
+      </div>
     </article>
   );
 }
@@ -968,6 +1060,9 @@ function Footer() {
           </a>
           <a className="transition hover:text-[#111827]" href="/#proof-system">
             Proof system
+          </a>
+          <a className="transition hover:text-[#111827]" href="/#companies">
+            Companies
           </a>
           <a className="transition hover:text-[#111827]" href="/roadmap">
             Roadmap
