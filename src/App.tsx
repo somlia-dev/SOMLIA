@@ -311,7 +311,7 @@ const privacySections = [
   {
     title: "13. Contact",
     body: [
-      "To make a privacy request or ask a privacy question, contact SOMLIA at privacy@somlia.com. Please include enough information for us to verify and respond to your request.",
+      "To make a privacy request or ask a privacy question, contact SOMLIA at support@somlia.com. Please include enough information for us to verify and respond to your request.",
     ],
   },
 ];
@@ -1032,8 +1032,8 @@ function PrivacyPolicyPage() {
             <p className="text-sm font-semibold text-[#111827]">Effective date</p>
             <p className="mt-2 text-sm leading-6 text-[#64748B]">June 4, 2026</p>
             <p className="mt-5 text-sm font-semibold text-[#111827]">Privacy contact</p>
-            <a className="mt-2 inline-block text-sm font-semibold text-[#2563EB] transition hover:text-[#1D4ED8]" href="mailto:privacy@somlia.com">
-              privacy@somlia.com
+            <a className="mt-2 inline-block text-sm font-semibold text-[#2563EB] transition hover:text-[#1D4ED8]" href="mailto:support@somlia.com">
+              support@somlia.com
             </a>
           </div>
         </div>
