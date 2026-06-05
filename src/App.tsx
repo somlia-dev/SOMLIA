@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
-import logoLockupSrc from "./assets/somlia-logo-final-lockup.webp";
+import logoLockupSrc from "./assets/somlia-logo-lockup.svg";
 import progressSymbolSrc from "./assets/somlia-progress-symbol.webp";
 import appSymbolSrc from "./assets/somlia-app-symbol.webp";
 import type { WaitlistRole } from "./lib/waitlist";
@@ -1274,15 +1274,15 @@ function ButtonLink({
 }
 
 function LogoLockup({ size }: { size: "nav" | "footer" }) {
-  const dimensions = size === "nav" ? "h-11 w-44 sm:w-52" : "h-12 w-48";
+  const dimensions = size === "nav" ? "h-14 w-20" : "h-14 w-20";
 
   return (
     <span className={`flex shrink-0 items-center justify-center overflow-hidden ${dimensions}`}>
       <img
         src={logoLockupSrc}
         alt="SOMLIA logo"
-        width={size === "nav" ? 208 : 192}
-        height={size === "nav" ? 44 : 48}
+        width={80}
+        height={62}
         decoding="async"
         className="h-full w-full object-contain"
       />
