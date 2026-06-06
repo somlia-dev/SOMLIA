@@ -78,6 +78,27 @@ describe("Waitlist form", () => {
     submitWaitlistSignup.mockReset();
   });
 
+  it("shows a skeleton loading state while waitlist submission is pending", async () => {
+    let resolveSignup!: () => void;
+    submitWaitlistSignup.mockReturnValue(
+      new Promise<void>((resolve) => {
+        resolveSignup = resolve;
+      }),
+    );
+    renderAt("/");
+
+    fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Ada Lovelace" } });
+    fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+
+    expect(screen.getByRole("status", { name: "Saving waitlist signup" })).toBeInTheDocument();
+    expect(screen.getByTestId("waitlist-submit-skeleton")).toBeInTheDocument();
+
+    resolveSignup();
+
+    expect(await screen.findByText("Thanks. Your interest is logged for early access.")).toBeInTheDocument();
+  });
+
   it("submits entered waitlist details and shows success feedback", async () => {
     submitWaitlistSignup.mockResolvedValue(undefined);
     renderAt("/");

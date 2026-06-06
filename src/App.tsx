@@ -978,22 +978,41 @@ function WaitlistSection() {
               </a>
               .
             </p>
-            {submitMessage ? (
-              <p
-                aria-live="polite"
-                className={`content-reveal mt-4 border px-4 py-3 text-sm ${
-                  submitState === "error"
-                    ? "border-red-200 bg-red-50 text-red-700"
-                    : "border-[#BBF7D0] bg-[#F0FDF4] text-[#166534]"
-                }`}
-              >
-                {submitMessage}
-              </p>
-            ) : null}
+            <WaitlistSubmissionFeedback state={submitState} message={submitMessage} />
           </form>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function WaitlistSubmissionFeedback({ state, message }: { state: "idle" | "loading" | "success" | "error"; message: string }) {
+  if (state === "loading") {
+    return (
+      <div className="mt-4 min-h-[72px]" role="status" aria-label="Saving waitlist signup" aria-live="polite">
+        <div data-testid="waitlist-submit-skeleton" className="waitlist-skeleton border border-[#D9E0EA] bg-white px-4 py-3">
+          <span className="sr-only">Saving waitlist signup</span>
+          <div className="h-3 w-28 bg-[#E2E8F0]" />
+          <div className="mt-3 h-2.5 w-full max-w-sm bg-[#E2E8F0]" />
+          <div className="mt-2 h-2.5 w-2/3 bg-[#E2E8F0]" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 min-h-[72px]">
+      {message ? (
+        <p
+          aria-live="polite"
+          className={`content-reveal border px-4 py-3 text-sm ${
+            state === "error" ? "border-red-200 bg-red-50 text-red-700" : "border-[#BBF7D0] bg-[#F0FDF4] text-[#166534]"
+          }`}
+        >
+          {message}
+        </p>
+      ) : null}
+    </div>
   );
 }
 
