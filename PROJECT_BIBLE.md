@@ -62,7 +62,41 @@ Company brief -> Verified contributors -> Completed work -> Payment issued -> Ne
 
 The website should remain learner-first, but not learner-only. A useful narrative balance is roughly 70% learner progress and 30% company/opportunity story so SOMLIA feels like a future talent network, not only an education startup.
 
-The first audience is still open. Candidate audiences include students, career changers, young professionals, startup operators, and ambitious early-career builders.
+For the first validation sprint, the primary learner wedge is AI/no-code builders. Secondary learner audiences include career changers and early-career builders. Company-side discovery should focus on startup operators and founders with small useful tasks.
+
+## First Validation Sprint Framing
+
+The first 14-day sprint should be framed internally as a proof-of-progress validation sprint. AI/no-code builders remain the primary first audience wedge, but the message should broaden beyond proof of shipped work alone into the fuller proof-of-progress story: learning, practice, community feedback, proof profiles, and opportunity after proof.
+
+Suggested sprint content ratio:
+
+- 60% AI/no-code builder posts.
+- 25% broader career and proof-of-progress posts.
+- 15% company/operator posts.
+
+Layered audience:
+
+- Primary learner audience: AI/no-code builders.
+- Secondary learner audiences: career changers and early-career builders.
+- Company-side discovery audience: startup operators and founders with small useful tasks.
+
+## Company Brief Definition
+
+A company brief is a real-world project prompt from a company, scoped tightly enough for emerging talent to solve and concrete enough to become proof of skill.
+
+In SOMLIA, a company brief means a small, practical work challenge submitted by a company, describing a real business problem or task that a learner or contributor can solve to prove capability. It is not a general company description or about-us summary.
+
+A company brief should include:
+
+- Company context.
+- Business problem.
+- Task objective.
+- Constraints.
+- Expected deliverables.
+- Evaluation criteria.
+- Deadline or effort size.
+- Whether the brief is simulated, unpaid, or paid.
+- What proof gets added if the work is completed well.
 
 ## Current Product Surface
 
@@ -502,6 +536,8 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-06-07: Product approved broadening the first sprint into a proof-of-progress validation sprint. AI/no-code builders remain the primary first audience wedge, but the story should cover learning, practice, community feedback, proof profiles, and opportunity after proof. Suggested content ratio is 60% AI/no-code builder posts, 25% broader career/proof-of-progress posts, and 15% company/operator posts, with secondary learner audiences of career changers and early-career builders and company-side discovery focused on startup operators and founders with small useful tasks.
+- 2026-06-07: Product defined a company brief as a real-world project prompt from a company, scoped tightly enough for emerging talent to solve and concrete enough to become proof of skill. A company brief is a small practical work challenge around a real business problem or task, not a general company description or about-us summary, and should include context, objective, constraints, deliverables, evaluation criteria, deadline/effort size, simulated/unpaid/paid status, and the proof added if completed well.
 - 2026-06-06: Project Bible/docs-maintenance chat adopted a cross-chat thread-reporting workflow: report docs update completions, blockers, and scope questions back through Codex thread messaging when Operations/Admin requests report-back; coordinate decision, blocker, workflow, and handoff updates with Operations/Admin and relevant source chats; keep Linear as the operational source of truth for actionable work and status; do not make product strategy decisions through docs edits without Product approval.
 - 2026-06-06: Product approved the 14-day validation sprint proof-reply response flow: people who reply "proof" on LinkedIn or X should receive a public acknowledgement plus a short, non-spammy DM with the early access/waitlist link and one validation question about the skill they want to prove. Proof replies are validation signals, not only waitlist conversions; do not promise live proof profiles, paid work, or company brief access, and do not manually add people to email marketing unless they submit the waitlist form themselves.
 - 2026-06-05: Created this Project Bible from the SOMLIA handover and existing repo instructions, removing repeated implementation notes and preserving unique product, technical, privacy, and roadmap decisions.

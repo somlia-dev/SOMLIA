@@ -75,7 +75,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 - Supabase DB webhook and Edge Function secrets must be confirmed in production.
 - Loops workflow setup needs verification against the real operational configuration.
-- First learner segment is not chosen.
+- First learner segment still needs validation against the AI/no-code builder wedge and secondary career/proof-of-progress audiences.
 - First skill track is not chosen.
 - First company task category is not chosen.
 - Proof artifact and proof profile MVP shape are not finalized.
@@ -91,6 +91,8 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Keep the product wedge focused on waitlist validation.
 - Preserve the core positioning: Learn -> Apply -> Earn and Build proof of progress.
 - Keep the site learner-first but not learner-only, roughly 70% learner progress and 30% company/opportunity narrative.
+- Treat the first 14-day sprint as a proof-of-progress validation sprint, not only a proof-of-shipped-work campaign.
+- Keep AI/no-code builders as the primary first audience wedge while testing secondary learner signal from career changers and early-career builders.
 - Validate which audience segment has the strongest signal.
 - Define the first practical track and proof artifact.
 
@@ -103,6 +105,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Define the first practical skill track.
 - Define the first proof card contents.
 - Draft the first project/challenge format.
+- Use the approved company brief definition when drafting the first company/project challenge: a tightly scoped real-world project prompt with context, objective, constraints, deliverables, evaluation criteria, deadline/effort size, simulated/unpaid/paid status, and resulting proof.
 - Define what makes a contributor verified or opportunity-ready at MVP stage.
 - Decide whether first company briefs are simulated, unpaid pilots, or paid from day one.
 
@@ -229,9 +232,10 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 - Keep the primary message: Build proof of progress.
 - Use waitlist responses to learn which audience converts best.
-- Run a 14-day founder-led validation sprint focused on learner-side demand, with lightweight company discovery in parallel.
+- Run a 14-day founder-led proof-of-progress validation sprint focused on learner-side demand, with lightweight company discovery in parallel.
 - Target AI/no-code builders as the first validation sprint learner audience.
-- Use "Build proof that you can ship useful AI/no-code work, not just learn tools" as the first validation sprint campaign promise.
+- Keep "Build proof that you can ship useful AI/no-code work, not just learn tools" as the AI/no-code wedge promise while broadening the sprint story to learning, practice, community feedback, proof profiles, and opportunity after proof.
+- Use a sprint content mix of roughly 60% AI/no-code builder posts, 25% broader career/proof-of-progress posts, and 15% company/operator posts.
 - Use LinkedIn as the primary channel for the first validation sprint, with optional adapted reposts to X.
 - Keep messaging against passive courses, weak resumes, generic job boards, and certificates without evidence.
 - Keep company story practical: real briefs, verified contributors, completed work, outcomes.
@@ -241,7 +245,9 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 - Define the first 14-day validation sprint audience.
 - Draft founder-led launch posts.
+- Build the first validation sprint around layered audiences: primary AI/no-code builders, secondary career changers and early-career builders, and company-side startup operators/founders with small useful tasks.
 - Build the first validation sprint content calendar around four pillars: Proof Beats Certificates, Show The Work, AI/No-Code Needs Trust, and From Practice To Opportunity.
+- Balance the sprint content calendar against the approved 60/25/15 content ratio.
 - Run 3 founder-led LinkedIn/X posts per week during the 14-day validation sprint.
 - Use the Product-approved proof-reply response flow for LinkedIn/X replies: public acknowledgement, short DM, waitlist link, and one validation question about the skill they want to prove.
 - Create learner discovery questions.
