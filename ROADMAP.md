@@ -243,12 +243,14 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Draft founder-led launch posts.
 - Build the first validation sprint content calendar around four pillars: Proof Beats Certificates, Show The Work, AI/No-Code Needs Trust, and From Practice To Opportunity.
 - Run 3 founder-led LinkedIn/X posts per week during the 14-day validation sprint.
+- Use the Product-approved proof-reply response flow for LinkedIn/X replies: public acknowledgement, short DM, waitlist link, and one validation question about the skill they want to prove.
 - Create learner discovery questions.
 - Create company discovery questions.
 - Hold 10 direct AI/no-code learner conversations.
 - Hold 5 direct company/operator discovery conversations.
 - Track which posts and conversations produce high-signal waitlist signups.
 - Track sprint signups, replies, conversations, and repeated language.
+- Track every proof reply as a validation signal, including platform, post, name/handle, learner or company type, skill they want to prove, company task mentioned, waitlist join, useful quote, and follow-up needed.
 - Review sprint learning weekly and use it to refine positioning.
 - Ask learners which skills they want to prove.
 - Ask companies which small tasks they would outsource to emerging talent.
