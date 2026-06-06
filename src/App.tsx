@@ -14,9 +14,10 @@ import {
   ShieldCheck,
   X,
 } from "lucide-react";
-import logoLockupSrc from "./assets/somlia-logo-lockup.svg";
-import progressSymbolSrc from "./assets/somlia-progress-symbol.webp";
-import appSymbolSrc from "./assets/somlia-app-symbol.webp";
+import footerLogoSrc from "./assets/full-logo-somlia.svg";
+import symbolNameLogoSrc from "./assets/symbol-name-logo-somlia.svg";
+import appSymbolSrc from "./assets/symbol-somlia.svg";
+import progressSymbolSrc from "./assets/somlia-symbol-transparent.svg";
 import type { WaitlistRole } from "./lib/waitlist";
 
 type Role = WaitlistRole;
@@ -445,7 +446,7 @@ function HeroSection() {
                 width={36}
                 height={36}
                 decoding="async"
-                className="h-9 w-9 rounded-lg mix-blend-multiply"
+                className="h-9 w-9 object-contain"
               />
               Proof Of Progress
             </div>
@@ -499,7 +500,7 @@ function ProofConsole() {
     <div className="proof-console-card border border-[#D9E0EA] bg-white p-5 shadow-[0_18px_44px_rgba(17,24,39,0.08)]">
       <div className="flex items-start justify-between border-b border-[#E5E7EB] pb-5">
         <div className="flex items-center gap-3">
-          <img src={appSymbolSrc} alt="" width={56} height={56} decoding="async" className="h-14 w-14 rounded-lg object-cover" />
+          <img src={appSymbolSrc} alt="" width={56} height={56} decoding="async" className="h-14 w-14 object-contain" />
           <div>
             <p className="font-semibold text-[#111827]">Progress profile</p>
             <p className="mt-1 text-sm text-[#64748B]">AI Automation track</p>
@@ -659,7 +660,7 @@ function ProofProfile() {
     <div className="border border-[#D9E0EA] bg-white">
       <div className="flex flex-col gap-5 border-b border-[#E5E7EB] p-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
-          <img src={appSymbolSrc} alt="" width={64} height={64} loading="lazy" decoding="async" className="h-16 w-16 rounded-lg object-cover" />
+          <img src={appSymbolSrc} alt="" width={64} height={64} loading="lazy" decoding="async" className="h-16 w-16 object-contain" />
           <div>
             <p className="text-sm font-semibold text-[#64748B]">Proof profile</p>
             <h3 className="mt-1 text-2xl font-semibold text-[#111827]">Maya, Career transition</h3>
@@ -1274,15 +1275,19 @@ function ButtonLink({
 }
 
 function LogoLockup({ size }: { size: "nav" | "footer" }) {
-  const dimensions = size === "nav" ? "h-14 w-20" : "h-14 w-20";
+  const isNav = size === "nav";
+  const dimensions = isNav ? "h-10 w-44 sm:w-52" : "h-16 w-20";
+  const logoSrc = isNav ? symbolNameLogoSrc : footerLogoSrc;
+  const width = isNav ? 208 : 80;
+  const height = isNav ? 37 : 62;
 
   return (
     <span className={`flex shrink-0 items-center justify-center overflow-hidden ${dimensions}`}>
       <img
-        src={logoLockupSrc}
+        src={logoSrc}
         alt="SOMLIA logo"
-        width={80}
-        height={62}
+        width={width}
+        height={height}
         decoding="async"
         className="h-full w-full object-contain"
       />

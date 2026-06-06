@@ -32,6 +32,18 @@ For frontend changes, run `npm test` and `npm run build` at minimum. For visual 
 - `vercel.json` - rewrites for `/roadmap` and `/privacy-policy` so direct visits load `index.html`.
 - `.env.example` and `supabase/.env.example` - documented env var names only. Do not put real secrets in tracked files.
 
+## Cross-Chat Reporting And Docs Ownership
+
+- Preserve `PROJECT_BIBLE.md` as the durable product source of truth.
+- Preserve `ROADMAP.md` as the repo execution roadmap.
+- Preserve `AGENTS.md` as the working-agent instruction file.
+- When Operations/Admin dispatches a docs update or docs-review task and asks for a report-back, report completion, blockers, or scope questions back to the Operations/Admin thread using Codex thread messaging.
+- When another SOMLIA chat reports a decision, completed work, blocker, or workflow change that may require updating `PROJECT_BIBLE.md`, `ROADMAP.md`, or `AGENTS.md`, coordinate with Operations/Admin and the relevant source chat using Codex thread messaging.
+- If Codex thread messaging tools are not visible, explicitly say thread messaging is unavailable and provide a ready-to-send report for Operations/Admin.
+- Keep Linear as the operational source of truth for actionable work, handoffs, blockers, and implementation status.
+- Do not make product strategy decisions by editing docs. If a requested docs update requires product judgment, send it back to Operations/Admin and Product for clarification or approval.
+- When important decisions are made elsewhere, suggest or apply the correct Decision Log, roadmap, or agent-instruction update only after the decision is approved.
+
 ## App Structure And Routing
 
 Routing is intentionally simple and handled in `src/App.tsx` by reading `window.location.pathname`.

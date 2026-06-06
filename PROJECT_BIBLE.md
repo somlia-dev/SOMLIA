@@ -502,6 +502,7 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-06-06: Project Bible/docs-maintenance chat adopted a cross-chat thread-reporting workflow: report docs update completions, blockers, and scope questions back through Codex thread messaging when Operations/Admin requests report-back; coordinate decision, blocker, workflow, and handoff updates with Operations/Admin and relevant source chats; keep Linear as the operational source of truth for actionable work and status; do not make product strategy decisions through docs edits without Product approval.
 - 2026-06-05: Created this Project Bible from the SOMLIA handover and existing repo instructions, removing repeated implementation notes and preserving unique product, technical, privacy, and roadmap decisions.
 - 2026-06-05: Product chat owns SOMLIA product decisions, MVP scope, acceptance criteria, roadmap placement, and implementation handoff. Backend and frontend chats own execution only after product scope is clear enough to build.
 - 2026-06-05: Created an Operations/Admin chat role to manage Linear hygiene, cross-chat handoffs, sprint tracking, blocker tracking, and operational readiness while Product remains responsible for strategy, scope, and product decisions.

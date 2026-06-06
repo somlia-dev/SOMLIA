@@ -339,6 +339,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Keep operational setup documented.
 - Keep Project Bible and roadmap in sync with actual decisions.
 - Use Linear as the cross-chat source of truth for actionable tasks, handoffs, blockers, and implementation status.
+- Use Codex thread messaging for docs-maintenance report-backs to Operations/Admin when requested.
 - Avoid metadata churn and real-secret commits.
 
 ### Next Tasks

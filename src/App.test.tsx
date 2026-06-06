@@ -1,7 +1,10 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
-import logoSvgSource from "./assets/somlia-logo-lockup.svg?raw";
+import footerLogoSvgSource from "./assets/full-logo-somlia.svg?raw";
+import symbolNameLogoSvgSource from "./assets/symbol-name-logo-somlia.svg?raw";
+import symbolSvgSource from "./assets/symbol-somlia.svg?raw";
+import transparentSymbolSvgSource from "./assets/somlia-symbol-transparent.svg?raw";
 
 const submitWaitlistSignup = vi.fn();
 
@@ -31,9 +34,28 @@ describe("App routing", () => {
     }
   });
 
-  it("declares intrinsic dimensions for the active SVG logo asset", () => {
-    expect(logoSvgSource).toContain('width="244.488"');
-    expect(logoSvgSource).toContain('height="190.735"');
+  it("uses the approved SVG mapping for rendered logo and symbol assets", () => {
+    const { container } = renderAt("/");
+
+    const logos = screen.getAllByAltText("SOMLIA logo");
+    expect(logos[0]).toHaveAttribute("src", expect.stringContaining("symbol-name-logo-somlia.svg"));
+    expect(logos[1]).toHaveAttribute("src", expect.stringContaining("full-logo-somlia.svg"));
+
+    const imageSources = Array.from(container.querySelectorAll("img")).map((image) => image.getAttribute("src") ?? "");
+    expect(imageSources).toEqual(expect.arrayContaining([expect.stringContaining("symbol-somlia.svg")]));
+    expect(imageSources).toEqual(expect.arrayContaining([expect.stringContaining("somlia-symbol-transparent.svg")]));
+    expect(imageSources).not.toEqual(expect.arrayContaining([expect.stringMatching(/\.(png|webp)(\?|$)/i)]));
+  });
+
+  it("declares intrinsic dimensions for the active SVG brand assets", () => {
+    expect(symbolNameLogoSvgSource).toContain('width="834.899"');
+    expect(symbolNameLogoSvgSource).toContain('height="150"');
+    expect(footerLogoSvgSource).toContain('width="244.488"');
+    expect(footerLogoSvgSource).toContain('height="190.735"');
+    expect(symbolSvgSource).toContain('width="232"');
+    expect(symbolSvgSource).toContain('height="214"');
+    expect(transparentSymbolSvgSource).toContain('width="146"');
+    expect(transparentSymbolSvgSource).toContain('height="150"');
   });
 
   it("renders the roadmap page for /roadmap", () => {
