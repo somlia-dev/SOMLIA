@@ -58,6 +58,21 @@ describe("App routing", () => {
     expect(transparentSymbolSvgSource).toContain('height="150"');
   });
 
+  it("renders the approved example company brief preview without live paid-marketplace claims", () => {
+    const { container } = renderAt("/");
+
+    expect(screen.getByRole("heading", { name: /example company brief: automate inbound request triage/i })).toBeInTheDocument();
+    expect(screen.getByText("Example brief / early access preview")).toBeInTheDocument();
+    expect(screen.getByText(/AI\/no-code operations automation for a small B2B company\/operator/i)).toBeInTheDocument();
+    expect(screen.getByText("Use sample data only.")).toBeInTheDocument();
+    expect(screen.getByText("No real customer PII.")).toBeInTheDocument();
+    expect(screen.getByText(/Proof added: AI operations automation, workflow design/i)).toBeInTheDocument();
+
+    expect(container).not.toHaveTextContent(/paid opportunities are live/i);
+    expect(container).not.toHaveTextContent(/earn money today/i);
+    expect(container).not.toHaveTextContent(/get paid now/i);
+  });
+
   it("renders the roadmap page for /roadmap", () => {
     renderAt("/roadmap");
 
