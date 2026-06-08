@@ -164,6 +164,43 @@ const opportunityFlow = [
   },
 ];
 
+const exampleCompanyBrief = {
+  badge: "Example brief / early access preview",
+  category: "AI/no-code operations automation for a small B2B company/operator",
+  title: "Example company brief: automate inbound request triage",
+  context:
+    "A small B2B team receives demo requests, support questions, and customer follow-ups across forms and email. The team wants a lightweight workflow that sorts requests, drafts next steps, and creates a weekly summary.",
+  problem:
+    "Manual triage takes several hours each week, follow-ups are inconsistent, and the team has no simple view of which requests need action first.",
+  objective:
+    "Design an AI/no-code workflow that classifies inbound requests, routes them to the right place, drafts a suggested reply, and produces a weekly summary for the team.",
+  constraints: [
+    "Use sample data only.",
+    "No real customer PII.",
+    "Keep the workflow understandable to a non-technical operator.",
+    "Timebox: 4-6 hours of contributor work.",
+    "Prototype/proof artifact, not production software.",
+  ],
+  deliverables: [
+    "Workflow map.",
+    "Working prototype or clickable demo using AI/no-code tools.",
+    "Sample input/output examples.",
+    "Short explanation of tools used and assumptions.",
+    "Before/after estimate of time saved or operational improvement.",
+    "Revision notes after feedback.",
+  ],
+  evaluation: [
+    "Solves the stated business problem.",
+    "Clear workflow and handoff.",
+    "Sensible use of AI/no-code tooling.",
+    "Handles edge cases in sample data.",
+    "Easy for the company/operator to review.",
+    "Produces credible proof that can be added to a proof profile.",
+  ],
+  proofOutcome:
+    "Proof added: AI operations automation, workflow design, business problem solving, feedback/revision history, opportunity-readiness signal.",
+};
+
 const companySteps = [
   "Submit a task",
   "Receive completed work",
@@ -786,6 +823,10 @@ function OpportunitiesSection() {
       </Reveal>
 
       <Reveal>
+        <ExampleCompanyBriefPanel />
+      </Reveal>
+
+      <Reveal>
         <div className="mt-8 border border-[#111827] bg-[#111827] p-6 text-white">
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
@@ -1012,6 +1053,77 @@ function WaitlistSubmissionFeedback({ state, message }: { state: "idle" | "loadi
           {message}
         </p>
       ) : null}
+    </div>
+  );
+}
+
+function ExampleCompanyBriefPanel() {
+  return (
+    <article className="mt-8 border border-[#D9E0EA] bg-white">
+      <div className="grid border-b border-[#E5E7EB] lg:grid-cols-[0.94fr_1.06fr]">
+        <div className="border-b border-[#E5E7EB] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[#2563EB]">
+              {exampleCompanyBrief.badge}
+            </span>
+            <span className="bg-[#F8FAFC] px-3 py-1 text-xs font-semibold text-[#64748B]">Simulated brief</span>
+          </div>
+          <p className="mt-5 text-sm font-semibold text-[#16A34A]">{exampleCompanyBrief.category}</p>
+          <h3 className="mt-3 text-3xl font-semibold leading-tight text-[#111827]">{exampleCompanyBrief.title}</h3>
+          <p className="mt-5 leading-8 text-[#64748B]">{exampleCompanyBrief.context}</p>
+        </div>
+        <div className="grid divide-y divide-[#E5E7EB]">
+          <BriefSummaryBlock label="Business problem" copy={exampleCompanyBrief.problem} />
+          <BriefSummaryBlock label="Task objective" copy={exampleCompanyBrief.objective} />
+        </div>
+      </div>
+
+      <div className="grid border-b border-[#E5E7EB] lg:grid-cols-3">
+        <BriefListBlock title="Constraints" items={exampleCompanyBrief.constraints} accent={brand.blue} />
+        <BriefListBlock title="Deliverables" items={exampleCompanyBrief.deliverables} accent={brand.green} />
+        <BriefListBlock title="Evaluation criteria" items={exampleCompanyBrief.evaluation} accent={brand.gold} />
+      </div>
+
+      <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div>
+          <p className="text-sm font-semibold text-[#2563EB]">Proof outcome</p>
+          <p className="mt-3 leading-8 text-[#111827]">{exampleCompanyBrief.proofOutcome}</p>
+        </div>
+        <div className="grid gap-2 text-sm font-semibold text-[#111827] sm:grid-cols-5 lg:w-[34rem]">
+          {["Company brief", "Verified contributor", "Completed work", "Payment issued", "New proof added"].map((step) => (
+            <div key={step} className="border border-[#E5E7EB] bg-[#F8FAFC] px-3 py-2">
+              {step}
+            </div>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function BriefSummaryBlock({ label, copy }: { label: string; copy: string }) {
+  return (
+    <div className="p-5 sm:p-6">
+      <p className="text-sm font-semibold text-[#2563EB]">{label}</p>
+      <p className="mt-3 leading-7 text-[#64748B]">{copy}</p>
+    </div>
+  );
+}
+
+function BriefListBlock({ title, items, accent }: { title: string; items: string[]; accent: string }) {
+  return (
+    <div className="border-b border-[#E5E7EB] p-5 last:border-b-0 sm:p-6 lg:border-b-0 lg:border-r lg:last:border-r-0">
+      <p className="text-sm font-semibold" style={{ color: accent }}>
+        {title}
+      </p>
+      <ul className="mt-4 grid gap-3">
+        {items.map((item) => (
+          <li key={item} className="grid grid-cols-[0.75rem_1fr] gap-3 text-sm leading-6 text-[#64748B]">
+            <span className="mt-2 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: accent }} />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
