@@ -8,6 +8,7 @@ import {
   FileText,
   GraduationCap,
   Handshake,
+  Linkedin,
   LockKeyhole,
   Menu,
   MessageSquare,
@@ -38,6 +39,11 @@ const navLinks = [
   { label: "Community", href: "/#community" },
   { label: "Companies", href: "/#companies" },
   { label: "FAQ", href: "/#faq" },
+];
+
+const socialLinks = [
+  { label: "Follow SOMLIA on X", href: "https://x.com/SomliaOfficial", icon: X },
+  { label: "Follow SOMLIA on LinkedIn", href: "https://www.linkedin.com/company/126893968", icon: Linkedin },
 ];
 
 const progressSteps = [
@@ -1429,7 +1435,7 @@ function LogoLockup({ size }: { size: "nav" | "footer" }) {
 function Footer() {
   return (
     <footer className="border-t border-[#D9E0EA] bg-[#F8FAFC] px-5 py-10 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3 md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[auto_1fr_auto] md:items-center">
         <div className="flex items-center">
           <LogoLockup size="footer" />
         </div>
@@ -1453,7 +1459,28 @@ function Footer() {
             Contact
           </a>
         </div>
-        <p className="text-sm text-[#94A3B8] md:text-right">© 2026 SOMLIA. All rights reserved.</p>
+        <div className="flex flex-col gap-4 md:items-end">
+          <div className="flex items-center gap-3">
+            {socialLinks.map((link) => {
+              const Icon = link.icon;
+
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={link.label}
+                  title={link.label}
+                  className="inline-flex h-10 w-10 items-center justify-center border border-[#CBD5E1] bg-white text-[#64748B] transition duration-200 hover:-translate-y-0.5 hover:border-[#111827] hover:text-[#111827] active:translate-y-0"
+                >
+                  <Icon className="h-4 w-4" aria-hidden="true" />
+                </a>
+              );
+            })}
+          </div>
+          <p className="text-sm text-[#94A3B8] md:text-right">© 2026 SOMLIA. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );

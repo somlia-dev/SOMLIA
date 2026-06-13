@@ -47,6 +47,21 @@ describe("App routing", () => {
     expect(imageSources).not.toEqual(expect.arrayContaining([expect.stringMatching(/\.(png|webp)(\?|$)/i)]));
   });
 
+  it("links to the official SOMLIA social accounts from accessible footer icons", () => {
+    renderAt("/");
+
+    const xLink = screen.getByRole("link", { name: "Follow SOMLIA on X" });
+    const linkedInLink = screen.getByRole("link", { name: "Follow SOMLIA on LinkedIn" });
+
+    expect(xLink).toHaveAttribute("href", "https://x.com/SomliaOfficial");
+    expect(linkedInLink).toHaveAttribute("href", "https://www.linkedin.com/company/126893968");
+
+    for (const link of [xLink, linkedInLink]) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noreferrer noopener");
+    }
+  });
+
   it("declares intrinsic dimensions for the active SVG brand assets", () => {
     expect(symbolNameLogoSvgSource).toContain('width="834.899"');
     expect(symbolNameLogoSvgSource).toContain('height="150"');
