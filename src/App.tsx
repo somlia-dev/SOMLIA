@@ -378,6 +378,65 @@ const noticeAtCollectionRows = [
   },
 ];
 
+const defaultRouteMetadata = {
+  title: "SOMLIA | Build proof of progress",
+  description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+  canonical: "https://somlia.com/",
+  robots: "index,follow",
+};
+
+const routeMetadata = {
+  "/roadmap": {
+    title: "SOMLIA Roadmap | From proof of progress to opportunity",
+    description:
+      "Explore how SOMLIA is being built from practical learning and community feedback toward trusted proof profiles, company briefs, and future opportunities.",
+    canonical: "https://somlia.com/roadmap",
+    robots: "index,follow",
+  },
+  "/privacy-policy": {
+    title: "Privacy Policy | SOMLIA",
+    description:
+      "Read how SOMLIA collects, uses, shares, and protects personal information for its early-access website and waitlist.",
+    canonical: "https://somlia.com/privacy-policy",
+    robots: "noindex,follow",
+  },
+} as const;
+
+function updateNamedMeta(name: string, content: string) {
+  const elements = Array.from(document.head.querySelectorAll<HTMLMetaElement>(`meta[name="${name}"]`));
+  const meta = elements.shift() ?? document.createElement("meta");
+
+  meta.setAttribute("name", name);
+  meta.setAttribute("content", content);
+  if (!meta.isConnected) {
+    document.head.append(meta);
+  }
+
+  elements.forEach((element) => element.remove());
+}
+
+function updateCanonical(href: string) {
+  const elements = Array.from(document.head.querySelectorAll<HTMLLinkElement>('link[rel="canonical"]'));
+  const canonical = elements.shift() ?? document.createElement("link");
+
+  canonical.setAttribute("rel", "canonical");
+  canonical.setAttribute("href", href);
+  if (!canonical.isConnected) {
+    document.head.append(canonical);
+  }
+
+  elements.forEach((element) => element.remove());
+}
+
+function updateRouteMetadata(path: string) {
+  const metadata = routeMetadata[path as keyof typeof routeMetadata] ?? defaultRouteMetadata;
+
+  document.title = metadata.title;
+  updateNamedMeta("description", metadata.description);
+  updateNamedMeta("robots", metadata.robots);
+  updateCanonical(metadata.canonical);
+}
+
 function App() {
   const [path, setPath] = useState(() => window.location.pathname);
 
@@ -390,6 +449,10 @@ function App() {
   const normalizedPath = path.replace(/\/$/, "") || "/";
   const isRoadmap = normalizedPath === "/roadmap";
   const isPrivacyPolicy = normalizedPath === "/privacy-policy";
+
+  useEffect(() => {
+    updateRouteMetadata(normalizedPath);
+  }, [normalizedPath]);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#111827]">

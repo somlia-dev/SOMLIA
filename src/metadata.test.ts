@@ -22,6 +22,8 @@ describe("social metadata", () => {
     expect(indexHtml).toContain("Build proof of progress through practical projects, feedback, and verified outcomes.");
     expect(indexHtml).toContain('name="twitter:image" content="https://somlia.com/og-somlia.png"');
     expect(indexHtml).toContain('name="twitter:image:alt"');
+    expect(indexHtml).toContain('<link rel="canonical" href="https://somlia.com/"');
+    expect(indexHtml).toContain('<meta name="robots" content="index,follow"');
   });
 
   it("points global previews to the approved PNG asset", () => {

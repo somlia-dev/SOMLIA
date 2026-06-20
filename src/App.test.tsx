@@ -18,6 +18,55 @@ function renderAt(path: string) {
   return render(<App />);
 }
 
+const routeMetadataCases = [
+  {
+    path: "/",
+    title: "SOMLIA | Build proof of progress",
+    description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+    canonical: "https://somlia.com/",
+    robots: "index,follow",
+  },
+  {
+    path: "/roadmap",
+    title: "SOMLIA Roadmap | From proof of progress to opportunity",
+    description:
+      "Explore how SOMLIA is being built from practical learning and community feedback toward trusted proof profiles, company briefs, and future opportunities.",
+    canonical: "https://somlia.com/roadmap",
+    robots: "index,follow",
+  },
+  {
+    path: "/roadmap/",
+    title: "SOMLIA Roadmap | From proof of progress to opportunity",
+    description:
+      "Explore how SOMLIA is being built from practical learning and community feedback toward trusted proof profiles, company briefs, and future opportunities.",
+    canonical: "https://somlia.com/roadmap",
+    robots: "index,follow",
+  },
+  {
+    path: "/privacy-policy",
+    title: "Privacy Policy | SOMLIA",
+    description:
+      "Read how SOMLIA collects, uses, shares, and protects personal information for its early-access website and waitlist.",
+    canonical: "https://somlia.com/privacy-policy",
+    robots: "noindex,follow",
+  },
+  {
+    path: "/privacy-policy/",
+    title: "Privacy Policy | SOMLIA",
+    description:
+      "Read how SOMLIA collects, uses, shares, and protects personal information for its early-access website and waitlist.",
+    canonical: "https://somlia.com/privacy-policy",
+    robots: "noindex,follow",
+  },
+  {
+    path: "/unknown-path",
+    title: "SOMLIA | Build proof of progress",
+    description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+    canonical: "https://somlia.com/",
+    robots: "index,follow",
+  },
+];
+
 describe("App routing", () => {
   it("renders the landing page by default", () => {
     renderAt("/");
@@ -101,6 +150,53 @@ describe("App routing", () => {
 
     expect(screen.getByRole("heading", { name: /how somlia handles personal information/i })).toBeInTheDocument();
     expect(screen.getByText("June 4, 2026")).toBeInTheDocument();
+  });
+});
+
+describe("Route metadata", () => {
+  beforeEach(() => {
+    document.head.innerHTML = `
+      <meta name="description" content="stale description" />
+      <meta name="description" content="duplicate description" />
+      <meta name="robots" content="stale robots" />
+      <meta name="robots" content="duplicate robots" />
+      <link rel="canonical" href="https://example.com/stale" />
+      <link rel="canonical" href="https://example.com/duplicate" />
+      <meta property="og:title" content="SOMLIA | Build proof of progress" />
+      <meta property="og:image" content="https://somlia.com/og-somlia.png" />
+      <meta name="twitter:title" content="SOMLIA | Build proof of progress" />
+      <meta name="twitter:image" content="https://somlia.com/og-somlia.png" />
+    `;
+  });
+
+  it.each(routeMetadataCases)("sets the approved metadata for $path", ({ path, title, description, canonical, robots }) => {
+    renderAt(path);
+
+    expect(document.title).toBe(title);
+    expect(document.head.querySelector('meta[name="description"]')).toHaveAttribute("content", description);
+    expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute("href", canonical);
+    expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute("content", robots);
+
+    expect(document.head.querySelectorAll('meta[name="description"]')).toHaveLength(1);
+    expect(document.head.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
+    expect(document.head.querySelectorAll('meta[name="robots"]')).toHaveLength(1);
+
+    expect(document.head.querySelector('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      "SOMLIA | Build proof of progress",
+    );
+    expect(document.head.querySelector('meta[property="og:image"]')).toHaveAttribute(
+      "content",
+      "https://somlia.com/og-somlia.png",
+    );
+    expect(document.head.querySelector('meta[name="twitter:title"]')).toHaveAttribute(
+      "content",
+      "SOMLIA | Build proof of progress",
+    );
+    expect(document.head.querySelector('meta[name="twitter:image"]')).toHaveAttribute(
+      "content",
+      "https://somlia.com/og-somlia.png",
+    );
   });
 });
 
