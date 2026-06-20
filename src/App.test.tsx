@@ -7,6 +7,7 @@ import symbolSvgSource from "./assets/symbol-somlia.svg?raw";
 import transparentSymbolSvgSource from "./assets/somlia-symbol-transparent.svg?raw";
 
 const submitWaitlistSignup = vi.fn();
+const scrollIntoView = vi.fn();
 
 vi.mock("./lib/waitlist", () => ({
   submitWaitlistSignup,
@@ -76,6 +77,44 @@ describe("App routing", () => {
 describe("Waitlist form", () => {
   beforeEach(() => {
     submitWaitlistSignup.mockReset();
+    scrollIntoView.mockReset();
+    Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
+      configurable: true,
+      value: scrollIntoView,
+    });
+  });
+
+  it("moves company task interest into the waitlist with Company selected and the message field focused", () => {
+    renderAt("/");
+
+    fireEvent.click(screen.getByRole("button", { name: "Share a company task" }));
+
+    expect(screen.getByLabelText("I am a")).toHaveValue("Company");
+    expect(screen.getByLabelText("Short message")).toHaveFocus();
+    expect(screen.getByLabelText("Short message")).toHaveAttribute(
+      "placeholder",
+      "What small task or business problem would you like contributors to solve? (Optional)",
+    );
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
+  });
+
+  it("keeps all existing waitlist roles available after company task preselection", () => {
+    renderAt("/");
+
+    fireEvent.click(screen.getByRole("button", { name: "Share a company task" }));
+
+    expect(screen.getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "Learner",
+      "Company",
+      "Investor / Partner",
+    ]);
+
+    fireEvent.change(screen.getByLabelText("I am a"), { target: { value: "Investor / Partner" } });
+    expect(screen.getByLabelText("I am a")).toHaveValue("Investor / Partner");
+    expect(screen.getByLabelText("Short message")).toHaveAttribute(
+      "placeholder",
+      "Tell us what you want to learn, build, or prove.",
+    );
   });
 
   it("shows a skeleton loading state while waitlist submission is pending", async () => {
@@ -103,9 +142,9 @@ describe("Waitlist form", () => {
     submitWaitlistSignup.mockResolvedValue(undefined);
     renderAt("/");
 
+    fireEvent.click(screen.getByRole("button", { name: "Share a company task" }));
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Ada Lovelace" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "Ada@Example.com" } });
-    fireEvent.change(screen.getByLabelText("I am a"), { target: { value: "Company" } });
     fireEvent.change(screen.getByLabelText("Short message"), { target: { value: "We want to submit company briefs." } });
     fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
 
@@ -118,7 +157,11 @@ describe("Waitlist form", () => {
       });
     });
 
-    expect(await screen.findByText("Thanks. Your interest is logged for early access.")).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        "Thanks — your company interest is recorded. We’ll follow up about early company pilots and how briefs may work.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("shows the waitlist helper error message when submission fails", async () => {

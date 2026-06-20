@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -360,6 +360,8 @@ function App() {
 }
 
 function LandingPage() {
+  const [companyInterestRequest, setCompanyInterestRequest] = useState(0);
+
   return (
     <>
       <HeroSection />
@@ -367,8 +369,8 @@ function LandingPage() {
       <HowItWorksSection />
       <ProofSystemSection />
       <CommunitySection />
-      <OpportunitiesSection />
-      <WaitlistSection />
+      <OpportunitiesSection onCompanyInterest={() => setCompanyInterestRequest((current) => current + 1)} />
+      <WaitlistSection companyInterestRequest={companyInterestRequest} />
       <FaqSection />
     </>
   );
@@ -742,7 +744,7 @@ function CommunitySection() {
   );
 }
 
-function OpportunitiesSection() {
+function OpportunitiesSection({ onCompanyInterest }: { onCompanyInterest: () => void }) {
   return (
     <Section
       id="companies"
@@ -794,6 +796,20 @@ function OpportunitiesSection() {
               <p className="mt-5 leading-8 text-white/70">
                 Instead of relying on resumes, companies can submit real projects and evaluate demonstrated capability.
               </p>
+              <div className="mt-7 border-t border-white/15 pt-6">
+                <p className="max-w-xl text-sm leading-6 text-white/70">
+                  Have a small, useful task that could become a practical brief? Tell us what you’d like emerging talent to
+                  solve. We’re validating early company pilots.
+                </p>
+                <button
+                  type="button"
+                  onClick={onCompanyInterest}
+                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#1D4ED8] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#93C5FD]"
+                >
+                  Share a company task
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
               <div className="mt-6 grid gap-2 text-sm font-medium text-white sm:grid-cols-3">
                 {["No resumes required.", "No credentials required.", "Only demonstrated capability."].map((item) => (
                   <div key={item} className="border border-white/15 bg-white/5 px-3 py-2">
@@ -836,7 +852,9 @@ function OpportunitiesSection() {
   );
 }
 
-function WaitlistSection() {
+function WaitlistSection({ companyInterestRequest }: { companyInterestRequest: number }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -851,6 +869,19 @@ function WaitlistSection() {
     setSubmitMessage("");
   }
 
+  useEffect(() => {
+    if (companyInterestRequest === 0) {
+      return;
+    }
+
+    setFormData((current) => ({ ...current, role: "Company" }));
+    clearSubmitFeedback();
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    sectionRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+    messageRef.current?.focus();
+  }, [companyInterestRequest]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -861,7 +892,11 @@ function WaitlistSection() {
       const { submitWaitlistSignup } = await import("./lib/waitlist");
       await submitWaitlistSignup(formData);
       setSubmitState("success");
-      setSubmitMessage("Thanks. Your interest is logged for early access.");
+      setSubmitMessage(
+        formData.role === "Company"
+          ? "Thanks — your company interest is recorded. We’ll follow up about early company pilots and how briefs may work."
+          : "Thanks. Your interest is logged for early access.",
+      );
       setFormData({ name: "", email: "", role: "Learner", message: "" });
     } catch (error) {
       setSubmitState("error");
@@ -870,7 +905,7 @@ function WaitlistSection() {
   }
 
   return (
-    <section id="waitlist" className="border-y border-[#D9E0EA] bg-white">
+    <section ref={sectionRef} id="waitlist" className="scroll-mt-20 border-y border-[#D9E0EA] bg-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-28">
         <Reveal>
           <div>
@@ -949,6 +984,7 @@ function WaitlistSection() {
             <div className="mt-5">
               <FormField label="Short message" id="message">
                 <textarea
+                  ref={messageRef}
                   id="message"
                   name="message"
                   rows={5}
@@ -959,7 +995,11 @@ function WaitlistSection() {
                     setFormData((current) => ({ ...current, message: event.target.value }));
                   }}
                   className="field resize-none"
-                  placeholder="Tell us what you want to learn, build, or prove."
+                  placeholder={
+                    formData.role === "Company"
+                      ? "What small task or business problem would you like contributors to solve? (Optional)"
+                      : "Tell us what you want to learn, build, or prove."
+                  }
                 />
               </FormField>
             </div>
