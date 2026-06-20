@@ -590,7 +590,10 @@ function HeroSection() {
 function HeroBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0">
-      <div data-testid="hero-wave-pattern" className="hero-wave-pattern absolute inset-0" />
+      <div data-testid="hero-wave-pattern" className="hero-wave-pattern absolute inset-0">
+        <div data-testid="hero-wave-row" className="hero-wave-row hero-wave-row-forward" />
+        <div data-testid="hero-wave-row" className="hero-wave-row hero-wave-row-reverse" />
+      </div>
       <div className="pointer-events-none absolute inset-x-0 top-80 hidden min-[1680px]:block">
         <div className="mx-auto max-w-screen-2xl px-8">
           <div className="hero-profile-float ml-auto w-[30rem] translate-x-32">

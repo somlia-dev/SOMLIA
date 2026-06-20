@@ -37,11 +37,30 @@ textarea {
 }
 
 .hero-wave-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84' viewBox='0 0 168 84'%3E%3Cpath d='M0 21 C10.5 7 31.5 7 42 21 C52.5 35 73.5 35 84 21 C94.5 7 115.5 7 126 21 C136.5 35 157.5 35 168 21 M0 63 C10.5 49 31.5 49 42 63 C52.5 77 73.5 77 84 63 C94.5 49 115.5 49 126 63 C136.5 77 157.5 77 168 63' fill='none' stroke='%23E5E7EB' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-  background-position: center top;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hero-wave-row {
+  position: absolute;
+  inset-block: 0;
+  left: -168px;
+  width: calc(100% + 336px);
   background-repeat: repeat;
   background-size: 168px 84px;
-  opacity: 0.5;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.hero-wave-row-forward {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84' viewBox='0 0 168 84'%3E%3Cpath d='M0 21 C10.5 7 31.5 7 42 21 C52.5 35 73.5 35 84 21 C94.5 7 115.5 7 126 21 C136.5 35 157.5 35 168 21' fill='none' stroke='%23E5E7EB' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  animation: hero-wave-forward 24s linear infinite;
+}
+
+.hero-wave-row-reverse {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84' viewBox='0 0 168 84'%3E%3Cpath d='M0 63 C10.5 49 31.5 49 42 63 C52.5 77 73.5 77 84 63 C94.5 49 115.5 49 126 63 C136.5 77 157.5 77 168 63' fill='none' stroke='%23E5E7EB' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  animation: hero-wave-reverse 24s linear infinite;
 }
 
 .content-reveal {
@@ -77,6 +96,18 @@ textarea {
 
 .waitlist-skeleton {
   animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes hero-wave-forward {
+  to {
+    transform: translate3d(168px, 0, 0);
+  }
+}
+
+@keyframes hero-wave-reverse {
+  to {
+    transform: translate3d(-168px, 0, 0);
+  }
 }
 
 @keyframes content-reveal {
@@ -162,6 +193,12 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .hero-wave-row {
+    animation: none !important;
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
   }
 
   *,

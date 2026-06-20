@@ -75,10 +75,16 @@ describe("App routing", () => {
     expect(screen.getByRole("heading", { name: /be early to the platform/i })).toBeInTheDocument();
   });
 
-  it("uses the wave pattern instead of the retired hero grid", () => {
+  it("renders two hero wave rows moving in opposite directions", () => {
     const { container } = renderAt("/");
 
-    expect(screen.getByTestId("hero-wave-pattern")).toHaveClass("hero-wave-pattern");
+    const pattern = screen.getByTestId("hero-wave-pattern");
+    const rows = pattern.querySelectorAll('[data-testid="hero-wave-row"]');
+
+    expect(pattern).toHaveClass("hero-wave-pattern");
+    expect(rows).toHaveLength(2);
+    expect(rows[0]).toHaveClass("hero-wave-row-forward");
+    expect(rows[1]).toHaveClass("hero-wave-row-reverse");
     expect(container.innerHTML).not.toContain("linear-gradient");
     expect(container.innerHTML).not.toContain("bg-[size:84px_84px]");
   });
