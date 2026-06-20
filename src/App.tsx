@@ -590,7 +590,7 @@ function HeroSection() {
 function HeroBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0">
-      <div className="absolute inset-0 bg-[linear-gradient(#E5E7EB_1px,transparent_1px),linear-gradient(90deg,#E5E7EB_1px,transparent_1px)] bg-[size:84px_84px] opacity-50" />
+      <div data-testid="hero-wave-pattern" className="hero-wave-pattern absolute inset-0" />
       <div className="pointer-events-none absolute inset-x-0 top-80 hidden min-[1680px]:block">
         <div className="mx-auto max-w-screen-2xl px-8">
           <div className="hero-profile-float ml-auto w-[30rem] translate-x-32">

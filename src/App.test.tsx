@@ -75,6 +75,14 @@ describe("App routing", () => {
     expect(screen.getByRole("heading", { name: /be early to the platform/i })).toBeInTheDocument();
   });
 
+  it("uses the wave pattern instead of the retired hero grid", () => {
+    const { container } = renderAt("/");
+
+    expect(screen.getByTestId("hero-wave-pattern")).toHaveClass("hero-wave-pattern");
+    expect(container.innerHTML).not.toContain("linear-gradient");
+    expect(container.innerHTML).not.toContain("bg-[size:84px_84px]");
+  });
+
   it("uses SVG assets for every active SOMLIA logo", () => {
     renderAt("/");
 
