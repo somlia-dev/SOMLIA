@@ -116,11 +116,15 @@ describe("App routing", () => {
 
     const xLink = screen.getByRole("link", { name: "Follow SOMLIA on X" });
     const linkedInLink = screen.getByRole("link", { name: "Follow SOMLIA on LinkedIn" });
+    const redditLink = screen.getByRole("link", { name: "Join SOMLIA on Reddit" });
 
     expect(xLink).toHaveAttribute("href", "https://x.com/SomliaOfficial");
     expect(linkedInLink).toHaveAttribute("href", "https://www.linkedin.com/company/126893968");
+    expect(redditLink).toHaveAttribute("href", "https://www.reddit.com/r/SOMLIA/");
+    expect(redditLink).toHaveAttribute("title", "Join SOMLIA on Reddit");
+    expect(redditLink.closest("footer")).toBeInTheDocument();
 
-    for (const link of [xLink, linkedInLink]) {
+    for (const link of [xLink, linkedInLink, redditLink]) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noreferrer noopener");
     }
