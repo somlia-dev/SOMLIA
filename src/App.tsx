@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, SVGProps, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -44,7 +44,21 @@ const navLinks = [
 const socialLinks = [
   { label: "Follow SOMLIA on X", href: "https://x.com/SomliaOfficial", icon: X },
   { label: "Follow SOMLIA on LinkedIn", href: "https://www.linkedin.com/company/126893968", icon: Linkedin },
+  { label: "Join SOMLIA on Reddit", href: "https://www.reddit.com/r/SOMLIA/", icon: RedditIcon },
 ];
+
+function RedditIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12 8c-4.42 0-8 2.46-8 5.5S7.58 19 12 19s8-2.46 8-5.5S16.42 8 12 8Z" />
+      <path d="m13.5 8 .8-3.2 3.1.7" />
+      <circle cx="18.75" cy="5.8" r="1.45" />
+      <circle cx="8.5" cy="13.25" r="0.75" fill="currentColor" stroke="none" />
+      <circle cx="15.5" cy="13.25" r="0.75" fill="currentColor" stroke="none" />
+      <path d="M8.5 16c1 .7 2.16 1 3.5 1s2.5-.3 3.5-1" />
+    </svg>
+  );
+}
 
 const progressSteps = [
   {
