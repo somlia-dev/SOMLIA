@@ -25,13 +25,10 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Identify the strongest first learner segment.
 - Identify first company task categories.
 - Define the first practical skill track.
-- Define the first proof artifact shape.
-- Create a sample proof profile schema.
-- Design the first project/challenge format: brief, submission, review rubric, revision loop, and proof artifact.
+- Create a sample proof profile schema from multiple Project Proofs and provenance-backed signals (SOM-20; conceptually unblocked).
+- Design the first project/challenge format around a brief, submission, review rubric, revision loop, and Project Proof (SOM-21; conceptually unblocked).
 - Add a stronger visual example of a real company brief to the website.
 - Add Open Graph and social preview assets for launch sharing.
-- Add basic SEO metadata for roadmap and privacy routes if needed.
-- Add a dedicated company brief interest CTA or calendar/contact CTA.
 
 ## Backlog
 
@@ -70,6 +67,9 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Project Bible exists and contains consolidated decisions, open questions, and decision log.
 - Linear projects, labels, and operating workflow are established for SOMLIA cross-chat operations, with Operations/Admin owning routing, blockers, handoffs, and status hygiene.
 - Vercel Production and Preview env vars are configured for `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and `VITE_SUPABASE_WAITLIST_TABLE`.
+- Company-facing `Share a company task` CTA reuses the existing waitlist, preselects `Company`, focuses the optional message textarea, shows company-specific guidance and early-pilot success copy, and preserves the existing submit and privacy contracts.
+- Route-aware metadata covers `/`, roadmap variants, and privacy-policy variants with route-specific titles, descriptions, canonicals, and robots behavior; unknown paths retain global defaults, global Open Graph/Twitter tags remain unchanged, and the client-side SPA limitation is accepted.
+- Product defined `Project Proof` as the first proof artifact: one structured, private-by-default evidence record for one contributor's attempt, with all revisions, provenance-labeled outcomes, descriptive credibility states, and no implied implementation, automatic opportunity unlock, verification, marketplace, or payment behavior.
 
 ## Blockers
 
@@ -78,7 +78,8 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - First learner segment still needs validation against the AI/no-code builder wedge and secondary career/proof-of-progress audiences.
 - First skill track is not chosen.
 - First company task category is not chosen.
-- Proof artifact and proof profile MVP shape are not finalized.
+- Project Proof implementation requires Security decisions on upload/link safety, PII/secrets detection, version integrity, reviewer identity and anti-collusion controls, and plagiarism/fake-review moderation.
+- Project Proof implementation requires Legal/privacy decisions on IP/license rights, publication/attribution consent, retention/deletion/unpublish/export behavior, company-brief/submission/feedback terms, and minors/cross-border rules.
 - Privacy policy should be reviewed with counsel before public scale.
 - Paid opportunities require legal, payment, contractor classification, dispute, and marketplace terms review before launch.
 
@@ -94,7 +95,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Treat the first 14-day sprint as a proof-of-progress validation sprint, not only a proof-of-shipped-work campaign.
 - Keep AI/no-code builders as the primary first audience wedge while testing secondary learner signal from career changers and early-career builders.
 - Validate which audience segment has the strongest signal.
-- Define the first practical track and proof artifact.
+- Define the first practical track and use the approved Project Proof definition as the evidence-model source of truth.
 
 ### Next Tasks
 
@@ -103,10 +104,10 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Validate whether AI/no-code builders are the strongest first learner segment.
 - Identify first company task categories.
 - Define the first practical skill track.
-- Define the first proof card contents.
-- Draft the first project/challenge format.
+- Define the condensed proof card display for one Project Proof while SOM-20 develops the proof-profile schema.
+- Draft the first project/challenge format for SOM-21 using the approved Project Proof lifecycle and evidence requirements; this work is conceptually unblocked.
 - Use the approved company brief definition when drafting the first company/project challenge: a tightly scoped real-world project prompt with context, objective, constraints, deliverables, evaluation criteria, deadline/effort size, simulated/unpaid/paid status, and resulting proof.
-- Define what makes a contributor verified or opportunity-ready at MVP stage.
+- Define future opportunity-readiness criteria without adding automatic unlocks, standalone `Verified` labels, or numeric credibility/reputation scores to MVP.
 - Decide whether first company briefs are simulated, unpaid pilots, or paid from day one.
 
 ### Later Tasks
@@ -114,7 +115,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Build proof profile MVP fields: completed projects, feedback received, reviews given, milestones earned, opportunity readiness.
 - Add project submission and revision history.
 - Add milestones and competence signals.
-- Add verified contributor status.
+- Revisit contributor verification only after provenance, review, Security, and Legal requirements are defined.
 - Add company brief validation and matching.
 - Add payment flow and platform fee model.
 - Add AI-assisted feedback, review summaries, proof summaries, matching, and quality checks.
@@ -124,15 +125,15 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - First learner segment.
 - First company task category.
 - Review rubric.
-- Proof artifact schema.
 - Company brief validation rules.
+- Project Proof implementation safety, rights, consent, and data-lifecycle rules.
 - Legal and payment review before paid opportunities.
 
 ### Open Questions
 
 - Who is the first target user: students, career changers, young professionals, freelancers, startup operators, AI upskillers, or another group?
 - What is the first practical skill track?
-- What counts as verified proof in the MVP?
+- What evidence thresholds support `Demonstrated`, `Reviewed`, and `Company-confirmed` states in the MVP?
 - Who reviews early work: peers, experts, AI, companies, or a mix?
 - What level of proof should unlock company briefs?
 - Should learners earn immediately or only after verified status?
@@ -152,8 +153,6 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 - Add a stronger visual example of a real company brief.
 - Add Open Graph and social preview assets.
-- Add basic SEO metadata for roadmap and privacy routes if route-specific metadata becomes needed.
-- Add dedicated company brief interest CTA or contact path.
 - Add conversion analytics for CTA clicks and waitlist roles.
 - Consider moving content/data arrays out of `src/App.tsx` if the page keeps growing.
 
@@ -239,6 +238,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Use LinkedIn as the primary channel for the first validation sprint, with optional adapted reposts to X.
 - Keep messaging against passive courses, weak resumes, generic job boards, and certificates without evidence.
 - Keep company story practical: real briefs, verified contributors, completed work, outcomes.
+- Use qualified earning/opportunity wording in sprint content: earning is part of the SOMLIA journey and SOMLIA is being built to connect trusted proof with company/partner opportunities after proof; avoid implying paid opportunities, marketplace access, or payment functionality are live today.
 - Use LinkedIn and founder-led updates as early storytelling channels.
 
 ### Next Tasks

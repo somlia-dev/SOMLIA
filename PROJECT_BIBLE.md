@@ -40,7 +40,7 @@ Learn practical skills, apply them through real projects, and create proof compa
 
 SOMLIA should be positioned against passive courses, resume-based hiring, generic job boards, and certificates without evidence. The product promise is that users do not just claim capability; they generate credible proof through work, review, and outcomes.
 
-The early product wedge is waitlist validation before account, marketplace, or paid brief flows are built. Companies are future demand-side users who submit practical briefs, not traditional job postings, and discover ability before hiring. Opportunities should come after demonstrated capability. "Proof profile" is the central product artifact. Paid opportunities are part of the roadmap, not something the current site should imply is already live.
+The early product wedge is waitlist validation before account, marketplace, or paid brief flows are built. Companies are future demand-side users who submit practical briefs, not traditional job postings, and discover ability before hiring. Opportunities should come after demonstrated capability. `Project Proof` is the canonical first evidence artifact; a proof card is its condensed display, and a future proof profile aggregates multiple Project Proofs and provenance-backed signals. Paid opportunities are part of the roadmap, not something the current site should imply is already live.
 
 Strong framing:
 
@@ -59,6 +59,34 @@ The opportunity payoff should become concrete:
 ```text
 Company brief -> Verified contributors -> Completed work -> Payment issued -> New proof added
 ```
+
+Qualified earning and opportunity wording is allowed for the first validation sprint. Marketing may explicitly say that earning is part of the SOMLIA journey and that SOMLIA is being built to connect trusted proof with company and partner opportunities on or through the platform after proof. Marketing must not imply that paid opportunities, marketplace access, or payment functionality are live today.
+
+Approved core wording:
+
+```text
+In SOMLIA, earning is part of the journey: learn, apply, improve through feedback, build trusted proof, then use that proof to access company and partner opportunities on the platform.
+```
+
+Current-stage qualifiers:
+
+- SOMLIA is being built so people can learn, prove capability, and access company/partner opportunities to earn after proof.
+- We're starting with early access and proof-of-progress validation, then building toward company briefs and paid opportunities.
+- Earning comes after proof: company brief -> verified contributor -> completed work -> payment issued -> new proof added.
+
+Approved phrases include:
+
+- Earning is part of the journey.
+- Opportunity after proof.
+- Company and partner opportunities.
+- Access opportunities to earn after proof.
+- Being built to connect trusted proof with real opportunities.
+- Future company briefs and paid opportunities.
+- On/through the SOMLIA platform, only when paired with "being built," "future," "toward," or "after proof" context.
+
+Avoid current-sprint wording that implies live earning, live marketplace access, or guaranteed paid work, including "You can earn in SOMLIA" as a standalone current claim, "Earn money today," "Paid opportunities are available now," "Get paid now," "Guaranteed earnings," "Guaranteed paid work," "No companies needed," or "Skip jobs entirely."
+
+Legal/Security does not need to block this qualified current-sprint wording. Legal/Security should be consulted before direct live earning claims, advertising active paid briefs, payment flow launch, or marketplace/payment terms publication.
 
 The website should remain learner-first, but not learner-only. A useful narrative balance is roughly 70% learner progress and 30% company/opportunity story so SOMLIA feels like a future talent network, not only an education startup.
 
@@ -98,6 +126,58 @@ A company brief should include:
 - Whether the brief is simulated, unpaid, or paid.
 - What proof gets added if the work is completed well.
 
+## Project Proof Definition
+
+`Project Proof` is the canonical name for the first proof artifact. One Project Proof represents one contributor's attempt at one project, challenge, or company brief, including all versions and revisions for that attempt.
+
+A proof card is a condensed display of one Project Proof. A future proof profile aggregates multiple Project Proofs and provenance-backed signals. Project Proof is private by default; public or shareable display requires contributor consent.
+
+Required Project Proof content:
+
+- Brief or project context.
+- Contributor role and goal.
+- Deliverables.
+- Tools and skills used.
+- Process evidence.
+- Outcome provenance.
+- Reflection.
+- Effort.
+- Rights and data-safety attestation.
+
+Feedback, revision, reviewer, and company fields are conditional on the attempt and its review context.
+
+MVP credibility vocabulary is descriptive and provenance-based:
+
+- `Demonstrated`.
+- `Not yet reviewed`.
+- `Reviewed`.
+- `Company-confirmed`.
+
+Standalone `Verified` labels and numeric credibility or reputation scores are deferred.
+
+Project Proof lifecycle:
+
+```text
+Draft -> Submitted -> Changes requested -> Revised/resubmitted -> Completed (not reviewed) or Reviewed -> Archived
+```
+
+Outcome claims must distinguish observed, synthetic/sample measured, estimated, contributor self-reported, reviewer-confirmed, and company-confirmed outcomes.
+
+This product definition does not imply implementation. It defines no automatic opportunity unlock, earning guarantee, live proof profile, verification feature, marketplace access, or payment behavior.
+
+Security and Legal implementation questions remain unresolved:
+
+- Upload and link safety.
+- PII and secrets detection.
+- Version integrity.
+- Reviewer identity and anti-collusion controls.
+- Plagiarism and fake-review moderation.
+- IP and license rights.
+- Publication and attribution consent.
+- Retention, deletion, unpublish, and export behavior.
+- Company-brief, submission, and feedback terms.
+- Minors and cross-border rules.
+
 ## Current Product Surface
 
 The current app is a Vite, React, TypeScript, and Tailwind CSS single-page landing and waitlist site deployed on Vercel.
@@ -110,6 +190,15 @@ Current routes:
 
 Routing is intentionally handled inside `src/App.tsx` by reading `window.location.pathname`. Direct visits to client-side routes are supported by rewrites in `vercel.json`.
 
+Route-aware document metadata is applied client-side:
+
+- `/` uses the global SOM-23 title and description, canonical `https://somlia.com/`, and robots `index,follow`.
+- `/roadmap` and `/roadmap/` use title `SOMLIA Roadmap | From proof of progress to opportunity`, the approved roadmap description, canonical `https://somlia.com/roadmap`, and robots `index,follow`.
+- `/privacy-policy` and `/privacy-policy/` use title `Privacy Policy | SOMLIA`, the approved privacy description, canonical `https://somlia.com/privacy-policy`, and robots `noindex,follow`.
+- Unknown paths retain the global metadata defaults.
+
+Global Open Graph and Twitter tags and `public/og-somlia.png` remain unchanged. The accepted Vite SPA limitation is that initial raw HTML may show global metadata before client-side JavaScript applies route-aware values; no SSR or prerendering was introduced.
+
 The landing page currently includes:
 
 - Fixed responsive navigation with a mobile menu.
@@ -119,6 +208,7 @@ The landing page currently includes:
 - Proof system: proof profiles, feedback history, competence signals.
 - Community layer: review and revision loop.
 - Real opportunities: company briefs, verified contributors, outcomes.
+- For Companies panel with a `Share a company task` CTA that reuses the existing waitlist.
 - Waitlist form.
 - FAQ.
 - Footer links to the main site sections, roadmap, privacy policy, and contact/waitlist.
@@ -146,6 +236,8 @@ Current landing page order:
 10. FAQ: clarifies what SOMLIA is and is not.
 
 The waitlist form writes to Supabase. It collects name, email, role, and an optional short message. It trims name, email, and message values; lowercases email before insertion; stores empty messages as `null`; shows a friendly duplicate-email error for Supabase `23505` failures; and includes an at-collection privacy notice linking to the privacy policy.
+
+The `Share a company task` CTA in the For Companies panel scrolls to the existing waitlist, preselects the exact `Company` role, moves accessible focus to the optional message textarea, and shows company-specific guidance: "What small task or business problem would you like contributors to solve? (Optional)" Company submissions use the approved early-pilot success copy. The interaction preserves the existing roles and submit shape and introduces no new fields, routes, forms, calendar flow, backend contract, privacy data categories, processors, analytics, marketplace, payment, or live-brief claim.
 
 Vercel Analytics is loaded lazily from `src/main.tsx` after idle time or timeout. The waitlist submission helper is dynamically imported from `WaitlistSection`, and `@supabase/supabase-js` is dynamically imported inside `src/lib/waitlist.ts` so the initial frontend stays lighter.
 
@@ -402,17 +494,14 @@ Suggested next roadmap detail:
 - Add production monitoring for Supabase inserts and Edge Function failures.
 - Replace or remove old LERN/LERNI assets if they are no longer needed.
 - Add Open Graph and social preview assets for launch sharing.
-- Add basic SEO metadata for roadmap and privacy routes if route-specific metadata becomes needed.
-- Add a dedicated company brief interest CTA.
 - Add a basic admin/export workflow for waitlist entries.
 - Add a consent checkbox if needed for marketing emails.
 - Define the first 3 skill tracks. Candidate tracks include AI automation, marketing, sales, research, and operations.
 - Recruit the first 20-50 beta users.
 - Recruit the first 5-10 companies or startup task providers.
 - Measure which audience segment converts best from the waitlist.
-- Define the shape of a proof artifact.
-- Create a sample proof profile schema.
-- Design the first project/challenge format: brief, submission, review rubric, revision loop, and proof artifact.
+- Create a sample proof profile schema that aggregates multiple Project Proofs and provenance-backed signals; SOM-20 is conceptually unblocked.
+- Design the first project/challenge format around a brief, submission, review rubric, revision loop, and Project Proof; SOM-21 is conceptually unblocked.
 - Build project submission flow.
 - Add basic project evidence pages.
 - Add peer/professional reviewer and feedback workflow.
@@ -536,8 +625,11 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-06-21: Product defined the first proof artifact as a Project Proof: one structured, private-by-default evidence record for one contributor's attempt at one project, challenge, or company brief, including outputs, process evidence, feedback, revisions, reflection, and provenance-labeled outcomes. Proof profiles will later aggregate multiple Project Proofs. MVP credibility is descriptive and provenance-based; standalone Verified labels and numeric credibility scores are deferred.
+- 2026-06-20: Product approved `Share a company task` as the first company-facing brief-interest CTA. It reuses the existing waitlist by scrolling to it with `Company` preselected and company-specific optional-message guidance; no new fields, routes, external forms, calendar flow, backend contract, or privacy data categories are introduced.
 - 2026-06-07: Product approved broadening the first sprint into a proof-of-progress validation sprint. AI/no-code builders remain the primary first audience wedge, but the story should cover learning, practice, community feedback, proof profiles, and opportunity after proof. Suggested content ratio is 60% AI/no-code builder posts, 25% broader career/proof-of-progress posts, and 15% company/operator posts, with secondary learner audiences of career changers and early-career builders and company-side discovery focused on startup operators and founders with small useful tasks.
 - 2026-06-07: Product defined a company brief as a real-world project prompt from a company, scoped tightly enough for emerging talent to solve and concrete enough to become proof of skill. A company brief is a small practical work challenge around a real business problem or task, not a general company description or about-us summary, and should include context, objective, constraints, deliverables, evaluation criteria, deadline/effort size, simulated/unpaid/paid status, and the proof added if completed well.
+- 2026-06-07: Product approved qualified earning/opportunity wording for the first validation sprint. Marketing may explicitly say earning is part of the SOMLIA journey and that SOMLIA is being built to connect trusted proof with company/partner opportunities on/through the platform after proof, but must not imply that paid opportunities, marketplace access, or payment functionality are live today.
 - 2026-06-06: Project Bible/docs-maintenance chat adopted a cross-chat thread-reporting workflow: report docs update completions, blockers, and scope questions back through Codex thread messaging when Operations/Admin requests report-back; coordinate decision, blocker, workflow, and handoff updates with Operations/Admin and relevant source chats; keep Linear as the operational source of truth for actionable work and status; do not make product strategy decisions through docs edits without Product approval.
 - 2026-06-06: Product approved the 14-day validation sprint proof-reply response flow: people who reply "proof" on LinkedIn or X should receive a public acknowledgement plus a short, non-spammy DM with the early access/waitlist link and one validation question about the skill they want to prove. Proof replies are validation signals, not only waitlist conversions; do not promise live proof profiles, paid work, or company brief access, and do not manually add people to email marketing unless they submit the waitlist form themselves.
 - 2026-06-05: Created this Project Bible from the SOMLIA handover and existing repo instructions, removing repeated implementation notes and preserving unique product, technical, privacy, and roadmap decisions.
