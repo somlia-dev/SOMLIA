@@ -10,8 +10,13 @@ The app is a Vite + React + TypeScript single-page site with Tailwind CSS utilit
 
 The project directory is named `LERN`, and there are a few older LERN/LERNI assets still present, but the active product/brand in the app is SOMLIA.
 
+The SOMLIA MVP dashboard has been approved as a separate Angular product surface. The existing React/Vite landing and waitlist site remains the public marketing surface. Do not mix Angular dashboard work into the existing landing app, scaffold dashboard code, or change the landing-site implementation contract unless Product and Engineering have approved the target architecture.
+
+The repository is pinned to Node.js `24.18.0` through `.nvmrc` and `.node-version`, with `package.json` accepting Node `>=24.15.0 <25`. Use that Node line for local development, CI, and Vercel unless Engineering approves a later runtime change. The future Angular dashboard target is Angular `22.0.x`; keep Angular dependencies isolated to `apps/dashboard` once scaffolded.
+
 ## Commands
 
+- `nvm use` - switch to the repo-pinned Node.js version when using nvm.
 - `npm run dev` - start the Vite dev server.
 - `npm run build` - TypeScript project build plus Vite production build.
 - `npm run preview` - preview the production build locally.

@@ -254,6 +254,64 @@ Not implemented yet:
 - Full marketplace mechanics.
 - Email lifecycle automation beyond the waitlist/Loops insert event.
 
+## Dashboard MVP Product Surface
+
+The founder and CTO approved starting a SOMLIA MVP dashboard as a separate Angular product surface. Product defined the MVP as a learner/contributor workspace, not a company dashboard, public profile product, marketplace, or payment surface. The current React/Vite landing and waitlist site remains the public marketing and waitlist surface and should not be changed or folded into the dashboard without a separately approved architecture decision.
+
+The default dashboard experience should center on Tasks / Projects because practical work creates the evidence loop that Learning, Feedback / Review, and Profile / Proof depend on.
+
+Approved MVP navigation:
+
+1. Tasks / Projects
+2. Learning
+3. Feedback / Review
+4. Profile / Proof
+5. Settings
+
+Suggested conceptual routes:
+
+- `/dashboard/tasks`
+- `/dashboard/tasks/:taskId`
+- `/dashboard/learning`
+- `/dashboard/feedback`
+- `/dashboard/proof`
+- `/dashboard/settings`
+
+Area responsibilities:
+
+- Tasks / Projects: active work, history, task detail, deadlines or effort size, feedback, revision history, Project Proof connection, and source labeling such as SOMLIA challenge or simulated company brief.
+- Learning: available learning, completed learning, labs, feedback where relevant, and connections to practical work and Project Proof. Certificates are deferred unless later approved as non-misleading completion evidence.
+- Feedback / Review: feedback received, feedback given, feedback requests, structured review, revision response, and links to task, submission, version, and Project Proof.
+- Profile / Proof: private proof cards, Project Proof history, received and given feedback, demonstrated skills backed by evidence, and allowed credibility states only.
+- Settings: basic account and profile controls, privacy expectations, notification basics if supported, support/privacy contact, and optional external community links.
+
+Community chat and voice are deferred future capabilities. External community links are acceptable as an initial bridge if the dashboard needs a community touchpoint before native community features exist.
+
+Dashboard MVP guardrails:
+
+- No live paid opportunities.
+- No live company marketplace access.
+- No payment, payout, billing, or escrow.
+- No active paid company briefs.
+- No guaranteed earning.
+- No verified contributor status or standalone `Verified` badges.
+- No numeric reputation, credibility, quality, or opportunity-readiness score.
+- No public proof profiles by default.
+- No native community chat or voice.
+- No company dashboard or account flows.
+
+Approved opportunity framing, if needed:
+
+```text
+SOMLIA is being built so trusted proof can later support access to company and partner opportunities after proof.
+```
+
+Deferred capabilities require later Product, Security, Legal, and Engineering approval before implementation or current-product claims.
+
+SOM-53, SOM-54, SOM-55, and SOM-56 are conceptually unblocked for follow-up planning: Angular dashboard technical architecture and repo/deployment plan; dashboard auth, roles, RLS, and privacy/security requirements; Dashboard MVP data model around Project Proof; and Feedback and Review MVP workflow.
+
+The dashboard and future monorepo work should use Node.js `24.18.0` locally and in CI, with the root `package.json` allowing Node `>=24.15.0 <25`. The Angular dashboard target is Angular `22.0.x`, with Angular and its TypeScript requirements isolated to `apps/dashboard` after scaffolding. This Node policy also applies to the existing landing and waitlist app for test/build verification, but it does not change the landing app's React/Vite framework or waitlist behavior.
+
 ## Brand And UI Direction
 
 The active brand is SOMLIA. The repository directory is still named `LERN`, and some older LERN/LERNI assets remain, but active product copy and UI should use SOMLIA.
@@ -279,7 +337,10 @@ Motion should stay subtle and must respect `prefers-reduced-motion`. Performance
 
 Core stack:
 
-- Framework: React `18.3.1` + Vite `6.0.5` + TypeScript `5.7.2`.
+- Public landing framework: React `18.3.1` + Vite `6.0.5` + TypeScript `5.7.2`.
+- Dashboard MVP framework: Angular, approved as a separate product surface; no Angular dashboard code has been scaffolded in this repository yet.
+- Runtime/tooling policy: Node.js `24.18.0` pinned in `.nvmrc` and `.node-version`, with `package.json` requiring Node `>=24.15.0 <25`; GitHub Actions CI reads `.nvmrc`.
+- Dashboard version target: Angular `22.0.x` after scaffold approval, with Angular-specific TypeScript and RxJS dependencies isolated to the dashboard app.
 - Styling: Tailwind CSS `3.4.17` plus global CSS in `src/styles.css`.
 - Icons: `lucide-react`.
 - Analytics: `@vercel/analytics/react`, dynamically loaded in `src/main.tsx`.
@@ -625,6 +686,9 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-06-26: Founder and CTO approved starting a SOMLIA MVP dashboard as a separate Angular product surface while preserving the existing React/Vite landing and waitlist site as the public marketing surface. MVP dashboard scope includes Tasks/Projects, Learning, Feedback/Review, Profile/Proof, and Settings; community chat/voice, live marketplace, payments, active paid opportunities, live verification, and numeric overall score are deferred unless Product, Security, and Legal approve later.
+- 2026-06-26: Product defined the Dashboard MVP as a separate Angular learner/contributor workspace with five primary areas: Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings. The default dashboard experience should center on practical work that becomes Project Proof, with feedback and revisions connected to proof history. Company marketplace, payments, active paid opportunities, verified contributor status, numeric scores/reputation, native community chat/voice, company dashboard flows, and public proof profiles remain deferred pending later Product, Security, Legal, and Engineering approval.
+- 2026-06-28: Operations/Engineering pinned the SOMLIA repo Node.js policy for Dashboard MVP architecture: local development and CI use Node.js `24.18.0`, `package.json` accepts Node `>=24.15.0 <25`, and GitHub Actions reads `.nvmrc`. Dashboard scaffolding should target Angular `22.0.x`, with Angular-specific TypeScript/RxJS requirements isolated to `apps/dashboard`; the existing React/Vite landing and waitlist app remains unchanged except that it must continue to pass tests and build under the pinned Node line.
 - 2026-06-21: Product defined the first proof artifact as a Project Proof: one structured, private-by-default evidence record for one contributor's attempt at one project, challenge, or company brief, including outputs, process evidence, feedback, revisions, reflection, and provenance-labeled outcomes. Proof profiles will later aggregate multiple Project Proofs. MVP credibility is descriptive and provenance-based; standalone Verified labels and numeric credibility scores are deferred.
 - 2026-06-20: Product approved `Share a company task` as the first company-facing brief-interest CTA. It reuses the existing waitlist by scrolling to it with `Company` preselected and company-specific optional-message guidance; no new fields, routes, external forms, calendar flow, backend contract, or privacy data categories are introduced.
 - 2026-06-07: Product approved broadening the first sprint into a proof-of-progress validation sprint. AI/no-code builders remain the primary first audience wedge, but the story should cover learning, practice, community feedback, proof profiles, and opportunity after proof. Suggested content ratio is 60% AI/no-code builder posts, 25% broader career/proof-of-progress posts, and 15% company/operator posts, with secondary learner audiences of career changers and early-career builders and company-side discovery focused on startup operators and founders with small useful tasks.

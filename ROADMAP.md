@@ -29,6 +29,12 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Design the first project/challenge format around a brief, submission, review rubric, revision loop, and Project Proof (SOM-21; conceptually unblocked).
 - Add a stronger visual example of a real company brief to the website.
 - Add Open Graph and social preview assets for launch sharing.
+- Start Dashboard MVP foundation planning as a separate Angular product surface while preserving the React/Vite landing site as the public marketing and waitlist surface.
+- Define Angular dashboard technical architecture and repo/deployment plan (SOM-53; conceptually unblocked).
+- Pin Node.js and Angular versions for Dashboard MVP architecture (SOM-57).
+- Define dashboard auth, roles, RLS, and privacy/security requirements (SOM-54; conceptually unblocked).
+- Define Dashboard MVP data model around Project Proof (SOM-55; conceptually unblocked).
+- Define Feedback and Review MVP workflow for the dashboard (SOM-56; conceptually unblocked).
 
 ## Backlog
 
@@ -48,6 +54,9 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Add data deletion/export processes.
 - Add abuse reporting and moderation workflow.
 - Add AI feedback support, AI review summaries, AI proof profile summaries, AI matching, and AI quality checks.
+- Scaffold the separate Angular dashboard app after Product and Engineering approve architecture, repo/deployment shape, authentication approach, and MVP acceptance criteria.
+- Add Dashboard MVP surfaces for Tasks/Projects, Learning, Feedback/Review, Profile/Proof, and Settings.
+- Add external community links as the first dashboard community bridge if needed; defer native community chat and voice.
 
 ## Completed
 
@@ -70,6 +79,8 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Company-facing `Share a company task` CTA reuses the existing waitlist, preselects `Company`, focuses the optional message textarea, shows company-specific guidance and early-pilot success copy, and preserves the existing submit and privacy contracts.
 - Route-aware metadata covers `/`, roadmap variants, and privacy-policy variants with route-specific titles, descriptions, canonicals, and robots behavior; unknown paths retain global defaults, global Open Graph/Twitter tags remain unchanged, and the client-side SPA limitation is accepted.
 - Product defined `Project Proof` as the first proof artifact: one structured, private-by-default evidence record for one contributor's attempt, with all revisions, provenance-labeled outcomes, descriptive credibility states, and no implied implementation, automatic opportunity unlock, verification, marketplace, or payment behavior.
+- Product defined Dashboard MVP scope and information architecture (SOM-52): a separate Angular learner/contributor workspace centered on Tasks / Projects, with Learning, Feedback / Review, Profile / Proof, and Settings connected to practical work, feedback, revisions, and Project Proof history.
+- Node.js version policy is pinned for Dashboard MVP architecture (SOM-57): local development and CI use Node.js `24.18.0`, `package.json` accepts Node `>=24.15.0 <25`, GitHub Actions reads `.nvmrc`, and the future Angular dashboard target is Angular `22.0.x` while the React/Vite landing app remains unchanged.
 
 ## Blockers
 
@@ -80,6 +91,9 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - First company task category is not chosen.
 - Project Proof implementation requires Security decisions on upload/link safety, PII/secrets detection, version integrity, reviewer identity and anti-collusion controls, and plagiarism/fake-review moderation.
 - Project Proof implementation requires Legal/privacy decisions on IP/license rights, publication/attribution consent, retention/deletion/unpublish/export behavior, company-brief/submission/feedback terms, and minors/cross-border rules.
+- Dashboard MVP architecture still needs follow-up decisions on repository/app placement, routing/deployment, authentication, data model boundaries, and how it connects to the existing waitlist and future proof surfaces.
+- Dashboard MVP scaffolding must use the pinned Node.js policy and keep Angular dependencies isolated to the dashboard app.
+- Dashboard MVP must avoid live marketplace, payments, active paid opportunities, live verification, and numeric overall score until Product, Security, and Legal approve those capabilities.
 - Privacy policy should be reviewed with counsel before public scale.
 - Paid opportunities require legal, payment, contractor classification, dispute, and marketplace terms review before launch.
 
@@ -385,3 +399,53 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Who manages Loops workflows and segmentation?
 - What is the escalation path if Supabase inserts work but Loops emails fail?
 - What should happen to existing waitlist users once the first MVP is ready?
+
+## 7. Dashboard MVP
+
+### Current Priorities
+
+- Treat the dashboard as a separate Angular product surface.
+- Treat Dashboard MVP as a learner/contributor workspace, not a company dashboard, public profile product, marketplace, or payment surface.
+- Preserve the current React/Vite landing and waitlist site as the public marketing surface.
+- Keep MVP navigation focused on Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings.
+- Center the default dashboard experience on Tasks / Projects because practical work creates the evidence loop for Learning, Feedback / Review, and Profile / Proof.
+- Defer native community chat and voice; external community links are acceptable first.
+- Avoid live paid opportunities, live company marketplace access, payment/payout/billing/escrow, active paid company briefs, guaranteed earning, verified contributor status or standalone `Verified` badges, numeric scores/reputation, public proof profiles by default, native community chat/voice, and company dashboard/account flows unless later approved.
+
+### Next Tasks
+
+- Define Dashboard MVP technical architecture: repository/app placement, Angular version, routing, deployment, auth approach, and environment separation (SOM-53).
+- Use the approved Node.js `24.18.0` / Angular `22.0.x` version policy when planning dashboard scaffold and CI (SOM-57).
+- Define dashboard auth, roles, RLS, and privacy/security requirements (SOM-54).
+- Define Dashboard MVP data model around Project Proof, proof cards, feedback, revisions, learning connections, and allowed credibility states (SOM-55).
+- Define Feedback and Review MVP workflow for feedback received, feedback given, requests, structured review, and revision response (SOM-56).
+- Define acceptance criteria for each MVP dashboard area before scaffolding code.
+- Map which existing Project Proof, company brief, waitlist, and future profile decisions constrain dashboard data models.
+- Decide whether external community links are needed in MVP and where they belong.
+
+### Later Tasks
+
+- Scaffold the Angular dashboard app only after architecture and MVP acceptance criteria are approved.
+- Build dashboard navigation, layout shell, and settings foundation.
+- Add Tasks / Projects, Learning, Feedback / Review, and Profile / Proof MVP flows.
+- Connect dashboard data to authenticated backend surfaces after backend, privacy, and security contracts are defined.
+- Revisit native community, marketplace, payments, live verification, and scoring only after Product/Security/Legal approval.
+
+### Dependencies
+
+- Approved dashboard architecture and repo/deployment shape.
+- Authentication and authorization model.
+- Project Proof data model and publication/consent rules.
+- Feedback and Review MVP workflow.
+- Backend storage and API decisions for dashboard data.
+- Privacy policy updates before collecting new dashboard account, activity, review, proof, or community data.
+- Security and Legal review before verification, payments, marketplace, or score-like claims.
+
+### Open Questions
+
+- Should the Angular dashboard live in this repository, a monorepo workspace, or a separate repository?
+- What authentication provider and access model should the dashboard use?
+- Which MVP dashboard area should be built first?
+- What data is real, mocked, or manually operated in the first dashboard version?
+- How should dashboard proof views connect to private-by-default Project Proof and future public proof profiles?
+- What is the minimum Settings scope for account, privacy, notifications, and community links?
