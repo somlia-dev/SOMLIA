@@ -29,12 +29,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Design the first project/challenge format around a brief, submission, review rubric, revision loop, and Project Proof (SOM-21; conceptually unblocked).
 - Add a stronger visual example of a real company brief to the website.
 - Add Open Graph and social preview assets for launch sharing.
-- Start Dashboard MVP foundation planning as a separate Angular product surface while preserving the React/Vite landing site as the public marketing and waitlist surface.
-- Define Angular dashboard technical architecture and repo/deployment plan (SOM-53; conceptually unblocked).
-- Pin Node.js and Angular versions for Dashboard MVP architecture (SOM-57).
-- Define dashboard auth, roles, RLS, and privacy/security requirements (SOM-54; conceptually unblocked).
-- Define Dashboard MVP data model around Project Proof (SOM-55; conceptually unblocked).
-- Define Feedback and Review MVP workflow for the dashboard (SOM-56; conceptually unblocked).
+- Use completed Dashboard MVP foundation planning to scope accepted implementation issues while preserving the React/Vite landing site as the public marketing and waitlist surface.
 
 ## Backlog
 
@@ -81,6 +76,11 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Product defined `Project Proof` as the first proof artifact: one structured, private-by-default evidence record for one contributor's attempt, with all revisions, provenance-labeled outcomes, descriptive credibility states, and no implied implementation, automatic opportunity unlock, verification, marketplace, or payment behavior.
 - Product defined Dashboard MVP scope and information architecture (SOM-52): a separate Angular learner/contributor workspace centered on Tasks / Projects, with Learning, Feedback / Review, Profile / Proof, and Settings connected to practical work, feedback, revisions, and Project Proof history.
 - Node.js version policy is pinned for Dashboard MVP architecture (SOM-57): local development and CI use Node.js `24.18.0`, `package.json` accepts Node `>=24.15.0 <25`, GitHub Actions reads `.nvmrc`, and the future Angular dashboard target is Angular `22.0.x` while the React/Vite landing app remains unchanged.
+- Dashboard MVP technical architecture and repo/deployment plan are approved (SOM-53): evolve the repo into a small npm-workspace monorepo when dashboard scaffolding begins, keep the React/Vite landing app at repo root for `somlia.com`, add Angular at `apps/dashboard`, keep root `supabase/` as the backend boundary, and deploy dashboard through a separate Vercel project on `app.somlia.com`.
+- Dashboard MVP auth, roles, RLS, and privacy/security requirements are defined (SOM-54): access starts as a waitlist-approved invite-only beta using Supabase Auth as the accepted provider assumption; the only external MVP role is Contributor; Reviewer, Admin, and Support are internal/privileged roles; dashboard data is private by default and separate from `public."Whitelist"`; implementation beyond a mock/no-data shell remains blocked until accepted auth/session/RLS/privacy/admin-audit, SOM-55 implementation gates, and SOM-56 feedback/review implementation gates exist.
+- Dashboard MVP conceptual data model around Project Proof is defined (SOM-55): Contributor -> Task/Project/Challenge/Brief source -> Project Proof -> Submission/Version/Revision -> Deliverables/Evidence placeholders -> Feedback/Review placeholders -> private Proof Card -> private Profile / Proof history. Project Proof remains the central private evidence unit; proof cards are private read models, Profile / Proof is a private aggregation view, and real schema/RLS/storage implementation remains deferred.
+- Dashboard MVP Feedback / Review workflow is defined (SOM-56): feedback starts as assigned/request-based structured feedback tied to a specific submitted Project Proof version, ordinary feedback remains separate from formal review, internal Reviewer/Admin feedback is the default formal-review path, assigned Contributor peer feedback is non-formal by default, and company reviewer participation plus `Company-confirmed` outcomes are deferred except controlled future pilots with approval.
+- Dashboard MVP planning foundation SOM-52/SOM-53/SOM-54/SOM-55/SOM-56/SOM-57 is complete as planning input; no real dashboard implementation is authorized beyond separately accepted shell/mock or implementation issues.
 
 ## Blockers
 
@@ -91,8 +91,28 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - First company task category is not chosen.
 - Project Proof implementation requires Security decisions on upload/link safety, PII/secrets detection, version integrity, reviewer identity and anti-collusion controls, and plagiarism/fake-review moderation.
 - Project Proof implementation requires Legal/privacy decisions on IP/license rights, publication/attribution consent, retention/deletion/unpublish/export behavior, company-brief/submission/feedback terms, and minors/cross-border rules.
-- Dashboard MVP architecture still needs follow-up decisions on repository/app placement, routing/deployment, authentication, data model boundaries, and how it connects to the existing waitlist and future proof surfaces.
-- Dashboard MVP scaffolding must use the pinned Node.js policy and keep Angular dependencies isolated to the dashboard app.
+- Dashboard auth implementation still needs accepted session policy, auth method, redirect allowlist, account recovery flow, rate limits, revoke-all-sessions behavior, and RLS access matrices/tests before real auth launch.
+- Dashboard private data needs staging Supabase or equivalent isolated Preview/local environment; Preview deployments must not write private/authenticated data into Production.
+- Dashboard account/profile/proof/feedback tables must remain separate from `public."Whitelist"`; waitlist rows may inform invitation eligibility only through server-side/admin-controlled logic and must not silently become accounts.
+- Dashboard admin/support/reviewer access needs least-privilege role/access matrix, MFA/2FA for elevated users, individual accounts, and auditability before launch.
+- Dashboard privacy lifecycle needs updated privacy policy/notice-at-collection plus deletion, export, unpublish, retention, anonymization, legal hold, and support ownership decisions before real dashboard data collection.
+- Dashboard storage/upload/evidence work remains blocked until upload/link safety, scanning, PII/secrets detection, and Legal/Privacy requirements are defined.
+- Project Proof implementation needs a per-entity access matrix and RLS test plan before schema work.
+- Project Proof implementation needs a state machine and transition authority plan for current-version pointers, submission/resubmission lineage, protected provenance states, and server-side/constrained state changes.
+- Project Proof legal/privacy lifecycle remains blocked on IP/license, confidentiality attestation, publication consent, deletion/export/retention/legal hold, takedown/reporting, minors, cross-border users, company confirmation authority, AI/plagiarism disclosure, and marketplace/payment deferral decisions.
+- Dashboard backend work needs migration/type/RLS CI planning under root `supabase/` authority before real Project Proof schema implementation.
+- Dashboard pilot work needs a seeded/manual pilot data plan before any real contributor proof data is collected.
+- Feedback/review implementation needs a role-specific RLS access matrix and test plan covering Contributor owner, assigned peer reviewer, internal Reviewer, Admin, Support, public, and deferred company reviewer.
+- Feedback/review implementation needs a state machine and server-side transition authority for assignments, withdrawal, `Changes requested`, revision/resubmission, formal review completion, `Reviewed`, and future `Company-confirmed`.
+- Formal review needs rubric versioning and outcome semantics for brief fit, deliverable quality, process evidence, revision response, claim safety, and data safety.
+- Dashboard review workflows need audit log schema and retention requirements for assignments, eligibility changes, feedback submissions/edits, formal review completion, Project Proof lifecycle changes, revision responses, moderation actions, admin/support access, and future company reviewer access.
+- Admin/support escalation and redaction policy is required before privileged review/support tooling.
+- Peer feedback eligibility, reviewer conduct, conflict-of-interest policy, and anti-collusion controls are required before contributor peer feedback writes.
+- Feedback/privacy notice and data lifecycle updates are required before real feedback or review data collection.
+- Future company reviewer pilot policy requires Product/Security/Legal approval before company reviewer access, company authority, attribution, consent, or `Company-confirmed` behavior.
+- Dashboard review notifications and lifecycle email boundaries must be defined separately from `loops-waitlist`.
+- Storage/evidence safety and Legal/Privacy requirements remain required before files, links, uploads, or evidence context are exposed to reviewers.
+- Dashboard MVP scaffolding must use the pinned Node.js policy, keep Angular dependencies isolated to `apps/dashboard`, keep landing at repo root, and keep dashboard Vercel/env configuration separate from the landing project.
 - Dashboard MVP must avoid live marketplace, payments, active paid opportunities, live verification, and numeric overall score until Product, Security, and Legal approve those capabilities.
 - Privacy policy should be reviewed with counsel before public scale.
 - Paid opportunities require legal, payment, contractor classification, dispute, and marketplace terms review before launch.
@@ -407,6 +427,8 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Treat the dashboard as a separate Angular product surface.
 - Treat Dashboard MVP as a learner/contributor workspace, not a company dashboard, public profile product, marketplace, or payment surface.
 - Preserve the current React/Vite landing and waitlist site as the public marketing surface.
+- Preserve the approved SOM-53 architecture: root landing app for `somlia.com`, Angular dashboard at `apps/dashboard`, root `supabase/` as backend boundary, and separate dashboard Vercel project on `app.somlia.com`.
+- Treat SOM-52/SOM-53/SOM-54/SOM-55/SOM-56/SOM-57 as completed planning foundation, not implementation authorization.
 - Keep MVP navigation focused on Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings.
 - Center the default dashboard experience on Tasks / Projects because practical work creates the evidence loop for Learning, Feedback / Review, and Profile / Proof.
 - Defer native community chat and voice; external community links are acceptable first.
@@ -414,18 +436,34 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Next Tasks
 
-- Define Dashboard MVP technical architecture: repository/app placement, Angular version, routing, deployment, auth approach, and environment separation (SOM-53).
 - Use the approved Node.js `24.18.0` / Angular `22.0.x` version policy when planning dashboard scaffold and CI (SOM-57).
-- Define dashboard auth, roles, RLS, and privacy/security requirements (SOM-54).
-- Define Dashboard MVP data model around Project Proof, proof cards, feedback, revisions, learning connections, and allowed credibility states (SOM-55).
-- Define Feedback and Review MVP workflow for feedback received, feedback given, requests, structured review, and revision response (SOM-56).
+- Create the dashboard auth implementation plan from SOM-54, including invite-only cohort access, Supabase Auth method, session/recovery/redirect policy, and RLS access matrix/tests.
+- Create Supabase environment setup plan for local/Preview/staging isolation before authenticated dashboard data.
+- Define dashboard role/access matrix for Contributor, Reviewer, Admin, and Support with least-necessary access and audit requirements.
+- Draft dashboard privacy lifecycle plan: notice-at-collection, deletion/export/unpublish/retention/anonymization/legal hold, and support ownership.
+- Define Project Proof access matrix and RLS test plan for each Project Proof-related entity.
+- Define Project Proof state machine and transition authority for submission, resubmission, current-version pointers, protected provenance, and moderation states.
+- Define storage/evidence safety requirements before uploads, evidence links, or file handling.
+- Define Project Proof legal/privacy lifecycle requirements: IP/license, confidentiality attestation, publication consent, deletion/export/retention/legal hold, takedown/reporting, minors, cross-border users, company confirmation authority, and AI/plagiarism disclosure.
+- Define Dashboard backend migration, generated type, RLS CI, and deployment plan under root `supabase/` authority.
+- Define seeded/manual pilot data plan for dashboard proof demos before collecting real contributor proof data.
+- Define Feedback / Review RLS access matrix and test plan for Contributor owner, assigned peer reviewer, internal Reviewer, Admin, Support, public, and deferred company reviewer.
+- Define Feedback / Review state machine and server-side transition authority for assignments, withdrawal, changes requested, revision/resubmission, formal review completion, `Reviewed`, and future `Company-confirmed`.
+- Define formal review rubric versioning and outcome semantics for brief fit, deliverable quality, process evidence, revision response, claim safety, and data safety.
+- Define audit log schema and retention requirements for dashboard review workflows.
+- Define admin/support escalation and redaction policy for review/support contexts.
+- Define peer feedback eligibility, reviewer conduct, conflict-of-interest policy, and anti-collusion controls.
+- Define feedback/privacy notice and data lifecycle updates before collecting real review data.
+- Define future company reviewer pilot policy only after Product/Security/Legal approval.
+- Define dashboard review notification and lifecycle email boundary separate from `loops-waitlist`.
+- Define backend CI/deployment expectations for dashboard auth/RLS tests and Edge Function/server-side authorization checks.
 - Define acceptance criteria for each MVP dashboard area before scaffolding code.
 - Map which existing Project Proof, company brief, waitlist, and future profile decisions constrain dashboard data models.
 - Decide whether external community links are needed in MVP and where they belong.
 
 ### Later Tasks
 
-- Scaffold the Angular dashboard app only after architecture and MVP acceptance criteria are approved.
+- Scaffold the Angular dashboard app at `apps/dashboard` only after a dedicated implementation issue is created and accepted.
 - Build dashboard navigation, layout shell, and settings foundation.
 - Add Tasks / Projects, Learning, Feedback / Review, and Profile / Proof MVP flows.
 - Connect dashboard data to authenticated backend surfaces after backend, privacy, and security contracts are defined.
@@ -433,19 +471,25 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Dependencies
 
-- Approved dashboard architecture and repo/deployment shape.
-- Authentication and authorization model.
-- Project Proof data model and publication/consent rules.
-- Feedback and Review MVP workflow.
+- Approved dashboard architecture and repo/deployment shape: small npm-workspace monorepo, root landing, Angular at `apps/dashboard`, root `supabase/`, and separate dashboard Vercel project.
+- SOM-54 authentication and authorization requirements.
+- Accepted auth implementation plan, RLS access matrix/tests, staging/Preview Supabase isolation, privacy lifecycle plan, and admin/support audit controls.
+- SOM-55 conceptual Project Proof data model.
+- Accepted Project Proof access matrix, RLS tests, state machine, transition authority, evidence/storage safety requirements, legal/privacy lifecycle, backend migration/type/RLS CI plan, and seeded/manual pilot data plan before real schema/storage implementation.
+- SOM-56 Feedback / Review MVP workflow.
+- Accepted Feedback / Review RLS/access matrix, server-side transition authority, rubric versioning, audit retention, moderation/reporting model, reviewer conduct/conflict policy, peer eligibility/anti-collusion controls, privacy lifecycle, notification boundary, and Legal blockers before real feedback implementation.
 - Backend storage and API decisions for dashboard data.
 - Privacy policy updates before collecting new dashboard account, activity, review, proof, or community data.
 - Security and Legal review before verification, payments, marketplace, or score-like claims.
 
 ### Open Questions
 
-- Should the Angular dashboard live in this repository, a monorepo workspace, or a separate repository?
-- What authentication provider and access model should the dashboard use?
+- Which exact Supabase Auth method should MVP use: invite link, email OTP, magic link, or a combination?
+- What session lifetime, recovery, resend limits, suspicious-login handling, and revoke-all-sessions policy should Dashboard MVP use?
+- What RLS test strategy and backend CI gates are required before authenticated dashboard data launches?
 - Which MVP dashboard area should be built first?
 - What data is real, mocked, or manually operated in the first dashboard version?
 - How should dashboard proof views connect to private-by-default Project Proof and future public proof profiles?
 - What is the minimum Settings scope for account, privacy, notifications, and community links?
+- What exact reviewer conduct, conflict-of-interest, and peer eligibility policy should govern MVP feedback?
+- What review notification and lifecycle email behavior belongs in the dashboard backend rather than `loops-waitlist`?
