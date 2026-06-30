@@ -1,0 +1,36 @@
+<div class="dashboard-shell">
+  <aside class="dashboard-sidebar" aria-label="Dashboard">
+    <a class="dashboard-brand" routerLink="/dashboard/tasks" aria-label="SOMLIA dashboard home">
+      <span class="dashboard-brand__mark" aria-hidden="true"></span>
+      <span>
+        <strong>SOMLIA</strong>
+        <small>Dashboard shell</small>
+      </span>
+    </a>
+
+    <nav class="dashboard-nav" data-testid="dashboard-nav" aria-label="Dashboard areas">
+      @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: item.path !== '/dashboard/tasks' }"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <div class="dashboard-frame">
+    <header class="dashboard-header">
+      <div>
+        <p class="dashboard-kicker">Learner / contributor workspace</p>
+        <p class="dashboard-status">Shell preview only. No authentication, private data, reviews, or payments are connected.</p>
+      </div>
+    </header>
+
+    <main class="dashboard-main" tabindex="-1">
+      <router-outlet />
+    </main>
+  </div>
+</div>
