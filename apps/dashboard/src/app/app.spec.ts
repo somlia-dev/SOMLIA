@@ -43,6 +43,16 @@ describe('Dashboard shell', () => {
     ]);
   });
 
+  it('uses the SOMLIA logo in the dashboard brand instead of the placeholder mark', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const logo = root.querySelector<HTMLImageElement>('.dashboard-brand__logo');
+
+    expect(logo).not.toBeNull();
+    expect(logo?.getAttribute('src')).toBe('/somlia-logo.svg');
+    expect(logo?.getAttribute('alt')).toBe('SOMLIA');
+    expect(root.querySelector('.dashboard-brand__mark')).toBeNull();
+  });
+
   it.each([
     ['/dashboard/tasks', 'Tasks / Projects', 'No active dashboard tasks yet.'],
     ['/dashboard/learning', 'Learning', 'No learning modules are available in this shell.'],
