@@ -1,0 +1,8 @@
+# Supabase local/project configuration.
+# See https://supabase.com/docs/guides/functions/function-configuration
+
+[functions.loops-waitlist]
+verify_jwt = false
+
+[functions.dashboard-session]
+verify_jwt = true

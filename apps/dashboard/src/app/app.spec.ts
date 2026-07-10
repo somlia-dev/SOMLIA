@@ -3,6 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 
 import { App } from './app';
 import { routes } from './app.routes';
+import { provideAppEnv } from './core/config/app-env.token';
 
 describe('Dashboard shell', () => {
   let fixture: ComponentFixture<App>;
@@ -11,7 +12,7 @@ describe('Dashboard shell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter(routes)],
+      providers: [provideRouter(routes), provideAppEnv()],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -19,13 +20,24 @@ describe('Dashboard shell', () => {
     fixture.detectChanges();
   });
 
-  it('redirects the dashboard app root to tasks', async () => {
+  it('redirects the dashboard app root to the auth page', async () => {
     await router.navigateByUrl('/');
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(router.url).toBe('/dashboard/tasks');
-    expect(pageText()).toContain('Tasks / Projects');
+    expect(router.url).toBe('/auth/login');
+    expect(pageText()).toContain('Sign in to SOMLIA');
+    expect(pageText()).toContain('Continue to shell preview');
+  });
+
+  it('renders a dedicated auth page before the shell', async () => {
+    await router.navigateByUrl('/auth/login');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(pageText()).toContain('Dashboard Access');
+    expect(pageText()).toContain('Planned auth boundary');
+    expect(pageText()).toContain('Current access mode');
   });
 
   it('renders navigation for every approved dashboard area', () => {
