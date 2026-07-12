@@ -1,16 +1,89 @@
-# Dashboard auth server setup
+# Dashboard auth setup
 
-This document covers the **server-side** Supabase auth boundary for the SOMLIA dashboard. It is separate from the landing waitlist flow and from any future Angular browser auth wiring.
+This document covers Supabase auth for the SOMLIA dashboard: browser OAuth wiring, redirect URLs, and the server-side JWT boundary.
+
+## OAuth flow (Google)
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Angular as Angular dashboard
+  participant Supabase as Supabase Auth
+  participant Google as Google OAuth
+
+  User->>Angular: Click Continue with Google
+  Angular->>Supabase: signInWithOAuth(redirectTo=/auth/callback)
+  Supabase->>Google: OAuth authorize
+  Google->>Supabase: Redirect to Supabase callback
+  Note over Google,Supabase: Google Cloud Authorized redirect URI must be Supabase only
+  Supabase->>Angular: Redirect to /auth/callback with session
+  Angular->>Angular: Restore session and route to /dashboard/tasks
+```
+
+### Redirect URL responsibilities
+
+| Setting | Value | Where |
+| --- | --- | --- |
+| Google Cloud **Authorized redirect URI** | `https://<project-ref>.supabase.co/auth/v1/callback` | Google Cloud Console OAuth client |
+| Supabase **Redirect URLs** | `https://app.somlia.com/auth/callback`, `http://localhost:4200/auth/callback`, preview URLs | Supabase Dashboard → Authentication → URL Configuration |
+| Angular OAuth `redirectTo` | Same as Supabase redirect URLs above | Generated from `DASHBOARD_AUTH_CALLBACK_URL` |
+
+Do **not** put the Angular URL in Google Cloud. Google must redirect to Supabase first; Supabase then sends the user back to the dashboard callback route.
+
+Production examples:
+
+- Google redirect URI: `https://qufrbaxgiknacfsjfqoy.supabase.co/auth/v1/callback`
+- Supabase redirect URL: `https://app.somlia.com/auth/callback`
+- Post-login route: `https://app.somlia.com/dashboard/tasks`
 
 ## What lives where
 
 | Layer | Package / surface | Purpose |
 | --- | --- | --- |
-| Browser dashboard | `@supabase/supabase-js` | Future client auth/session in Angular |
+| Browser dashboard | `@supabase/supabase-js` | Google OAuth, session restore, sign-out |
 | Server / Edge Functions | `@supabase/server` | JWT verification and privileged server work |
 | Landing waitlist | existing `loops-waitlist` function | Unchanged; not a dashboard lifecycle function |
 
 Do **not** install `@supabase/server` in `apps/dashboard`. That package is server-only.
+
+## Dashboard browser env generation
+
+Angular reads public auth values from generated `src/environments/environment.generated.ts`.
+
+Generate locally from `apps/dashboard/.env.local`:
+
+```bash
+cd apps/dashboard
+npm run generate-env
+```
+
+Documented variable names (`apps/dashboard/.env.example`):
+
+- `DASHBOARD_APP_URL`
+- `DASHBOARD_SUPABASE_URL`
+- `DASHBOARD_SUPABASE_PUBLISHABLE_KEY`
+- `DASHBOARD_AUTH_REDIRECT_URL`
+- `DASHBOARD_AUTH_CALLBACK_URL`
+- `DASHBOARD_AUTH_ENABLED`
+- `DASHBOARD_GOOGLE_ENABLED`
+
+`npm run start` and `npm run build` run `generate-env` automatically.
+
+### Vercel (`app.somlia.com`)
+
+Set these in the dashboard Vercel project:
+
+```txt
+DASHBOARD_APP_URL=https://app.somlia.com
+DASHBOARD_SUPABASE_URL=https://qufrbaxgiknacfsjfqoy.supabase.co
+DASHBOARD_SUPABASE_PUBLISHABLE_KEY=<supabase publishable key>
+DASHBOARD_AUTH_REDIRECT_URL=https://app.somlia.com/dashboard/tasks
+DASHBOARD_AUTH_CALLBACK_URL=https://app.somlia.com/auth/callback
+DASHBOARD_AUTH_ENABLED=true
+DASHBOARD_GOOGLE_ENABLED=true
+```
+
+Never put secret keys, service-role keys, or webhook secrets into Angular or dashboard public env vars.
 
 ## Edge Function: `dashboard-session`
 
@@ -24,34 +97,6 @@ Purpose:
 Platform config:
 - `supabase/config.toml` sets `verify_jwt = true` for `dashboard-session`
 - `loops-waitlist` remains `verify_jwt = false` because it uses a custom webhook secret header
-
-## Environment variables
-
-### Supabase Edge Functions
-
-On deployed Supabase Edge Functions these are injected automatically:
-
-- `SUPABASE_URL`
-- `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_PUBLISHABLE_KEYS`
-- `SUPABASE_SECRET_KEY` or `SUPABASE_SECRET_KEYS`
-- `SUPABASE_JWKS` or `SUPABASE_JWKS_URL`
-
-For local/other runtimes, copy documented names from `supabase/.env.example` into an untracked local env file. Never commit real secret keys.
-
-Example JWKS URL shape:
-
-```txt
-https://<project-ref>.supabase.co/auth/v1/.well-known/jwks.json
-```
-
-### Dashboard browser env
-
-Public-only values for Angular belong in dashboard deployment settings or local untracked env, documented in `apps/dashboard/.env.example`:
-
-- `DASHBOARD_SUPABASE_URL`
-- `DASHBOARD_SUPABASE_PUBLISHABLE_KEY`
-
-Never put `SUPABASE_SECRET_KEY`, service-role keys, or webhook secrets into Angular or `VITE_` variables.
 
 ## Deploy
 
@@ -74,10 +119,11 @@ Expected result while dashboard data is still blocked:
 - minimal `user.id`, `user.email`, `user.role`
 - no private dashboard records
 
-## Still blocked before real dashboard auth launch
+## Still blocked before full production auth launch
 
 - private dashboard tables and RLS
-- invite-only account provisioning
-- Angular live login/session refresh
-- redirect allowlist rollout for `app.somlia.com`
+- invite-only account provisioning gate
 - privacy policy / notice updates for account data
+- staging Supabase isolation for private auth data
+
+Google OAuth can be enabled for the pilot shell once Supabase redirect URLs and Vercel env vars above are configured.

@@ -1,4 +1,5 @@
 import type { AppEnvironment } from '../app/core/config/app-environment.model';
+import { generatedDashboardEnv } from './environment.generated';
 
 export const environment: AppEnvironment = {
   production: true,
@@ -6,15 +7,16 @@ export const environment: AppEnvironment = {
   appUrl: 'https://app.somlia.com',
   apiBaseUrl: 'https://api.somlia.com',
   supabase: {
-    url: 'https://qufrbaxgiknacfsjfqoy.supabase.co',
-    publishableKey: '',
+    url: generatedDashboardEnv.supabase.url,
+    publishableKey: generatedDashboardEnv.supabase.publishableKey,
   },
   auth: {
-    enabled: false,
-    redirectUrl: 'https://app.somlia.com/dashboard/tasks',
+    enabled: generatedDashboardEnv.auth.enabled,
+    redirectUrl: generatedDashboardEnv.auth.redirectUrl,
+    callbackUrl: generatedDashboardEnv.auth.callbackUrl,
   },
   google: {
-    enabled: false,
+    enabled: generatedDashboardEnv.google.enabled,
   },
   enableDebugTools: false,
 };

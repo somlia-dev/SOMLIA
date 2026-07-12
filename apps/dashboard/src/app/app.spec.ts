@@ -36,7 +36,7 @@ describe('Dashboard shell', () => {
     fixture.detectChanges();
 
     expect(pageText()).toContain('Dashboard Access');
-    expect(pageText()).toContain('Planned auth boundary');
+    expect(pageText()).toContain('Use your approved Google account');
     expect(pageText()).toContain('Current access mode');
   });
 

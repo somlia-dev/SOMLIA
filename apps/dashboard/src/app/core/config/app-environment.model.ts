@@ -10,6 +10,7 @@ export interface AppEnvironment {
   auth: {
     enabled: boolean;
     redirectUrl: string;
+    callbackUrl: string;
   };
   google: {
     enabled: boolean;
