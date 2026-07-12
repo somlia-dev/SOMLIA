@@ -4,10 +4,12 @@ import { CanActivateFn, Router } from '@angular/router';
 import { APP_ENV } from '../../config/app-env.token';
 import { AuthService } from '../services/auth.service';
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = async () => {
   const env = inject(APP_ENV);
   const auth = inject(AuthService);
   const router = inject(Router);
+
+  await auth.whenReady();
 
   if (!env.auth.enabled) {
     return true;

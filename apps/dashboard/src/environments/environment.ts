@@ -1,4 +1,5 @@
 import type { AppEnvironment } from '../app/core/config/app-environment.model';
+import { generatedDashboardEnv } from './environment.generated';
 
 export const environment: AppEnvironment = {
   production: false,
@@ -6,15 +7,16 @@ export const environment: AppEnvironment = {
   appUrl: 'http://localhost:4200',
   apiBaseUrl: 'http://localhost:3000/api',
   supabase: {
-    url: 'https://qufrbaxgiknacfsjfqoy.supabase.co',
-    publishableKey: '',
+    url: generatedDashboardEnv.supabase.url,
+    publishableKey: generatedDashboardEnv.supabase.publishableKey,
   },
   auth: {
-    enabled: false,
-    redirectUrl: 'http://localhost:4200/dashboard/tasks',
+    enabled: generatedDashboardEnv.auth.enabled,
+    redirectUrl: generatedDashboardEnv.auth.redirectUrl,
+    callbackUrl: generatedDashboardEnv.auth.callbackUrl,
   },
   google: {
-    enabled: false,
+    enabled: generatedDashboardEnv.google.enabled,
   },
   enableDebugTools: true,
 };
