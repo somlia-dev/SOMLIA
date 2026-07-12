@@ -40,7 +40,9 @@ describe('Dashboard shell', () => {
     expect(pageText()).toContain('Current access mode');
   });
 
-  it('renders navigation for every approved dashboard area', () => {
+  it('renders navigation for every approved dashboard area', async () => {
+    await navigateToDashboard();
+
     const root = fixture.nativeElement as HTMLElement;
     const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-testid="dashboard-nav"] a')).map(
       (link) => ({ label: link.textContent?.trim(), href: link.getAttribute('href') }),
@@ -55,7 +57,9 @@ describe('Dashboard shell', () => {
     ]);
   });
 
-  it('uses the SOMLIA logo in the dashboard brand instead of the placeholder mark', () => {
+  it('uses the SOMLIA logo in the dashboard brand instead of the placeholder mark', async () => {
+    await navigateToDashboard();
+
     const root = fixture.nativeElement as HTMLElement;
     const logo = root.querySelector<HTMLImageElement>('.dashboard-brand__logo');
 
@@ -96,5 +100,11 @@ describe('Dashboard shell', () => {
 
   function pageText() {
     return (fixture.nativeElement as HTMLElement).textContent ?? '';
+  }
+
+  async function navigateToDashboard() {
+    await router.navigateByUrl('/dashboard/tasks');
+    await fixture.whenStable();
+    fixture.detectChanges();
   }
 });
