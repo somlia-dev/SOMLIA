@@ -38,7 +38,11 @@ export class DashboardAccessService {
       return {
         allowed: false,
         role: null,
-        message: payload?.message ?? 'Dashboard access check failed.',
+        message:
+          payload?.message ??
+          (response.status === 404
+            ? 'Dashboard access gate is not deployed yet. Deploy dashboard-access-gate in Supabase.'
+            : 'Dashboard access check failed.'),
       };
     }
 

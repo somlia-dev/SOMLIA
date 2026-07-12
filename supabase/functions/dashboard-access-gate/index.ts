@@ -24,17 +24,15 @@ export default {
 
     const { data, error } = await adminClient
       .from('dashboard_invites')
-      .select('status')
-      .eq('email', email)
-      .eq('status', 'approved')
-      .maybeSingle();
+      .select('status, email')
+      .eq('status', 'approved');
 
     if (error) {
       console.error('dashboard-access-gate lookup failed', error);
       return json({ allowed: false, authenticated: true, message: 'Access check failed.' }, 500);
     }
 
-    const allowed = Boolean(data);
+    const allowed = (data ?? []).some((row) => normalizeEmail(row.email) === email);
 
     return json({
       allowed,
