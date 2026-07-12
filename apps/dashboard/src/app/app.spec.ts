@@ -3,6 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 
 import { App } from './app';
 import { routes } from './app.routes';
+import { provideAppEnv } from './core/config/app-env.token';
 
 describe('Dashboard shell', () => {
   let fixture: ComponentFixture<App>;
@@ -11,7 +12,7 @@ describe('Dashboard shell', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter(routes)],
+      providers: [provideRouter(routes), provideAppEnv()],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -19,16 +20,29 @@ describe('Dashboard shell', () => {
     fixture.detectChanges();
   });
 
-  it('redirects the dashboard app root to tasks', async () => {
+  it('redirects the dashboard app root to the auth page', async () => {
     await router.navigateByUrl('/');
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(router.url).toBe('/dashboard/tasks');
-    expect(pageText()).toContain('Tasks / Projects');
+    expect(router.url).toBe('/auth/login');
+    expect(pageText()).toContain('Sign in to SOMLIA');
+    expect(pageText()).toContain('Continue to shell preview');
   });
 
-  it('renders navigation for every approved dashboard area', () => {
+  it('renders a dedicated auth page before the shell', async () => {
+    await router.navigateByUrl('/auth/login');
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(pageText()).toContain('Dashboard Access');
+    expect(pageText()).toContain('Planned auth boundary');
+    expect(pageText()).toContain('Current access mode');
+  });
+
+  it('renders navigation for every approved dashboard area', async () => {
+    await navigateToDashboard();
+
     const root = fixture.nativeElement as HTMLElement;
     const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-testid="dashboard-nav"] a')).map(
       (link) => ({ label: link.textContent?.trim(), href: link.getAttribute('href') }),
@@ -43,7 +57,9 @@ describe('Dashboard shell', () => {
     ]);
   });
 
-  it('uses the SOMLIA logo in the dashboard brand instead of the placeholder mark', () => {
+  it('uses the SOMLIA logo in the dashboard brand instead of the placeholder mark', async () => {
+    await navigateToDashboard();
+
     const root = fixture.nativeElement as HTMLElement;
     const logo = root.querySelector<HTMLImageElement>('.dashboard-brand__logo');
 
@@ -84,5 +100,11 @@ describe('Dashboard shell', () => {
 
   function pageText() {
     return (fixture.nativeElement as HTMLElement).textContent ?? '';
+  }
+
+  async function navigateToDashboard() {
+    await router.navigateByUrl('/dashboard/tasks');
+    await fixture.whenStable();
+    fixture.detectChanges();
   }
 });
