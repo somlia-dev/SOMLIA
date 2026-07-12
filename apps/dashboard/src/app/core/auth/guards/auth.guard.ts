@@ -15,9 +15,14 @@ export const authGuard: CanActivateFn = async () => {
     return true;
   }
 
-  if (auth.isAuthenticated()) {
-    return true;
+  if (!auth.isAuthenticated()) {
+    return router.createUrlTree(['/auth/login']);
   }
 
-  return router.createUrlTree(['/auth/login']);
+  const allowed = await auth.ensureDashboardAccess();
+  if (!allowed) {
+    return router.createUrlTree(['/auth/not-invited']);
+  }
+
+  return true;
 };

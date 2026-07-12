@@ -81,6 +81,7 @@ DASHBOARD_AUTH_REDIRECT_URL=https://app.somlia.com/dashboard/tasks
 DASHBOARD_AUTH_CALLBACK_URL=https://app.somlia.com/auth/callback
 DASHBOARD_AUTH_ENABLED=true
 DASHBOARD_GOOGLE_ENABLED=true
+DASHBOARD_INVITE_GATE_ENABLED=true
 ```
 
 Never put secret keys, service-role keys, or webhook secrets into Angular or dashboard public env vars.
@@ -98,12 +99,64 @@ Platform config:
 - `supabase/config.toml` sets `verify_jwt = true` for `dashboard-session`
 - `loops-waitlist` remains `verify_jwt = false` because it uses a custom webhook secret header
 
+## Invite-only access gate (SOM-54 / SOM-65)
+
+Dashboard beta access is invite-only. Waitlist rows in `public."Whitelist"` do **not** grant dashboard access.
+
+### Database
+
+Apply `supabase/dashboard_invites.sql` in the Supabase SQL editor:
+
+```sql
+-- Example: approve one pilot user (store lowercase email)
+insert into public.dashboard_invites (email, status, notes)
+values ('pilot@example.com', 'approved', 'Founder-approved beta cohort')
+on conflict (email) do update
+set status = excluded.status,
+    notes = excluded.notes;
+```
+
+Table properties:
+- separate from `public."Whitelist"`
+- RLS enabled with no `anon` / `authenticated` policies
+- Edge Functions read via service role only
+
+### Edge Function: `dashboard-access-gate`
+
+Path: `supabase/functions/dashboard-access-gate/index.ts`
+
+Deploy:
+
+```bash
+supabase functions deploy dashboard-access-gate
+```
+
+Test:
+
+```bash
+curl -i "https://<project-ref>.supabase.co/functions/v1/dashboard-access-gate" \
+  -H "Authorization: Bearer <user-access-token>" \
+  -H "apikey: <publishable-key>"
+```
+
+Expected:
+- invited approved email -> `{ "allowed": true, "role": "Contributor" }`
+- non-invited email -> `{ "allowed": false }`
+
+### Angular behavior
+
+When `DASHBOARD_INVITE_GATE_ENABLED=true`:
+- after Google OAuth callback, dashboard calls `dashboard-access-gate`
+- approved users continue to `/dashboard/tasks`
+- non-invited users are signed out and routed to `/auth/not-invited`
+
 ## Deploy
 
 From repo root, after Supabase CLI is configured for the project:
 
 ```bash
 supabase functions deploy dashboard-session
+supabase functions deploy dashboard-access-gate
 ```
 
 Test with a valid user access token:
@@ -121,9 +174,7 @@ Expected result while dashboard data is still blocked:
 
 ## Still blocked before full production auth launch
 
-- private dashboard tables and RLS
-- invite-only account provisioning gate
+- private dashboard profile/proof tables and full RLS access matrices
 - privacy policy / notice updates for account data
 - staging Supabase isolation for private auth data
-
-Google OAuth can be enabled for the pilot shell once Supabase redirect URLs and Vercel env vars above are configured.
+- automatic invite provisioning from waitlist

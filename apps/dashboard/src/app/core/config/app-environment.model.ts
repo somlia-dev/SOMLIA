@@ -11,6 +11,7 @@ export interface AppEnvironment {
     enabled: boolean;
     redirectUrl: string;
     callbackUrl: string;
+    inviteGateEnabled: boolean;
   };
   google: {
     enabled: boolean;

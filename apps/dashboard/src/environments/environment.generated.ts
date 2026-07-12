@@ -8,6 +8,7 @@ export const generatedDashboardEnv = {
     enabled: false,
     redirectUrl: "http://localhost:4200/dashboard/tasks",
     callbackUrl: "http://localhost:4200/auth/callback",
+    inviteGateEnabled: false,
   },
   google: {
     enabled: false,

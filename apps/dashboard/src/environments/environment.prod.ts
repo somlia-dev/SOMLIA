@@ -14,6 +14,7 @@ export const environment: AppEnvironment = {
     enabled: generatedDashboardEnv.auth.enabled,
     redirectUrl: generatedDashboardEnv.auth.redirectUrl,
     callbackUrl: generatedDashboardEnv.auth.callbackUrl,
+    inviteGateEnabled: generatedDashboardEnv.auth.inviteGateEnabled,
   },
   google: {
     enabled: generatedDashboardEnv.google.enabled,

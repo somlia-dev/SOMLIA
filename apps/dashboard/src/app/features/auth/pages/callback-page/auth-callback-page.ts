@@ -53,16 +53,22 @@ export class AuthCallbackPage implements OnInit {
   async ngOnInit(): Promise<void> {
     const result = await this.auth.completeOAuthCallback();
 
-    if (result.ok) {
-      await this.router.navigateByUrl(this.auth.getPostLoginPath());
+    if (!result.ok) {
+      await this.router.navigate(['/auth/login'], {
+        queryParams: {
+          error: 'sign_in_failed',
+          reason: result.error ?? 'Session was not restored after Google sign-in.',
+        },
+      });
       return;
     }
 
-    await this.router.navigate(['/auth/login'], {
-      queryParams: {
-        error: 'sign_in_failed',
-        reason: result.error ?? 'Session was not restored after Google sign-in.',
-      },
-    });
+    const allowed = await this.auth.ensureDashboardAccess();
+    if (!allowed) {
+      await this.router.navigateByUrl('/auth/not-invited');
+      return;
+    }
+
+    await this.router.navigateByUrl(this.auth.getPostLoginPath());
   }
 }

@@ -6,3 +6,6 @@ verify_jwt = false
 
 [functions.dashboard-session]
 verify_jwt = true
+
+[functions.dashboard-access-gate]
+verify_jwt = true
