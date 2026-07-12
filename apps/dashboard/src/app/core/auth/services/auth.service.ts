@@ -3,21 +3,26 @@ import type { Session } from '@supabase/supabase-js';
 
 import { APP_ENV } from '../../config/app-env.token';
 import type { AuthSession } from '../models/auth-session.model';
+import { DashboardAccessService } from './dashboard-access.service';
 import { SupabaseBrowserClientService } from './supabase-browser-client.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly env = inject(APP_ENV);
   private readonly supabaseBrowser = inject(SupabaseBrowserClientService);
+  private readonly dashboardAccess = inject(DashboardAccessService);
   private readonly sessionState = signal<AuthSession | null>(null);
+  private readonly accessApprovedState = signal<boolean | null>(null);
   private readonly readyState = signal(false);
   private initPromise: Promise<void> | null = null;
 
   readonly session = this.sessionState.asReadonly();
   readonly isAuthenticated = computed(() => this.sessionState() !== null);
+  readonly isAccessApproved = computed(() => this.accessApprovedState() === true);
   readonly isSupabaseConfigured = computed(() => this.supabaseBrowser.isConfigured());
   readonly isReady = computed(() => this.readyState());
   readonly userEmail = computed(() => this.sessionState()?.user.email ?? null);
+  readonly dashboardRole = computed(() => (this.isAccessApproved() ? 'Contributor' : null));
 
   initialize(): Promise<void> {
     this.initPromise ??= this.bootstrapSession();
@@ -69,6 +74,39 @@ export class AuthService {
     }
 
     this.sessionState.set(null);
+    this.accessApprovedState.set(null);
+  }
+
+  async ensureDashboardAccess(): Promise<boolean> {
+    if (!this.dashboardAccess.isEnabled()) {
+      this.accessApprovedState.set(true);
+      return true;
+    }
+
+    if (!this.isAuthenticated()) {
+      this.accessApprovedState.set(null);
+      return false;
+    }
+
+    const session = this.sessionState();
+    if (!session) {
+      this.accessApprovedState.set(null);
+      return false;
+    }
+
+    if (this.accessApprovedState() === true) {
+      return true;
+    }
+
+    const result = await this.dashboardAccess.checkAccess(session.accessToken);
+    this.accessApprovedState.set(result.allowed);
+
+    if (!result.allowed) {
+      await this.signOut();
+      return false;
+    }
+
+    return true;
   }
 
   async waitForSessionFromRedirect(timeoutMs = 8000): Promise<boolean> {
@@ -128,8 +166,7 @@ export class AuthService {
     }
 
     const currentUrl = new URL(window.location.href);
-    const oauthError =
-      currentUrl.searchParams.get('error_description') ?? currentUrl.searchParams.get('error');
+    const oauthError = this.readOAuthCallbackError(currentUrl);
     if (oauthError) {
       return { ok: false, error: oauthError };
     }
@@ -174,6 +211,27 @@ export class AuthService {
     };
   }
 
+  private readOAuthCallbackError(currentUrl: URL): string | null {
+    const queryError =
+      currentUrl.searchParams.get('error_description') ?? currentUrl.searchParams.get('error');
+    if (queryError) {
+      return decodeURIComponent(queryError.replace(/\+/g, ' '));
+    }
+
+    const hash = currentUrl.hash.startsWith('#') ? currentUrl.hash.slice(1) : currentUrl.hash;
+    if (!hash) {
+      return null;
+    }
+
+    const hashParams = new URLSearchParams(hash);
+    const hashError = hashParams.get('error_description') ?? hashParams.get('error');
+    if (!hashError) {
+      return null;
+    }
+
+    return decodeURIComponent(hashError.replace(/\+/g, ' '));
+  }
+
   private clearOAuthParamsFromUrl(): void {
     if (typeof window === 'undefined') {
       return;
@@ -212,9 +270,11 @@ export class AuthService {
   private applySession(session: Session | null): void {
     if (!session?.user) {
       this.sessionState.set(null);
+      this.accessApprovedState.set(null);
       return;
     }
 
+    this.accessApprovedState.set(null);
     this.sessionState.set({
       user: {
         id: session.user.id,

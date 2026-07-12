@@ -15,5 +15,10 @@ export const guestGuard: CanActivateFn = async () => {
     return true;
   }
 
+  const allowed = await auth.ensureDashboardAccess();
+  if (!allowed) {
+    return router.createUrlTree(['/auth/not-invited']);
+  }
+
   return router.createUrlTree([auth.getPostLoginPath()]);
 };
