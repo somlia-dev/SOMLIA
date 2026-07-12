@@ -81,8 +81,12 @@ export class LoginPage {
 
   constructor() {
     const error = this.route.snapshot.queryParamMap.get('error');
+    const reason = this.route.snapshot.queryParamMap.get('reason');
     if (error === 'sign_in_failed') {
-      this.errorMessage.set('Google sign-in did not complete. Check Supabase redirect URLs and try again.');
+      this.errorMessage.set(
+        reason ??
+          'Google sign-in did not complete. Check Supabase Redirect URLs include https://app.somlia.com/auth/callback and try again.',
+      );
     }
   }
 

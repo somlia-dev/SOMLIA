@@ -51,15 +51,18 @@ export class AuthCallbackPage implements OnInit {
   private readonly router = inject(Router);
 
   async ngOnInit(): Promise<void> {
-    const hasSession = await this.auth.waitForSessionFromRedirect();
+    const result = await this.auth.completeOAuthCallback();
 
-    if (hasSession) {
+    if (result.ok) {
       await this.router.navigateByUrl(this.auth.getPostLoginPath());
       return;
     }
 
     await this.router.navigate(['/auth/login'], {
-      queryParams: { error: 'sign_in_failed' },
+      queryParams: {
+        error: 'sign_in_failed',
+        reason: result.error ?? 'Session was not restored after Google sign-in.',
+      },
     });
   }
 }

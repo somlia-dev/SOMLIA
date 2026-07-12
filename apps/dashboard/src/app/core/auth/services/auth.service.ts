@@ -114,6 +114,79 @@ export class AuthService {
     });
   }
 
+  async completeOAuthCallback(): Promise<{ ok: boolean; error?: string }> {
+    await this.initialize();
+
+    if (this.isAuthenticated()) {
+      this.clearOAuthParamsFromUrl();
+      return { ok: true };
+    }
+
+    const client = this.supabaseBrowser.getClient();
+    if (!client) {
+      return { ok: false, error: 'Supabase publishable key is not configured for the dashboard environment.' };
+    }
+
+    const currentUrl = new URL(window.location.href);
+    const oauthError =
+      currentUrl.searchParams.get('error_description') ?? currentUrl.searchParams.get('error');
+    if (oauthError) {
+      return { ok: false, error: oauthError };
+    }
+
+    const code = currentUrl.searchParams.get('code');
+    if (code) {
+      const { data, error } = await client.auth.exchangeCodeForSession(code);
+      if (error) {
+        console.error('OAuth code exchange failed', error);
+        return { ok: false, error: error.message };
+      }
+
+      this.applySession(data.session);
+      this.clearOAuthParamsFromUrl();
+      return { ok: true };
+    }
+
+    if (window.location.hash.includes('access_token=')) {
+      const { data, error } = await client.auth.getSession();
+      if (error) {
+        console.error('OAuth hash session restore failed', error);
+        return { ok: false, error: error.message };
+      }
+
+      this.applySession(data.session);
+      if (this.isAuthenticated()) {
+        this.clearOAuthParamsFromUrl();
+        return { ok: true };
+      }
+    }
+
+    const hasSession = await this.waitForSessionFromRedirect(3000);
+    if (hasSession) {
+      this.clearOAuthParamsFromUrl();
+      return { ok: true };
+    }
+
+    return {
+      ok: false,
+      error:
+        'Session was not restored after Google sign-in. Confirm Supabase Redirect URLs include the dashboard callback URL.',
+    };
+  }
+
+  private clearOAuthParamsFromUrl(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const currentUrl = new URL(window.location.href);
+    if (!currentUrl.search && !currentUrl.hash.includes('access_token=')) {
+      return;
+    }
+
+    window.history.replaceState(window.history.state, '', currentUrl.pathname);
+  }
+
   private async bootstrapSession(): Promise<void> {
     const client = this.supabaseBrowser.getClient();
 
