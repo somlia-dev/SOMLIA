@@ -88,11 +88,17 @@ export class AuthService {
       return false;
     }
 
+    const session = this.sessionState();
+    if (!session) {
+      this.accessApprovedState.set(null);
+      return false;
+    }
+
     if (this.accessApprovedState() === true) {
       return true;
     }
 
-    const result = await this.dashboardAccess.checkCurrentUserAccess();
+    const result = await this.dashboardAccess.checkAccess(session.accessToken);
     this.accessApprovedState.set(result.allowed);
 
     if (!result.allowed) {
@@ -160,8 +166,7 @@ export class AuthService {
     }
 
     const currentUrl = new URL(window.location.href);
-    const oauthError =
-      currentUrl.searchParams.get('error_description') ?? currentUrl.searchParams.get('error');
+    const oauthError = this.readOAuthCallbackError(currentUrl);
     if (oauthError) {
       return { ok: false, error: oauthError };
     }
@@ -204,6 +209,27 @@ export class AuthService {
       error:
         'Session was not restored after Google sign-in. Confirm Supabase Redirect URLs include the dashboard callback URL.',
     };
+  }
+
+  private readOAuthCallbackError(currentUrl: URL): string | null {
+    const queryError =
+      currentUrl.searchParams.get('error_description') ?? currentUrl.searchParams.get('error');
+    if (queryError) {
+      return decodeURIComponent(queryError.replace(/\+/g, ' '));
+    }
+
+    const hash = currentUrl.hash.startsWith('#') ? currentUrl.hash.slice(1) : currentUrl.hash;
+    if (!hash) {
+      return null;
+    }
+
+    const hashParams = new URLSearchParams(hash);
+    const hashError = hashParams.get('error_description') ?? hashParams.get('error');
+    if (!hashError) {
+      return null;
+    }
+
+    return decodeURIComponent(hashError.replace(/\+/g, ' '));
   }
 
   private clearOAuthParamsFromUrl(): void {
