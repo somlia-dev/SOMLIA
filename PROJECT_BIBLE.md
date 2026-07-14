@@ -108,6 +108,8 @@ Layered audience:
 - Secondary learner audiences: career changers and early-career builders.
 - Company-side discovery audience: startup operators and founders with small useful tasks.
 
+Execution sequencing changed on 2026-07-14: new marketing campaigns, founder validation sprints, and direct user-validation tasks are paused until the Dashboard MVP is built far enough to support a meaningful product demonstration. Completed research, drafts, subreddit/community assets, and positioning decisions remain available for later reuse; they are not current execution work.
+
 ## Company Brief Definition
 
 A company brief is a real-world project prompt from a company, scoped tightly enough for emerging talent to solve and concrete enough to become proof of skill.
@@ -243,9 +245,19 @@ Vercel Analytics is loaded lazily from `src/main.tsx` after idle time or timeout
 
 Tests cover routing, waitlist form success and error states, waitlist helper normalization, empty-message handling, duplicate email errors, and missing Supabase environment configuration.
 
+The separate Angular dashboard is implemented at `apps/dashboard` and deployed through the dashboard Vercel project on `app.somlia.com`. Its current implemented surface includes:
+
+- SOMLIA-branded responsive shell and the approved Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings placeholder routes.
+- Angular `core`, `features`, and `shared` boundaries with public environment generation from documented `DASHBOARD_*` values.
+- Supabase Auth Google OAuth login, explicit PKCE callback exchange at `/auth/callback`, session restore, route guards, and sign-out. SOM-64 records successful production verification of sign-in, callback, session restore, and sign-out.
+- A merged invite-only access-gate implementation using `public.dashboard_invites` and the authenticated `dashboard-access-gate` Edge Function. The invite table is separate from `public."Whitelist"`; waitlist signup does not grant dashboard access.
+- An authenticated `dashboard-session` Edge Function that returns minimal identity metadata and establishes a server-side boundary without querying private dashboard product data.
+
+The invite-gate code is merged, but its production SQL application, approved-email provisioning, Edge Function deployment, Vercel feature flag, and invited/non-invited production verification have not been independently confirmed in this documentation audit. Do not describe the production gate as active until that checklist is verified. Supabase Auth may create an `auth.users` record after a successful Google sign-in even when the gate later denies dashboard entry.
+
 Not implemented yet:
 
-- User accounts.
+- Dashboard account/profile records beyond Supabase Auth identity.
 - Live proof profiles.
 - Project submission and review workflow.
 - Company dashboard or company marketplace.
@@ -308,15 +320,15 @@ SOMLIA is being built so trusted proof can later support access to company and p
 
 Deferred capabilities require later Product, Security, Legal, and Engineering approval before implementation or current-product claims.
 
-SOM-52, SOM-53, SOM-54, SOM-55, SOM-56, and SOM-57 are complete as Dashboard MVP planning inputs. They define product surface, architecture, auth/security, Project Proof data model, Feedback / Review workflow, and version policy, but they do not authorize real dashboard implementation beyond separately approved, no-private-data shell/mock work.
+SOM-52 through SOM-57 are complete as Dashboard MVP planning inputs. SOM-58, SOM-60, SOM-61, SOM-62, SOM-63, SOM-64, and SOM-65 subsequently implemented and operationalized the shell, dashboard Vercel surface, brand alignment, Angular structure/environment boundary, auth architecture, Google OAuth, and invite-gate code through separately tracked issues. These changes do not authorize private Project Proof, feedback, learning, profile, marketplace, payment, or company-dashboard data implementation.
 
 The dashboard and future monorepo work should use Node.js `24.18.0` locally and in CI, with the root `package.json` allowing Node `>=24.15.0 <25`. The Angular dashboard target is Angular `22.0.x`, with Angular and its TypeScript requirements isolated to the future dashboard app/workspace at `apps/dashboard`. This Node policy also applies to the existing landing and waitlist app for test/build verification, but it does not change the landing app's React/Vite framework or waitlist behavior.
 
 Dashboard technical architecture:
 
-- SOMLIA should evolve this GitHub repository into a small npm-workspace monorepo when dashboard scaffolding begins.
-- Keep the existing React/Vite landing and waitlist app in the repo root for the first dashboard scaffold so `somlia.com` remains stable.
-- Add the Angular dashboard as a separate app at `apps/dashboard`.
+- SOMLIA uses a small npm-workspace monorepo.
+- The existing React/Vite landing and waitlist app stays in the repo root so `somlia.com` remains stable.
+- The Angular dashboard is a separate app at `apps/dashboard`.
 - Keep `supabase/` at repo root as the authoritative backend boundary for migrations, Edge Functions, generated types, and backend deployment notes.
 - Add framework-neutral shared packages only if needed, such as `packages/brand` or `packages/design-tokens`.
 - Do not import React landing components, `src/App.tsx`, landing CSS, or landing-only Tailwind patterns into Angular.
@@ -330,24 +342,24 @@ Rejected SOM-53 architecture alternatives:
 Dashboard routing and deployment plan:
 
 - Production dashboard host: `app.somlia.com`.
-- Dashboard app `/` should redirect to `/dashboard/tasks`.
+- Dashboard app `/` currently redirects to `/auth/login`; authenticated and invited users continue to `/dashboard/tasks`.
 - Internal dashboard routes remain `/dashboard/tasks`, `/dashboard/tasks/:taskId`, `/dashboard/learning`, `/dashboard/feedback`, `/dashboard/proof`, and `/dashboard/settings`.
 - Dashboard SPA fallback and rewrites belong inside the dashboard app/project, not the landing `vercel.json`.
 - Keep the landing Vercel project on `somlia.com` with root directory `.`.
-- Create a separate dashboard Vercel project, likely `somlia-dashboard`, with root directory `apps/dashboard` when scaffold/deployment work begins.
+- The separate dashboard Vercel project is rooted at `apps/dashboard` and serves `app.somlia.com`.
 - Enable dashboard preview deployments for dashboard PRs.
 - Production dashboard deploys only from merged `main` after PR review and required checks pass.
 - Dashboard env vars must be scoped to the dashboard Vercel project and separated by Preview and Production.
 - Do not reuse landing waitlist env vars for dashboard without explicit approval.
 - Extra previews from two Vercel projects in one repo are acceptable initially; configure ignored-build settings later if preview noise becomes an issue.
 
-Dashboard CI and command plan after scaffold:
+Dashboard CI and command plan:
 
 - Extend existing GitHub Actions rather than creating an unrelated release path.
-- Split future checks into `Landing test and build` and `Dashboard test and build`.
-- Use npm workspaces and a shared lockfile if the scaffold adopts npm workspaces.
+- CI checks are split into `Landing test and build` and `Dashboard test and build`.
+- npm workspaces use a shared root lockfile.
 - Eventually require both landing and dashboard checks before merge to `main`.
-- Future root scripts after scaffold: `dev:landing`, `test:landing`, `build:landing`, `dev:dashboard`, `test:dashboard`, `build:dashboard`, and `lint:dashboard`.
+- Root scripts include `dev:landing`, `test:landing`, `build:landing`, `dev:dashboard`, `test:dashboard`, `build:dashboard`, `test:all`, and `build:all`.
 
 Dashboard backend and environment guardrails:
 
@@ -361,7 +373,7 @@ Dashboard backend and environment guardrails:
 
 Dashboard implementation guardrails:
 
-- A non-data or mock Angular dashboard shell can be scaffolded only after a dedicated implementation issue is created and accepted.
+- The current dashboard remains an authenticated shell with mock/no-private-product-data feature pages until dedicated implementation issues satisfy the gates below.
 - No real Project Proof schema, storage, dashboard data, or evidence implementation until Project Proof access matrix, RLS tests, state machine/transition authority, storage/evidence safety requirements, and privacy/legal lifecycle requirements are accepted.
 - No real Feedback / Review implementation until access matrix, RLS/server-side transition plan, moderation/reporting model, reviewer conduct/conflict policy, audit logging, retention/deletion/export handling, privacy lifecycle, and Legal blockers are accepted.
 - No upload, evidence, or storage implementation until Security and Legal requirements are defined.
@@ -449,8 +461,9 @@ Project Proof, Feedback, Upload, and AI blockers:
 
 SOM-54 GO/NO-GO:
 
-- GO now only for a non-authenticated, no-private-data Angular dashboard shell or mock prototype after a dedicated implementation issue is created and accepted.
-- NO-GO for real auth, private dashboard tables, storage/uploads, feedback writes, Project Proof records, admin/support read tooling, production secrets/private Preview data, public proof profiles, marketplace, payments, verified labels, numeric scores, native chat/voice, and company dashboard flows.
+- Implemented/accepted foundation: Angular shell, public environment configuration, Google OAuth/session flow, minimal authenticated server session check, and invite-gate code under SOM-58 and SOM-62 through SOM-65.
+- GO only for maintenance and verification of that approved auth foundation plus mock/no-private-product-data dashboard work covered by dedicated issues.
+- NO-GO without further accepted implementation issues for private dashboard tables, account/profile records, storage/uploads, feedback writes, Project Proof records, admin/support read tooling, browser secrets/private Preview data, public proof profiles, marketplace, payments, verified labels, numeric scores, native chat/voice, and company dashboard flows.
 
 ## Dashboard Project Proof Data Model
 
@@ -641,11 +654,12 @@ Motion should stay subtle and must respect `prefers-reduced-motion`. Performance
 Core stack:
 
 - Public landing framework: React `18.3.1` + Vite `6.0.5` + TypeScript `5.7.2`.
-- Dashboard MVP framework: Angular, approved as a separate product surface; no Angular dashboard code has been scaffolded in this repository yet.
-- Repo architecture target: small npm-workspace monorepo with the landing app staying at repo root for the first dashboard scaffold, the Angular dashboard at `apps/dashboard`, optional framework-neutral shared packages under `packages/*`, and root `supabase/` as the canonical backend boundary.
+- Dashboard MVP framework: Angular `22.0.x` in the implemented `apps/dashboard` workspace, organized into `core`, `features`, and `shared` boundaries.
+- Repo architecture: small npm-workspace monorepo with the landing app at repo root, Angular dashboard at `apps/dashboard`, optional framework-neutral shared packages under `packages/*`, and root `supabase/` as the canonical backend boundary.
 - Runtime/tooling policy: Node.js `24.18.0` pinned in `.nvmrc` and `.node-version`, with `package.json` requiring Node `>=24.15.0 <25`; GitHub Actions CI reads `.nvmrc`.
-- Dashboard version target: Angular `22.0.x` after scaffold approval, with Angular-specific TypeScript and RxJS dependencies isolated to the dashboard app/workspace at `apps/dashboard`.
-- Deployment target: keep landing on the existing Vercel project for `somlia.com` with root directory `.`, and create a separate dashboard Vercel project, likely `somlia-dashboard`, rooted at `apps/dashboard` and served from `app.somlia.com` when scaffold/deployment work begins.
+- Dashboard version: Angular `22.0.x`, with Angular-specific TypeScript and RxJS dependencies isolated to `apps/dashboard`.
+- Deployment: landing uses the Vercel project for `somlia.com` with root directory `.`; dashboard uses a separate Vercel project rooted at `apps/dashboard` and served from `app.somlia.com`.
+- Dashboard authentication: Supabase Auth with Google OAuth, explicit PKCE callback exchange, browser session restore/guards, and a server-side invite check against `public.dashboard_invites`.
 - Styling: Tailwind CSS `3.4.17` plus global CSS in `src/styles.css`.
 - Icons: `lucide-react`.
 - Analytics: `@vercel/analytics/react`, dynamically loaded in `src/main.tsx`.
@@ -663,6 +677,13 @@ Key files:
 - `src/lib/waitlist.test.ts` - Supabase submission tests.
 - `src/styles.css` - Tailwind directives, global styles, shared `.field` class, and animations.
 - `src/vite-env.d.ts` - typed Vite environment variables.
+- `apps/dashboard/src/app` - Angular dashboard shell, auth, feature routes, shared UI, and configuration boundaries.
+- `apps/dashboard/scripts/generate-env.mjs` - generates public dashboard environment config from `DASHBOARD_*` values.
+- `apps/dashboard/docs/auth-architecture.md` - dashboard identity and server-boundary architecture.
+- `supabase/dashboard-auth.md` - dashboard OAuth, redirect, session, invite-gate, and deployment guide.
+- `supabase/dashboard_invites.sql` - manual dashboard invite list, separate from `public."Whitelist"`.
+- `supabase/functions/dashboard-session/index.ts` - authenticated minimal session check.
+- `supabase/functions/dashboard-access-gate/index.ts` - authenticated invite-only access check.
 - `supabase/waitlist.sql` - `public."Whitelist"` schema, constraints, grants, and RLS insert policy.
 - `supabase/functions/loops-waitlist/index.ts` - Edge Function for Supabase DB webhook to Loops.
 - `supabase/loops-waitlist.md` - Loops and Supabase webhook setup instructions.
@@ -679,6 +700,11 @@ npm run preview
 npm test
 npm run test:watch
 npm run build
+npm run dev:dashboard
+npm run test:dashboard
+npm run build:dashboard
+npm run test:all
+npm run build:all
 ```
 
 For frontend changes, run `npm test` and `npm run build`. For visual changes, also verify desktop and mobile browser views.
@@ -991,6 +1017,9 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-07-14: Founder paused new marketing campaigns and user-validation execution until the Dashboard MVP is built far enough to demonstrate meaningfully. Existing completed marketing research, community setup, drafts, and positioning decisions remain retained for later reuse; canceled Linear marketing/validation tickets are not current backlog work.
+- 2026-07-14: Operations reconciled task handling after founder/CTO and agent work diverged from the documented state. Founder, CTO, other-developer, and coding-agent changes follow the same named Linear owner, issue branch, PR, review, verification, deployment, and docs-closeout workflow. Merged `main` is implementation truth, Linear is workflow truth, and external production configuration must be verified separately from a merge.
+- 2026-07-12: SOM-62 through SOM-65 established the implemented Dashboard MVP auth foundation. Angular is organized under `core`, `features`, and `shared`; Supabase Auth owns Google identity/session handling; Angular performs the explicit callback exchange and guards dashboard routes; privileged checks stay server-side; and the invite gate uses `public.dashboard_invites`, separate from `public."Whitelist"`. Google OAuth was verified on `app.somlia.com`. Invite-gate code is merged, but production SQL, function, flag, cohort, and invited/non-invited verification remain an explicit deployment checklist until independently confirmed.
 - 2026-07-01: Operations clarified SOMLIA cross-chat ownership rules. Operations/Admin routes, tracks, verifies, and coordinates docs, release, deployment, access, and process work; Product owns product decisions and scope; Frontend, Backend, Security/Privacy, and Marketing execute within their owner lanes. When an implementation-ready issue has a dedicated owner chat, routing or docs chats should not begin implementation unless explicitly assigned or the owner chat is unavailable, and any exception or accidental out-of-lane work must be reported, handed off, and recorded in Linear.
 - 2026-06-28: Product, Security/Privacy, and Backend defined the Dashboard MVP Feedback / Review workflow. Feedback starts as assigned/request-based structured feedback tied to a specific submitted Project Proof version, not open commenting or feedback on a contributor's identity. Internal Reviewer/Admin feedback is the default formal-review path; assigned Contributor peer feedback is allowed as non-formal by default; company reviewer participation and Company-confirmed outcomes are deferred except controlled future pilots with authority, consent, and approval. Feedback can request changes, drive revision/resubmission, and support private proof-history labels such as Demonstrated, Not yet reviewed, Reviewed, Feedback received, Changes requested, and Revised after feedback. Contributors cannot self-award Reviewed or Company-confirmed. Numeric scores/reputation, standalone Verified labels, public reputation, public proof/review pages, marketplace/payment behavior, AI review authority, native chat/voice, open commenting, and full moderation tooling remain deferred.
 - 2026-06-28: Product, Backend, and Security/Privacy defined the Dashboard MVP conceptual data model around Project Proof. The core model is Contributor -> Task/Project/Challenge/Brief source -> Project Proof -> Submission/Version/Revision -> Deliverables/Evidence placeholders -> Feedback/Review placeholders -> private Proof Card and private Profile / Proof history. Project Proof remains the central private evidence unit; proof cards are condensed displays, and Profile / Proof is a private aggregation of Project Proofs, demonstrated skills, feedback references, revisions, learning connections, and provenance labels. Learning completion is not proof by itself; Feedback / Review workflow details are handled by SOM-56. Public profiles/share links, standalone Verified labels, numeric scores/reputation/opportunity-readiness, marketplace/payment data, company dashboard data, uploads/storage, and real schema/RLS/storage implementation remain deferred pending approved access matrices, safety requirements, privacy lifecycle, and Legal/Product decisions.

@@ -44,7 +44,9 @@ Current-stage guardrails:
 
 ## 3. Technical Stack
 
-- Frontend: Vite, React 18, TypeScript, Tailwind CSS utilities.
+- Public landing: Vite, React 18, TypeScript, Tailwind CSS utilities.
+- Dashboard: Angular 22 under `apps/dashboard`, with `core`, `features`, and
+  `shared` boundaries.
 - Icons: `lucide-react`, with small local icons only when the library has no
   suitable icon.
 - Testing: Vitest, Testing Library, jsdom.
@@ -54,7 +56,7 @@ Current-stage guardrails:
 - Email automation: Loops.
 - Analytics: Vercel Analytics, loaded lazily.
 - Work tracking: Linear team `SOMLIA`.
-- Source control: private GitHub repository `aerostepan/LERN`.
+- Source control: public GitHub repository `somlia-dev/SOMLIA`.
 
 ## 4. Repository Structure
 
@@ -74,12 +76,18 @@ Current-stage guardrails:
 |   |   `-- waitlist.test.ts     Waitlist helper tests
 |   `-- assets/                  Active and legacy local brand assets
 |-- public/                      Favicon and Open Graph image
+|-- apps/dashboard/              Angular Dashboard MVP workspace
+|   |-- src/app/core/            Auth, config, navigation, dashboard shell
+|   |-- src/app/features/        Auth, tasks, learning, feedback, proof, settings
+|   |-- src/app/shared/          Angular-local shared UI and types
+|   |-- scripts/generate-env.mjs Public DASHBOARD_* config generation
+|   `-- docs/auth-architecture.md Auth and trusted-backend boundary
 |-- supabase/
 |   |-- waitlist.sql             Table, constraints, grants, and RLS
+|   |-- dashboard_invites.sql    Manual invite-only dashboard access list
+|   |-- dashboard-auth.md        OAuth/session/invite-gate setup
 |   |-- loops-waitlist.md        Webhook and Loops setup guide
-|   `-- functions/
-|       `-- loops-waitlist/
-|           `-- index.ts         Authenticated DB-webhook Edge Function
+|   `-- functions/               Waitlist, session, and access-gate functions
 |-- .github/workflows/ci.yml     GitHub test/build check
 |-- vercel.json                  SPA route rewrites
 |-- package.json                 Scripts and dependencies
@@ -90,6 +98,11 @@ Routing is intentionally simple. `src/App.tsx` reads
 `window.location.pathname`. Known routes are `/`, `/roadmap`, and
 `/privacy-policy`. New routes require both application handling and a matching
 Vercel rewrite.
+
+The Angular dashboard uses Angular Router. Public auth routes include
+`/auth/login`, `/auth/callback`, and `/auth/not-invited`; authenticated feature
+routes live under `/dashboard/*`. Dashboard rewrites belong to
+`apps/dashboard/vercel.json`, not the landing `vercel.json`.
 
 ## 5. Data And Integration Flow
 
@@ -134,6 +147,20 @@ VITE_SUPABASE_ANON_KEY=
 VITE_SUPABASE_WAITLIST_TABLE=Whitelist
 ```
 
+Dashboard browser variables are documented in `apps/dashboard/.env.example` and
+must remain public-only:
+
+```text
+DASHBOARD_APP_URL=
+DASHBOARD_SUPABASE_URL=
+DASHBOARD_SUPABASE_PUBLISHABLE_KEY=
+DASHBOARD_AUTH_REDIRECT_URL=
+DASHBOARD_AUTH_CALLBACK_URL=
+DASHBOARD_AUTH_ENABLED=
+DASHBOARD_GOOGLE_ENABLED=
+DASHBOARD_INVITE_GATE_ENABLED=
+```
+
 Server-only Supabase Edge Function secrets:
 
 ```text
@@ -157,15 +184,16 @@ configuration to an external model outside the approved workspace.
 Requirements:
 
 - Git.
-- Node.js 20 recommended, matching CI.
+- Node.js `24.18.0`, matching `.nvmrc`, `.node-version`, and CI.
 - npm.
-- Individual access to the private GitHub repository.
+- Individual GitHub access with the permissions required by the assigned role.
 
 Setup:
 
 ```bash
-git clone https://github.com/aerostepan/LERN.git
-cd LERN
+git clone https://github.com/somlia-dev/SOMLIA.git
+cd SOMLIA
+nvm use
 npm ci
 cp .env.example .env.local
 npm run dev
@@ -182,6 +210,11 @@ npm test             # Run the Vitest suite once
 npm run test:watch   # Run Vitest in watch mode
 npm run build        # TypeScript build plus Vite production build
 npm run preview      # Preview the production build locally
+npm run dev:dashboard
+npm run test:dashboard
+npm run build:dashboard
+npm run test:all
+npm run build:all
 ```
 
 ## 8. Work And Release Workflow
@@ -413,6 +446,9 @@ execution roadmap, Linear is operational truth, and GitHub is code/review truth.
 
 Rules:
 - Implement only approved Linear scope. Do not make product decisions.
+- Refresh `origin/main`, the assigned Linear issue, and relevant owner-chat
+  report before planning. Treat merged main as implementation truth, Linear as
+  workflow truth, and approved Product/Operations decisions as scope truth.
 - If scope or acceptance criteria are unclear, stop and report the exact
   question to Operations/Admin and Product.
 - Never expose or request secrets in source files, issues, PRs, logs, or chat.
@@ -442,6 +478,9 @@ Rules:
 - Do not revert unrelated working-tree changes.
 - Before editing, run git status and identify existing changes. Treat changes you
   did not create as another person's valid work; preserve them and report overlap.
+- Treat founder, CTO, developer, and agent changes identically for workflow:
+  named Linear owner, issue branch, PR, review, verification, deployment check,
+  and docs closeout. Their authorship is not permission to bypass those gates.
 - Never use destructive reset/checkout/restore or force-push to discard another
   developer's work. Never silently include unrelated changes in the issue PR.
 - Use one branch: codex/som-XX-short-title. Never push directly to main.
@@ -454,6 +493,9 @@ Rules:
   verification, risks, and the Linear link.
 - Move Linear to In Review only when the PR is ready. Done means merged or
   explicitly accepted.
+- Do not infer external deployment/configuration success from a merged PR. Verify
+  Vercel, Supabase, DNS, processor, or other external state separately and record
+  any unverified checklist as a blocker.
 - You may prepare commits, push the issue branch, open/update the PR, and prepare
   Linear updates. You may not merge the PR until your human explicitly authorizes
   that exact merge after reviewing the final diff, CI, and Preview.
