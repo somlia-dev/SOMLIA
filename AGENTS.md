@@ -10,11 +10,13 @@ The app is a Vite + React + TypeScript single-page site with Tailwind CSS utilit
 
 The project directory is named `LERN`, and there are a few older LERN/LERNI assets still present, but the active product/brand in the app is SOMLIA.
 
-The SOMLIA MVP dashboard has been approved as a separate Angular product surface. The existing React/Vite landing and waitlist site remains the public marketing surface in the repo root for the first dashboard scaffold. Future Angular dashboard work belongs in `apps/dashboard` inside a small npm-workspace monorepo. Do not move the landing app to `apps/landing`, mix Angular into the root React/Vite app, import React landing components, `src/App.tsx`, landing CSS, or landing-only Tailwind patterns into Angular, scaffold dashboard code, or change the landing-site implementation contract unless there is an approved implementation issue and architecture handoff.
+The SOMLIA MVP dashboard is a separate Angular product surface under `apps/dashboard` inside the npm-workspace monorepo. The existing React/Vite landing and waitlist site remains the public marketing surface in the repo root. Do not move the landing app to `apps/landing`, mix Angular into the root React/Vite app, import React landing components, `src/App.tsx`, landing CSS, or landing-only Tailwind patterns into Angular, or change the landing-site implementation contract unless there is an approved implementation issue and architecture handoff.
 
-The repository is pinned to Node.js `24.18.0` through `.nvmrc` and `.node-version`, with `package.json` accepting Node `>=24.15.0 <25`. Use that Node line for local development, CI, and Vercel unless Engineering approves a later runtime change. The future Angular dashboard target is Angular `22.0.x`; keep Angular dependencies, Angular TypeScript constraints, dashboard routes, dashboard env vars, and dashboard deployment settings isolated to `apps/dashboard` once scaffolded. Keep `supabase/` at repo root as the backend boundary, and add shared packages such as `packages/brand` or `packages/design-tokens` only if they are framework-neutral.
+The repository is pinned to Node.js `24.18.0` through `.nvmrc` and `.node-version`, with `package.json` accepting Node `>=24.15.0 <25`. Use that Node line for local development, CI, and Vercel unless Engineering approves a later runtime change. The dashboard uses Angular `22.0.x`; keep Angular dependencies, Angular TypeScript constraints, dashboard routes, dashboard env vars, and dashboard deployment settings isolated to `apps/dashboard`. Keep `supabase/` at repo root as the backend boundary, and add shared packages such as `packages/brand` or `packages/design-tokens` only if they are framework-neutral.
 
-Dashboard implementation is currently GO only for a non-authenticated, no-private-data Angular shell/mock after a dedicated implementation issue is accepted. Do not implement real dashboard auth, Supabase schema, RLS policies, private dashboard tables, storage/uploads, feedback writes, Project Proof records, admin/support read tooling, production secrets/private Preview data, public proof profiles, marketplace, payments, verified labels, numeric scores, native chat/voice, or company dashboard flows without approved implementation issues and the relevant SOM-54/SOM-55/SOM-56-backed access matrices, data model, privacy/security requirements, and workflow decisions. Dashboard account/profile/proof/feedback data must remain separate from `public."Whitelist"`; never convert waitlist rows into accounts silently or expose waitlist records to dashboard users.
+The dashboard shell, SOMLIA brand alignment, `core`/`features`/`shared` structure, public environment generation, Supabase Auth Google OAuth flow, auth callback, session guard, and invite-only access-gate code are implemented. Google OAuth was verified on `app.somlia.com`. The invite gate is based on `public.dashboard_invites`, which is separate from `public."Whitelist"`; merged code is not proof that its SQL, Edge Function, Vercel flag, and production cohort configuration are active, so verify those surfaces before claiming the gate is live. A successful Google sign-in may create a Supabase `auth.users` record before the invite gate denies dashboard entry.
+
+Do not expand auth providers, roles, session policy, account lifecycle, or invite provisioning without an approved issue and Backend/Security review. Do not implement private dashboard tables, Project Proof persistence, storage/uploads, feedback writes, admin/support read tooling, production secrets in browser config, public proof profiles, marketplace, payments, verified labels, numeric scores, native chat/voice, or company dashboard flows without approved implementation issues and the relevant SOM-54/SOM-55/SOM-56-backed access matrices, data model, privacy/security requirements, and workflow decisions. Dashboard account/profile/proof/feedback data must remain separate from `public."Whitelist"`; never convert waitlist rows into accounts silently or expose waitlist records to dashboard users.
 
 For Project Proof specifically, SOM-55 defines a conceptual model only. Do not implement real Project Proof schema, storage, evidence handling, feedback references, proof-card persistence, proof-history aggregation, or dashboard data writes until there is an accepted access matrix, RLS test plan, state machine/transition authority, generated type strategy, storage/evidence safety plan, privacy/legal lifecycle, and dedicated implementation issue. Do not model Project Proof as one giant mutable record; future schema work must separate source context, assignment/enrollment, Project Proof root, immutable submitted versions/revisions, deliverables, provenance labels, evidence placeholders, feedback references, proof-card read model, proof-history aggregation, and audit/moderation records.
 
@@ -28,6 +30,10 @@ For Feedback / Review specifically, SOM-56 defines a planning workflow only. Do 
 - `npm run preview` - preview the production build locally.
 - `npm test` - run the Vitest suite once.
 - `npm run test:watch` - run Vitest in watch mode.
+- `npm run dev:dashboard` - generate public dashboard env config and start Angular locally.
+- `npm run test:dashboard` - run the Angular dashboard tests once.
+- `npm run build:dashboard` - generate public dashboard env config and build Angular.
+- `npm run test:all` / `npm run build:all` - verify both product surfaces.
 
 For frontend changes, run `npm test` and `npm run build` at minimum. For visual or interaction changes, also open the app in a browser and check the affected viewport(s).
 
@@ -37,6 +43,13 @@ For frontend changes, run `npm test` and `npm run build` at minimum. For visual 
 - `src/main.tsx` - React entry point and deferred Vercel Analytics loading.
 - `src/lib/waitlist.ts` - client-side Supabase waitlist insert helper.
 - `src/styles.css` - Tailwind directives, global styles, shared `.field` class, and animations.
+- `apps/dashboard/src/app` - Angular dashboard organized under `core`, `features`, and `shared`.
+- `apps/dashboard/scripts/generate-env.mjs` - generates public Angular environment config from documented `DASHBOARD_*` values.
+- `apps/dashboard/docs/auth-architecture.md` - dashboard auth/backend boundary and remaining constraints.
+- `supabase/dashboard-auth.md` - Google OAuth, session, invite-gate, and deployment setup.
+- `supabase/dashboard_invites.sql` - manual invite-only dashboard access list, separate from the waitlist.
+- `supabase/functions/dashboard-session/index.ts` - authenticated minimal session-check boundary.
+- `supabase/functions/dashboard-access-gate/index.ts` - authenticated invite-list access check.
 - `supabase/waitlist.sql` - `public."Whitelist"` schema, constraints, grants, and RLS insert policy.
 - `supabase/functions/loops-waitlist/index.ts` - Deno Edge Function that receives Supabase DB webhooks and sends Loops events.
 - `supabase/loops-waitlist.md` - setup/deploy instructions for Loops and the Supabase database webhook.
@@ -56,7 +69,10 @@ For frontend changes, run `npm test` and `npm run build` at minimum. For visual 
 - When another SOMLIA chat reports a decision, completed work, blocker, or workflow change that may require updating `PROJECT_BIBLE.md`, `ROADMAP.md`, or `AGENTS.md`, coordinate with Operations/Admin and the relevant source chat using Codex thread messaging.
 - If Codex thread messaging tools are not visible, explicitly say thread messaging is unavailable and provide a ready-to-send report for Operations/Admin.
 - Keep Linear as the operational source of truth for actionable work, handoffs, blockers, and implementation status.
+- Before routing or documenting recent work, refresh `origin/main`, inspect the relevant PR/commits, and read the current Linear issue and owner-chat report. Treat merged `main` as implementation truth, Linear as workflow truth, and approved Product/Operations decisions as scope truth. An open branch, unmerged PR, mock, or proposal is not shipped behavior.
+- Changes made by the founder, CTO, another developer, or their coding agent are valid concurrent work. Preserve them, never silently revert or absorb them, and route any overlap through the named Linear owner. Founder/CTO authorship does not bypass the normal issue, branch, PR, review, verification, deployment, and docs-closeout workflow.
 - Move issues through Linear from the owner chat whenever possible: `In Progress` when that owner starts, `In Review` when implementation or review output is ready for verification, and `Done` only after the required acceptance, merge, or docs follow-up is complete. Operations/Admin may update Linear for coordination, verification, merge follow-up, and docs maintenance, but should not imply owner-lane implementation was completed by Operations/Admin unless it actually was.
+- A merged PR is not by itself evidence that external configuration or production behavior is complete. Record merge status separately from Vercel/Supabase/DNS/processor activation and production verification; leave explicit follow-up blockers when those checks are missing.
 - Do not make product strategy decisions by editing docs. If a requested docs update requires product judgment, send it back to Operations/Admin and Product for clarification or approval.
 - When important decisions are made elsewhere, suggest or apply the correct Decision Log, roadmap, or agent-instruction update only after the decision is approved.
 

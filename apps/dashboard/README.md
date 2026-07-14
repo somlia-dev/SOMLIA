@@ -1,59 +1,54 @@
-# Dashboard
+# SOMLIA Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.4.
+Angular `22.0.x` learner/contributor dashboard served separately from the React/Vite landing site. The dashboard is rooted at `apps/dashboard`, uses the repository's shared npm lockfile, and is deployed from the dashboard Vercel project to `app.somlia.com`.
 
-## Development server
+## Current Surface
 
-To start a local development server, run:
+- SOMLIA-branded shell and responsive navigation.
+- Routes for Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings.
+- Supabase Auth Google OAuth at `/auth/login`.
+- Explicit PKCE callback exchange at `/auth/callback`.
+- Session restore, auth guards, and sign-out.
+- Optional invite-only dashboard entry check with `/auth/not-invited` for denied users.
+- Mock/no-private-product-data feature pages.
 
-```bash
-ng serve
-```
+Google OAuth was verified in production under SOM-64. The SOM-65 invite-gate code is merged, but production SQL, Edge Function, feature flag, approved cohort, and invited/non-invited behavior must be verified separately before the gate is described as live.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Local Setup
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+From the repository root, use Node.js `24.18.0`:
 
 ```bash
-ng generate --help
+nvm use
+npm ci
+cp apps/dashboard/.env.example apps/dashboard/.env.local
+npm run dev:dashboard
 ```
 
-## Building
+The dashboard starts at `http://localhost:4200/`. `prestart` and `prebuild` generate `src/environments/environment.generated.ts` from public `DASHBOARD_*` values. Never put service-role keys, secret keys, webhook secrets, or other private values in dashboard browser configuration.
 
-To build the project run:
+## Commands
+
+Run from the repository root:
 
 ```bash
-ng build
+npm run dev:dashboard
+npm run test:dashboard
+npm run build:dashboard
+npm run test:all
+npm run build:all
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Structure
 
-## Running unit tests
+- `src/app/core` - singleton configuration, auth services/guards, navigation, and dashboard shell.
+- `src/app/features` - auth, tasks, learning, feedback, proof, and settings route areas.
+- `src/app/shared` - framework-local shared UI and types.
+- `src/environments` - public Angular environment configuration.
+- `scripts/generate-env.mjs` - public environment generator.
+- `docs/auth-architecture.md` - identity and trusted backend boundary.
+- `../../supabase/dashboard-auth.md` - OAuth, redirects, session, invite gate, and deployment setup.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Boundaries
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The dashboard does not yet implement private profile/Project Proof data, feedback writes, uploads, marketplace/payment behavior, public proof pages, company dashboards, native chat/voice, or numeric/verified reputation. Those surfaces require dedicated issues and the approved RLS, privacy, security, state-transition, and Legal gates recorded in `PROJECT_BIBLE.md`, `ROADMAP.md`, and `AGENTS.md`.

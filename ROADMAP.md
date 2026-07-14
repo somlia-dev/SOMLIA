@@ -6,30 +6,24 @@ This roadmap is execution-focused. It does not change SOMLIA's strategy: SOMLIA 
 
 ## Current Sprint
 
-Goal: validate the current landing, waitlist, privacy, Supabase, and Loops foundation end to end before expanding the product surface.
+Goal: stabilize the authenticated Dashboard MVP foundation and prepare the first private product-data implementation without restarting marketing validation.
 
-- Submit at least one live waitlist signup per role: `Learner`, `Company`, and `Investor / Partner`.
-- Verify Supabase stores each signup in `public."Whitelist"`.
-- Verify the Supabase Database Webhook calls `loops-waitlist`.
-- Verify Loops receives role-specific events and routes contacts correctly.
-- Review segmented waitlist responses weekly.
-- Track Loops replies manually.
-- Improve landing copy from real learner/company/investor responses.
-- Add basic production monitoring for Supabase inserts and Edge Function failures.
-- Run `npm test` and `npm run build` before handoff.
+- Verify SOM-65 production activation separately from its merge: apply/confirm `dashboard_invites`, deploy `dashboard-access-gate`, enable the Vercel gate flag, provision approved pilot emails, and test invited plus non-invited accounts.
+- Confirm the dashboard privacy notice and account-data lifecycle work required before expanding beyond Supabase Auth identity.
+- Define the Contributor/Admin/Support access matrix and RLS tests for the first private dashboard tables.
+- Choose the first real Dashboard MVP implementation slice and create a dedicated owner-routed Linear issue.
+- Keep the landing waitlist and Loops flow operational as maintenance, not as an active marketing-validation sprint.
+- Run `npm run test:all` and `npm run build:all` before dashboard handoff.
 
 ## Next Sprint
 
-Goal: turn waitlist learning into a sharper first validation wedge.
+Goal: move from authenticated shell to one safe, private, end-to-end MVP workflow.
 
-- Identify the strongest first learner segment.
-- Identify first company task categories.
 - Define the first practical skill track.
-- Create a sample proof profile schema from multiple Project Proofs and provenance-backed signals (SOM-20; conceptually unblocked).
 - Design the first project/challenge format around a brief, submission, review rubric, revision loop, and Project Proof (SOM-21; conceptually unblocked).
-- Add a stronger visual example of a real company brief to the website.
-- Add Open Graph and social preview assets for launch sharing.
-- Use completed Dashboard MVP foundation planning to scope accepted implementation issues while preserving the React/Vite landing site as the public marketing and waitlist surface.
+- Define a seeded/manual pilot-data plan before collecting real contributor proof data.
+- Implement only the accepted first slice after its schema, RLS, privacy, state-transition, and verification requirements are approved.
+- Keep new marketing and user-validation execution deferred until the MVP can be demonstrated meaningfully.
 
 ## Backlog
 
@@ -38,7 +32,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Add sample proof profile detail view.
 - Add sample paid assignment flow.
 - Add conversion analytics for CTA clicks and waitlist roles.
-- Add user accounts.
+- Add dashboard profile/account records after privacy and RLS gates are accepted.
 - Add live proof profiles.
 - Add project submission and review workflow.
 - Add reviewer reputation and feedback quality signals.
@@ -49,8 +43,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Add data deletion/export processes.
 - Add abuse reporting and moderation workflow.
 - Add AI feedback support, AI review summaries, AI proof profile summaries, AI matching, and AI quality checks.
-- Scaffold the separate Angular dashboard app after Product and Engineering approve architecture, repo/deployment shape, authentication approach, and MVP acceptance criteria.
-- Add Dashboard MVP surfaces for Tasks/Projects, Learning, Feedback/Review, Profile/Proof, and Settings.
+- Replace dashboard placeholder surfaces with approved private-data workflows one dedicated issue at a time.
 - Add external community links as the first dashboard community bridge if needed; defer native community chat and voice.
 
 ## Completed
@@ -75,23 +68,32 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Route-aware metadata covers `/`, roadmap variants, and privacy-policy variants with route-specific titles, descriptions, canonicals, and robots behavior; unknown paths retain global defaults, global Open Graph/Twitter tags remain unchanged, and the client-side SPA limitation is accepted.
 - Product defined `Project Proof` as the first proof artifact: one structured, private-by-default evidence record for one contributor's attempt, with all revisions, provenance-labeled outcomes, descriptive credibility states, and no implied implementation, automatic opportunity unlock, verification, marketplace, or payment behavior.
 - Product defined Dashboard MVP scope and information architecture (SOM-52): a separate Angular learner/contributor workspace centered on Tasks / Projects, with Learning, Feedback / Review, Profile / Proof, and Settings connected to practical work, feedback, revisions, and Project Proof history.
-- Node.js version policy is pinned for Dashboard MVP architecture (SOM-57): local development and CI use Node.js `24.18.0`, `package.json` accepts Node `>=24.15.0 <25`, GitHub Actions reads `.nvmrc`, and the future Angular dashboard target is Angular `22.0.x` while the React/Vite landing app remains unchanged.
-- Dashboard MVP technical architecture and repo/deployment plan are approved (SOM-53): evolve the repo into a small npm-workspace monorepo when dashboard scaffolding begins, keep the React/Vite landing app at repo root for `somlia.com`, add Angular at `apps/dashboard`, keep root `supabase/` as the backend boundary, and deploy dashboard through a separate Vercel project on `app.somlia.com`.
+- Node.js version policy is pinned for Dashboard MVP architecture (SOM-57): local development and CI use Node.js `24.18.0`, `package.json` accepts Node `>=24.15.0 <25`, GitHub Actions reads `.nvmrc`, and the Angular dashboard uses Angular `22.0.x` while the React/Vite landing app remains unchanged.
+- Dashboard MVP technical architecture and repo/deployment plan are approved (SOM-53): the repo is an npm-workspace monorepo, the React/Vite landing app stays at repo root for `somlia.com`, Angular lives at `apps/dashboard`, root `supabase/` is the backend boundary, and a separate Vercel project serves `app.somlia.com`.
 - Dashboard MVP auth, roles, RLS, and privacy/security requirements are defined (SOM-54): access starts as a waitlist-approved invite-only beta using Supabase Auth as the accepted provider assumption; the only external MVP role is Contributor; Reviewer, Admin, and Support are internal/privileged roles; dashboard data is private by default and separate from `public."Whitelist"`; implementation beyond a mock/no-data shell remains blocked until accepted auth/session/RLS/privacy/admin-audit, SOM-55 implementation gates, and SOM-56 feedback/review implementation gates exist.
 - Dashboard MVP conceptual data model around Project Proof is defined (SOM-55): Contributor -> Task/Project/Challenge/Brief source -> Project Proof -> Submission/Version/Revision -> Deliverables/Evidence placeholders -> Feedback/Review placeholders -> private Proof Card -> private Profile / Proof history. Project Proof remains the central private evidence unit; proof cards are private read models, Profile / Proof is a private aggregation view, and real schema/RLS/storage implementation remains deferred.
 - Dashboard MVP Feedback / Review workflow is defined (SOM-56): feedback starts as assigned/request-based structured feedback tied to a specific submitted Project Proof version, ordinary feedback remains separate from formal review, internal Reviewer/Admin feedback is the default formal-review path, assigned Contributor peer feedback is non-formal by default, and company reviewer participation plus `Company-confirmed` outcomes are deferred except controlled future pilots with approval.
 - Dashboard MVP planning foundation SOM-52/SOM-53/SOM-54/SOM-55/SOM-56/SOM-57 is complete as planning input; no real dashboard implementation is authorized beyond separately accepted shell/mock or implementation issues.
+- Angular dashboard shell and route skeleton are implemented under `apps/dashboard` (SOM-58), with a separate dashboard Vercel project on `app.somlia.com` verified by SOM-60.
+- Dashboard branding uses the SOMLIA logo, palette, typography direction, and responsive shell treatment (SOM-61).
+- Angular dashboard code is organized into `core`, `features`, and `shared`, with generated public environment configuration and root npm-workspace scripts (SOM-62).
+- Dashboard auth architecture assigns Supabase Auth to identity/session handling, Angular to public browser auth flow, and server/Edge Functions to privileged checks (SOM-63).
+- Google OAuth, explicit PKCE callback exchange, session restore, route guards, and sign-out were implemented and verified on `app.somlia.com` (SOM-64).
+- Invite-only gate code is merged using `public.dashboard_invites` and `dashboard-access-gate`, separate from `public."Whitelist"` (SOM-65); production activation still requires the explicit verification checklist below.
+- Tracked `node_modules` content was removed from git history going forward; dependencies remain lockfile-managed and locally installed.
+- New marketing and user-validation execution was deferred until the Dashboard MVP is built; completed research and campaign/community assets remain retained for later use.
 
 ## Blockers
 
 - Supabase DB webhook and Edge Function secrets must be confirmed in production.
 - Loops workflow setup needs verification against the real operational configuration.
-- First learner segment still needs validation against the AI/no-code builder wedge and secondary career/proof-of-progress audiences.
+- First learner segment validation is intentionally deferred until the Dashboard MVP can be demonstrated.
 - First skill track is not chosen.
 - First company task category is not chosen.
 - Project Proof implementation requires Security decisions on upload/link safety, PII/secrets detection, version integrity, reviewer identity and anti-collusion controls, and plagiarism/fake-review moderation.
 - Project Proof implementation requires Legal/privacy decisions on IP/license rights, publication/attribution consent, retention/deletion/unpublish/export behavior, company-brief/submission/feedback terms, and minors/cross-border rules.
-- Dashboard auth implementation still needs accepted session policy, auth method, redirect allowlist, account recovery flow, rate limits, revoke-all-sessions behavior, and RLS access matrices/tests before real auth launch.
+- Google OAuth is implemented, but broader auth launch still needs accepted session lifetime, recovery, rate-limit, revoke-all-sessions, and elevated-role controls.
+- SOM-65 production activation remains unconfirmed in this audit: confirm SQL application, approved cohort rows, Edge Function deployment, Vercel gate flag, and invited/non-invited production behavior.
 - Dashboard private data needs staging Supabase or equivalent isolated Preview/local environment; Preview deployments must not write private/authenticated data into Production.
 - Dashboard account/profile/proof/feedback tables must remain separate from `public."Whitelist"`; waitlist rows may inform invitation eligibility only through server-side/admin-controlled logic and must not silently become accounts.
 - Dashboard admin/support/reviewer access needs least-privilege role/access matrix, MFA/2FA for elevated users, individual accounts, and auditability before launch.
@@ -263,42 +265,15 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Current Priorities
 
-- Keep the primary message: Build proof of progress.
-- Use waitlist responses to learn which audience converts best.
-- Run a 14-day founder-led proof-of-progress validation sprint focused on learner-side demand, with lightweight company discovery in parallel.
-- Target AI/no-code builders as the first validation sprint learner audience.
-- Keep "Build proof that you can ship useful AI/no-code work, not just learn tools" as the AI/no-code wedge promise while broadening the sprint story to learning, practice, community feedback, proof profiles, and opportunity after proof.
-- Use a sprint content mix of roughly 60% AI/no-code builder posts, 25% broader career/proof-of-progress posts, and 15% company/operator posts.
-- Use LinkedIn as the primary channel for the first validation sprint, with optional adapted reposts to X.
-- Keep messaging against passive courses, weak resumes, generic job boards, and certificates without evidence.
-- Keep company story practical: real briefs, verified contributors, completed work, outcomes.
-- Use qualified earning/opportunity wording in sprint content: earning is part of the SOMLIA journey and SOMLIA is being built to connect trusted proof with company/partner opportunities after proof; avoid implying paid opportunities, marketplace access, or payment functionality are live today.
-- Use LinkedIn and founder-led updates as early storytelling channels.
+- Pause new campaigns, founder posting schedules, direct outreach, and user-validation execution until the Dashboard MVP can be demonstrated meaningfully.
+- Preserve completed positioning, campaign drafts, Reddit community assets, research, and validation frameworks for later reuse.
+- Do not reactivate canceled marketing/validation tickets without a new founder decision and current Product review.
+- Keep public copy within existing current-stage guardrails while the landing waitlist remains available.
 
 ### Next Tasks
 
-- Define the first 14-day validation sprint audience.
-- Draft founder-led launch posts.
-- Build the first validation sprint around layered audiences: primary AI/no-code builders, secondary career changers and early-career builders, and company-side startup operators/founders with small useful tasks.
-- Build the first validation sprint content calendar around four pillars: Proof Beats Certificates, Show The Work, AI/No-Code Needs Trust, and From Practice To Opportunity.
-- Balance the sprint content calendar against the approved 60/25/15 content ratio.
-- Run 3 founder-led LinkedIn/X posts per week during the 14-day validation sprint.
-- Use the Product-approved proof-reply response flow for LinkedIn/X replies: public acknowledgement, short DM, waitlist link, and one validation question about the skill they want to prove.
-- Create learner discovery questions.
-- Create company discovery questions.
-- Hold 10 direct AI/no-code learner conversations.
-- Hold 5 direct company/operator discovery conversations.
-- Track which posts and conversations produce high-signal waitlist signups.
-- Track sprint signups, replies, conversations, and repeated language.
-- Track every proof reply as a validation signal, including platform, post, name/handle, learner or company type, skill they want to prove, company task mentioned, waitlist join, useful quote, and follow-up needed.
-- Review sprint learning weekly and use it to refine positioning.
-- Ask learners which skills they want to prove.
-- Ask companies which small tasks they would outsource to emerging talent.
-- Track Loops replies manually.
-- Write founder-led waitlist updates from Stepan.
-- Create proof-profile mock examples.
-- Create comparison content: certificate vs proof profile, job board vs demonstrated capability, resume claims vs completed project evidence.
-- Launch a small 7-day proof challenge for early learners.
+- None while the pause is active.
+- When the MVP reaches a founder-approved demonstration milestone, review the retained assets and create a fresh validation plan from current product behavior rather than reopening old tickets unchanged.
 
 ### Later Tasks
 
@@ -312,6 +287,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Dependencies
 
+- Founder-approved MVP demonstration milestone and validation restart decision.
 - First learner segment.
 - First practical track.
 - First proof card example.
@@ -428,7 +404,9 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Treat Dashboard MVP as a learner/contributor workspace, not a company dashboard, public profile product, marketplace, or payment surface.
 - Preserve the current React/Vite landing and waitlist site as the public marketing surface.
 - Preserve the approved SOM-53 architecture: root landing app for `somlia.com`, Angular dashboard at `apps/dashboard`, root `supabase/` as backend boundary, and separate dashboard Vercel project on `app.somlia.com`.
-- Treat SOM-52/SOM-53/SOM-54/SOM-55/SOM-56/SOM-57 as completed planning foundation, not implementation authorization.
+- Treat SOM-52 through SOM-57 as completed planning foundation and SOM-58/SOM-60/SOM-61/SOM-62/SOM-63/SOM-64/SOM-65 as the implemented shell, deployment, brand, structure, and auth foundation.
+- Preserve the implemented Google OAuth callback/session flow and the invite-gate boundary separate from `public."Whitelist"`.
+- Treat merged invite-gate code and production activation as separate states until the external configuration checklist is verified.
 - Keep MVP navigation focused on Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings.
 - Center the default dashboard experience on Tasks / Projects because practical work creates the evidence loop for Learning, Feedback / Review, and Profile / Proof.
 - Defer native community chat and voice; external community links are acceptable first.
@@ -436,8 +414,8 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Next Tasks
 
-- Use the approved Node.js `24.18.0` / Angular `22.0.x` version policy when planning dashboard scaffold and CI (SOM-57).
-- Create the dashboard auth implementation plan from SOM-54, including invite-only cohort access, Supabase Auth method, session/recovery/redirect policy, and RLS access matrix/tests.
+- Verify SOM-65 production activation end to end: SQL, approved cohort data, Edge Function deployment, Vercel gate flag, invited access, and denied access.
+- Define remaining auth operational policy: session lifetime, recovery, rate limits, revoke-all-sessions, elevated-role MFA, and account deactivation.
 - Create Supabase environment setup plan for local/Preview/staging isolation before authenticated dashboard data.
 - Define dashboard role/access matrix for Contributor, Reviewer, Admin, and Support with least-necessary access and audit requirements.
 - Draft dashboard privacy lifecycle plan: notice-at-collection, deletion/export/unpublish/retention/anonymization/legal hold, and support ownership.
@@ -457,15 +435,13 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 - Define future company reviewer pilot policy only after Product/Security/Legal approval.
 - Define dashboard review notification and lifecycle email boundary separate from `loops-waitlist`.
 - Define backend CI/deployment expectations for dashboard auth/RLS tests and Edge Function/server-side authorization checks.
-- Define acceptance criteria for each MVP dashboard area before scaffolding code.
+- Define acceptance criteria for the first real MVP dashboard area before replacing its placeholder UI.
 - Map which existing Project Proof, company brief, waitlist, and future profile decisions constrain dashboard data models.
 - Decide whether external community links are needed in MVP and where they belong.
 
 ### Later Tasks
 
-- Scaffold the Angular dashboard app at `apps/dashboard` only after a dedicated implementation issue is created and accepted.
-- Build dashboard navigation, layout shell, and settings foundation.
-- Add Tasks / Projects, Learning, Feedback / Review, and Profile / Proof MVP flows.
+- Replace the Tasks / Projects, Learning, Feedback / Review, Profile / Proof, and Settings placeholders with approved MVP flows one issue at a time.
 - Connect dashboard data to authenticated backend surfaces after backend, privacy, and security contracts are defined.
 - Revisit native community, marketplace, payments, live verification, and scoring only after Product/Security/Legal approval.
 
@@ -484,7 +460,7 @@ Goal: turn waitlist learning into a sharper first validation wedge.
 
 ### Open Questions
 
-- Which exact Supabase Auth method should MVP use: invite link, email OTP, magic link, or a combination?
+- Should email OTP or magic link be added after the implemented Google OAuth pilot, and under what recovery/session policy?
 - What session lifetime, recovery, resend limits, suspicious-login handling, and revoke-all-sessions policy should Dashboard MVP use?
 - What RLS test strategy and backend CI gates are required before authenticated dashboard data launches?
 - Which MVP dashboard area should be built first?
