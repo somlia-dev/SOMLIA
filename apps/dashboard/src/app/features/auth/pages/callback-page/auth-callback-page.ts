@@ -14,15 +14,16 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
   `,
   styles: `
     .auth-callback {
-      max-width: 720px;
+      width: min(calc(100% - 48px), 720px);
       margin: 0 auto;
-      padding: 48px 24px;
-      color: #111827;
+      padding: 64px 0;
+      color: var(--somlia-ink);
+      animation: somlia-surface-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }
 
     .auth-callback__eyebrow {
       margin: 0 0 12px;
-      color: #2563eb;
+      color: var(--somlia-blue);
       font-size: 0.78rem;
       font-weight: 800;
       letter-spacing: 0.13em;
@@ -36,13 +37,19 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
 
     .auth-callback h1 {
       margin-bottom: 12px;
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(2.35rem, 4vw, 3.35rem);
       line-height: 1.05;
     }
 
     .auth-callback p {
-      color: #475569;
+      color: var(--somlia-muted);
       line-height: 1.6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .auth-callback {
+        animation: none;
+      }
     }
   `,
 })

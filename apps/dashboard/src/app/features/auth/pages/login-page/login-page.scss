@@ -1,10 +1,11 @@
 .auth-page {
   display: grid;
-  gap: 18px;
-  max-width: 980px;
+  gap: 20px;
+  width: min(calc(100% - 48px), 960px);
   margin: 0 auto;
-  padding: 48px 24px;
-  color: #111827;
+  padding: 64px 0;
+  color: var(--somlia-ink);
+  animation: somlia-surface-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .auth-page__eyebrow,
@@ -14,7 +15,7 @@
 }
 
 .auth-page__eyebrow {
-  color: #2563eb;
+  color: var(--somlia-blue);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -23,30 +24,54 @@
 
 .auth-page h1 {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.35rem, 4vw, 3.35rem);
+  font-weight: 750;
   line-height: 1.05;
 }
 
 .auth-page__summary {
-  color: #475569;
+  max-width: 720px;
+  color: var(--somlia-muted);
+  font-size: 1.04rem;
   line-height: 1.6;
 }
 
 .auth-page__panel {
-  border: 1px solid #e5e7eb;
-  border-left: 3px solid #2563eb;
-  background: #ffffff;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+  border: 1px solid var(--somlia-border);
+  border-left: 4px solid var(--somlia-blue);
+  border-radius: var(--somlia-radius-panel);
+  background:
+    linear-gradient(125deg, rgba(37, 99, 235, 0.045), transparent 48%),
+    var(--somlia-panel);
+  box-shadow: var(--somlia-shadow-soft);
+  padding: 30px;
+  transition:
+    border-color var(--somlia-motion),
+    box-shadow var(--somlia-motion),
+    transform var(--somlia-motion);
 }
 
 .auth-page__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
+  margin-top: 4px;
 }
 
 .auth-page__panel--accent {
-  border-left-color: #16a34a;
+  border-left-color: var(--somlia-green);
+  background:
+    linear-gradient(125deg, rgba(22, 163, 74, 0.045), transparent 48%),
+    var(--somlia-panel);
+}
+
+.auth-page__panel:hover {
+  border-color: var(--somlia-border-strong);
+  box-shadow: var(--somlia-shadow-raised);
+  transform: translate3d(0, -2px, 0);
 }
 
 .auth-page__panel h2 {
@@ -57,18 +82,19 @@
 .auth-page__panel ul {
   margin: 0;
   padding-left: 1.2rem;
-  color: #475569;
+  color: var(--somlia-muted);
   line-height: 1.6;
 }
 
 .auth-page__status {
   margin-top: 16px;
-  color: #64748b;
+  color: var(--somlia-slate);
 }
 
 .auth-page__error {
   border: 1px solid #fecaca;
   border-left: 3px solid #dc2626;
+  border-radius: var(--somlia-radius-control);
   background: #fef2f2;
   color: #991b1b;
   padding: 14px 16px;
@@ -77,7 +103,7 @@
 
 .auth-page__panel-copy {
   margin: 0;
-  color: #475569;
+  color: var(--somlia-muted);
   line-height: 1.6;
 }
 
@@ -85,7 +111,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: auto;
+  padding-top: 24px;
 }
 
 .auth-page__button {
@@ -93,12 +120,28 @@
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border: 1px solid #2563eb;
-  background: #2563eb;
-  color: #ffffff;
+  border: 1px solid var(--somlia-blue);
+  border-radius: var(--somlia-radius-control);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+  color: var(--somlia-panel);
   padding: 0 16px;
   font-weight: 700;
   text-decoration: none;
+  transition:
+    box-shadow var(--somlia-motion),
+    opacity var(--somlia-motion),
+    transform var(--somlia-motion);
+}
+
+.auth-page__button:hover {
+  box-shadow: 0 11px 24px rgba(37, 99, 235, 0.25);
+  transform: translate3d(0, -1px, 0);
+}
+
+.auth-page__button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.28);
+  outline-offset: 3px;
 }
 
 .auth-page__button[disabled],
@@ -108,13 +151,38 @@
 }
 
 .auth-page__button--secondary {
-  border-color: #cbd5e1;
-  background: #ffffff;
-  color: #111827;
+  border-color: var(--somlia-blue);
+  background: rgba(37, 99, 235, 0.025);
+  box-shadow: none;
+  color: var(--somlia-blue);
 }
 
 @media (max-width: 760px) {
+  .auth-page {
+    width: min(calc(100% - 40px), 560px);
+    padding: 42px 0;
+  }
+
   .auth-page__grid {
     grid-template-columns: 1fr;
+  }
+
+  .auth-page__panel {
+    min-height: 0;
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-page {
+    animation: none;
+  }
+
+  .auth-page__panel,
+  .auth-page__panel:hover,
+  .auth-page__button,
+  .auth-page__button:hover {
+    transform: none;
+    transition: none;
   }
 }

@@ -1,8 +1,9 @@
 .dashboard-page {
   display: grid;
-  gap: 22px;
-  max-width: 980px;
-  color: #111827;
+  gap: 24px;
+  width: min(100%, 1080px);
+  color: var(--somlia-ink);
+  animation: somlia-surface-enter 360ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .dashboard-page__eyebrow,
@@ -13,7 +14,7 @@
 }
 
 .dashboard-page__eyebrow {
-  color: #2563eb;
+  color: var(--somlia-blue);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -29,8 +30,8 @@
 
 .dashboard-page__heading-row h1 {
   margin: 0;
-  color: #111827;
-  font-size: clamp(2.2rem, 4.4vw, 3.9rem);
+  color: var(--somlia-ink);
+  font-size: clamp(2.25rem, 4vw, 3.55rem);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.04;
@@ -38,9 +39,12 @@
 
 .dashboard-page__heading-row span {
   flex: 0 0 auto;
-  border: 1px solid #e5e7eb;
-  background: #f8fafc;
-  color: #2563eb;
+  border: 1px solid var(--somlia-border);
+  border-radius: var(--somlia-radius-control);
+  background:
+    linear-gradient(110deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.96)),
+    var(--somlia-cloud);
+  color: var(--somlia-blue);
   padding: 8px 10px;
   font-size: 0.75rem;
   font-weight: 800;
@@ -49,24 +53,27 @@
 }
 
 .dashboard-page__summary {
-  max-width: 680px;
-  color: #475569;
+  max-width: 720px;
+  color: var(--somlia-muted);
   font-size: 1rem;
   line-height: 1.65;
 }
 
 .dashboard-empty-state {
-  border: 1px solid #e5e7eb;
-  border-left: 3px solid #2563eb;
+  border: 1px solid var(--somlia-border);
+  border-left: 4px solid var(--somlia-blue);
+  border-radius: var(--somlia-radius-panel);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.9)),
-    #ffffff;
-  padding: 28px;
+    linear-gradient(112deg, rgba(37, 99, 235, 0.055), transparent 48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 250, 252, 0.94)),
+    var(--somlia-panel);
+  box-shadow: var(--somlia-shadow-soft);
+  padding: 30px;
 }
 
 .dashboard-empty-state h2 {
   margin: 0 0 10px;
-  color: #111827;
+  color: var(--somlia-ink);
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 0;
@@ -75,7 +82,7 @@
 
 .dashboard-empty-state p {
   max-width: 780px;
-  color: #64748b;
+  color: var(--somlia-slate);
   line-height: 1.65;
 }
 
@@ -88,22 +95,34 @@
 }
 
 .dashboard-checkpoints li {
-  border: 1px solid #e5e7eb;
-  border-left: 3px solid #16a34a;
-  background: #ffffff;
-  color: #475569;
-  padding: 12px;
+  border: 1px solid var(--somlia-border);
+  border-left: 3px solid var(--somlia-green);
+  border-radius: var(--somlia-radius-control);
+  background: var(--somlia-panel);
+  box-shadow: 0 7px 20px rgba(15, 23, 42, 0.045);
+  color: var(--somlia-muted);
+  padding: 13px 14px;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.4;
+  transition:
+    border-color var(--somlia-motion),
+    box-shadow var(--somlia-motion),
+    transform var(--somlia-motion);
+}
+
+.dashboard-checkpoints li:hover {
+  border-color: var(--somlia-border-strong);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+  transform: translate3d(0, -2px, 0);
 }
 
 .dashboard-checkpoints li:nth-child(2) {
-  border-left-color: #2563eb;
+  border-left-color: var(--somlia-blue);
 }
 
 .dashboard-checkpoints li:nth-child(3) {
-  border-left-color: #f5b841;
+  border-left-color: var(--somlia-gold);
 }
 
 @media (max-width: 720px) {
@@ -116,10 +135,22 @@
   }
 
   .dashboard-empty-state {
-    padding: 20px;
+    padding: 22px;
   }
 
   .dashboard-checkpoints {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-page {
+    animation: none;
+  }
+
+  .dashboard-checkpoints li,
+  .dashboard-checkpoints li:hover {
+    transform: none;
+    transition: none;
   }
 }
