@@ -320,7 +320,7 @@ SOMLIA is being built so trusted proof can later support access to company and p
 
 Deferred capabilities require later Product, Security, Legal, and Engineering approval before implementation or current-product claims.
 
-SOM-52 through SOM-57 are complete as Dashboard MVP planning inputs. SOM-58, SOM-60, SOM-61, SOM-62, SOM-63, SOM-64, and SOM-65 subsequently implemented and operationalized the shell, dashboard Vercel surface, brand alignment, Angular structure/environment boundary, auth architecture, Google OAuth, and invite-gate code through separately tracked issues. These changes do not authorize private Project Proof, feedback, learning, profile, marketplace, payment, or company-dashboard data implementation.
+SOM-52 through SOM-57 are complete as Dashboard MVP planning inputs. SOM-58, SOM-60, SOM-61, SOM-62, SOM-63, SOM-64, SOM-65, and SOM-68 subsequently implemented and operationalized the shell, dashboard Vercel surface, brand alignment, Angular structure/environment boundary, auth architecture, Google OAuth, invite-gate code, and modern dashboard visual treatment through separately tracked issues. The current dashboard uses consistent 6-8px surface geometry, restrained SOMLIA Blue/Green/Gold gradients, clear focus states, responsive hierarchy, and short CSS transform/opacity motion with `prefers-reduced-motion` overrides. These changes do not authorize private Project Proof, feedback, learning, profile, marketplace, payment, or company-dashboard data implementation.
 
 The dashboard and future monorepo work should use Node.js `24.18.0` locally and in CI, with the root `package.json` allowing Node `>=24.15.0 <25`. The Angular dashboard target is Angular `22.0.x`, with Angular and its TypeScript requirements isolated to the future dashboard app/workspace at `apps/dashboard`. This Node policy also applies to the existing landing and waitlist app for test/build verification, but it does not change the landing app's React/Vite framework or waitlist behavior.
 
@@ -632,7 +632,7 @@ Explicit non-goals and deferred capabilities:
 
 The active brand is SOMLIA. The repository directory is still named `LERN`, and some older LERN/LERNI assets remain, but active product copy and UI should use SOMLIA.
 
-The visual direction is restrained, professional, concrete, light, and product/editorial rather than dark-glass startup styling. Use existing section functions, local data arrays, Tailwind utilities, hard-edged panels, and `lucide-react` icons before adding new abstractions.
+The visual direction is restrained, professional, concrete, light, and product/editorial rather than dark-glass startup styling. The React/Vite landing site retains its established editorial composition, Tailwind utilities, and hard-edged panels unless a scoped issue approves a redesign. The Angular dashboard uses a quieter, denser product treatment with consistent 6-8px surface radii, restrained SOMLIA Blue/Green/Gold gradients, subtle shadows, and visible focus states. Reuse each surface's existing components and patterns before adding new abstractions; do not import landing components or landing-only CSS patterns into Angular.
 
 SOMLIA is not an edtech-style brand. Avoid playful learning visuals, cartoon illustrations, and generic course-platform messaging. The brand should feel serious, minimal, ambitious, and practical.
 

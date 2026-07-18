@@ -76,6 +76,7 @@ Goal: move from authenticated shell to one safe, private, end-to-end MVP workflo
 - Dashboard MVP planning foundation SOM-52/SOM-53/SOM-54/SOM-55/SOM-56/SOM-57 is complete as planning input; no real dashboard implementation is authorized beyond separately accepted shell/mock or implementation issues.
 - Angular dashboard shell and route skeleton are implemented under `apps/dashboard` (SOM-58), with a separate dashboard Vercel project on `app.somlia.com` verified by SOM-60.
 - Dashboard branding uses the SOMLIA logo, palette, typography direction, and responsive shell treatment (SOM-61).
+- Dashboard visual design uses consistent 6-8px surface geometry, restrained SOMLIA Blue/Green/Gold gradients, improved hierarchy and focus states, and short transform/opacity motion with reduced-motion support (SOM-68).
 - Angular dashboard code is organized into `core`, `features`, and `shared`, with generated public environment configuration and root npm-workspace scripts (SOM-62).
 - Dashboard auth architecture assigns Supabase Auth to identity/session handling, Angular to public browser auth flow, and server/Edge Functions to privileged checks (SOM-63).
 - Google OAuth, explicit PKCE callback exchange, session restore, route guards, and sign-out were implemented and verified on `app.somlia.com` (SOM-64).

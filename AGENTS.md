@@ -90,7 +90,7 @@ If you add a new route, update both the path handling in `src/App.tsx` and `verc
 
 ## Brand And UI Notes
 
-Keep the visual direction restrained, professional, and concrete. The current site uses a light editorial/product style with hard-edged panels, Tailwind utilities, and a limited SOMLIA palette:
+Keep the visual direction restrained, professional, and concrete. Both product surfaces use the limited SOMLIA palette:
 
 - Ink: `#111827`
 - Blue: `#2563EB`
@@ -99,9 +99,11 @@ Keep the visual direction restrained, professional, and concrete. The current si
 - Cloud: `#F8FAFC`
 - Slate: `#64748B`
 
-Use existing components and patterns in `src/App.tsx` before adding new abstractions. Most UI is built from section functions, local data arrays, Tailwind classes, and `lucide-react` icons. Keep assets real and brand-relevant; active SOMLIA assets live in `src/assets/*.webp`.
+The React/Vite landing site keeps its established light editorial composition, hard-edged panels, Tailwind utilities, section functions, local data arrays, and `lucide-react` icons unless a scoped issue approves a redesign. Use existing patterns in `src/App.tsx` before adding abstractions. Keep assets real and brand-relevant; active landing assets live in `src/assets/*.webp`.
 
-The site already includes global reduced-motion handling. If adding animations, make sure they degrade under `prefers-reduced-motion`.
+The Angular dashboard keeps the merged SOM-68 product treatment: consistent 6-8px panel/card radii, restrained Blue/Green/Gold gradients on Cloud/white/Ink foundations, subtle shadows, visible focus states, and dense scan-friendly hierarchy. Preserve the real SOMLIA logo and the existing Angular `core` / `features` / `shared` component boundaries. Do not revert the dashboard to uniformly sharp geometry, add decorative gradient blobs, heavy glassmorphism, or turn workflow pages into marketing sections without an approved visual issue.
+
+Both surfaces include reduced-motion handling. Keep dashboard motion short and purposeful, prefer CSS transform and opacity, avoid continuous loops and expensive animated properties, and disable nonessential motion under `prefers-reduced-motion`.
 
 ## Waitlist Contract
 
