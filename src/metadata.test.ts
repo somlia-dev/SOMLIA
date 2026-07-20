@@ -5,7 +5,7 @@ describe("social metadata", () => {
   it("declares the approved global Open Graph and Twitter metadata", () => {
     expect(indexHtml).toContain("<title>SOMLIA | Build proof of progress</title>");
     expect(indexHtml).toContain('name="description"');
-    expect(indexHtml).toContain("Learn practical skills, apply them through real projects, and build proof companies can trust.");
+    expect(indexHtml).toContain("Learn by doing real projects, get feedback, and build proof of what you can do.");
     expect(indexHtml).toContain('property="og:type"');
     expect(indexHtml).toContain('content="website"');
     expect(indexHtml).toContain('property="og:title"');
@@ -19,7 +19,7 @@ describe("social metadata", () => {
     expect(indexHtml).toContain('name="twitter:card" content="summary_large_image"');
     expect(indexHtml).toContain('name="twitter:title" content="SOMLIA | Build proof of progress"');
     expect(indexHtml).toContain('name="twitter:description"');
-    expect(indexHtml).toContain("Build proof of progress through practical projects, feedback, and verified outcomes.");
+    expect(indexHtml).toContain("Learn by doing real projects, get feedback, and build proof of what you can do.");
     expect(indexHtml).toContain('name="twitter:image" content="https://somlia.com/og-somlia.png"');
     expect(indexHtml).toContain('name="twitter:image:alt"');
     expect(indexHtml).toContain('<link rel="canonical" href="https://somlia.com/"');

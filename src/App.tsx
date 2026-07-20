@@ -1,28 +1,18 @@
 import { FormEvent, SVGProps, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  BadgeCheck,
-  BriefcaseBusiness,
-  CheckCircle2,
   ClipboardList,
-  FileText,
-  GraduationCap,
-  Handshake,
   Linkedin,
   LockKeyhole,
   Menu,
-  MessageSquare,
   ShieldCheck,
   X,
 } from "lucide-react";
 import footerLogoSrc from "./assets/full-logo-somlia.svg";
 import symbolNameLogoSrc from "./assets/symbol-name-logo-somlia.svg";
-import appSymbolSrc from "./assets/symbol-somlia.svg";
-import progressSymbolSrc from "./assets/somlia-symbol-transparent.svg";
 import type { WaitlistRole } from "./lib/waitlist";
 
 type Role = WaitlistRole;
-type IconType = typeof GraduationCap;
 
 const brand = {
   ink: "#111827",
@@ -35,10 +25,8 @@ const brand = {
 
 const navLinks = [
   { label: "How it works", href: "/#how-it-works" },
-  { label: "Proof system", href: "/#proof-system" },
-  { label: "Community", href: "/#community" },
-  { label: "Companies", href: "/#companies" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Project Proof", href: "/#project-proof" },
+  { label: "For companies", href: "/#companies" },
 ];
 
 const socialLinks = [
@@ -63,191 +51,36 @@ function RedditIcon(props: SVGProps<SVGSVGElement>) {
 const progressSteps = [
   {
     label: "Learn",
-    title: "Acquire focused skills",
-    copy: "Start with structured skill tracks designed around practical outcomes, not passive consumption.",
-    color: brand.blue,
-    icon: GraduationCap,
-    metric: "Skill foundation",
-  },
-  {
-    label: "Apply",
-    title: "Complete real projects",
-    copy: "Turn knowledge into visible work through briefs, submissions, revisions, and applied judgment.",
-    color: brand.green,
-    icon: ClipboardList,
-    metric: "Project evidence",
-  },
-  {
-    label: "Earn",
-    title: "Unlock opportunities",
-    copy: "Use verified progress to access paid company briefs, partnerships, and career pathways after ability is shown.",
-    color: brand.gold,
-    icon: Handshake,
-    metric: "Outcome readiness",
-  },
-];
-
-const comparisonRows = [
-  {
-    old: "Courses measure participation.",
-    somlia: "SOMLIA measures practical progress.",
-  },
-  {
-    old: "Job boards ask for experience.",
-    somlia: "SOMLIA helps people build evidence of experience.",
-  },
-  {
-    old: "Certificates rarely show judgment.",
-    somlia: "Proof cards show work, feedback, revision, and consistency.",
-  },
-];
-
-const proofSignals = [
-  { label: "Projects completed", value: "04", color: brand.blue },
-  { label: "Reviews received", value: "12", color: brand.green },
-  { label: "Milestones earned", value: "03", color: brand.gold },
-];
-
-const proofFeatures = [
-  {
-    icon: FileText,
-    title: "Project evidence",
-    copy: "Every completed project becomes a durable proof artifact with context, output, and evaluation.",
-  },
-  {
-    icon: MessageSquare,
-    title: "Feedback history",
-    copy: "Peer, professional, and AI feedback show how the work improved over time.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Competence signals",
-    copy: "Progress is expressed through quality, consistency, contribution, and outcome readiness.",
-  },
-];
-
-const communityItems = [
-  "Submit practical work for review",
-  "Receive specific feedback",
-  "Improve the project through revision",
-  "Build reputation by helping others",
-];
-
-const realOpportunityItems = [
-  {
-    title: "Company brief",
-    copy: "A business submits a real task that needs to be completed, without opening a hiring process.",
-    icon: BriefcaseBusiness,
-    color: brand.blue,
-    examples: ["Research a market", "Create content", "Build an automation"],
-  },
-  {
-    title: "Verified contributors",
-    copy: "Only users with proven capability receive access to higher-signal assignments.",
-    icon: BadgeCheck,
-    color: brand.green,
-    examples: ["Proof profile reviewed", "Feedback history visible", "Milestones earned"],
-  },
-  {
-    title: "Outcome",
-    copy: "Work is completed, feedback is recorded, payment is issued, and the proof profile grows.",
-    icon: Handshake,
-    color: brand.gold,
-    examples: ["Completed work", "Payment issued", "New proof added"],
-  },
-];
-
-const opportunityFlow = [
-  {
-    label: "Company",
-    title: "Submits brief",
-    copy: "A real business task enters SOMLIA.",
+    copy: "Learn a useful skill.",
     color: brand.blue,
   },
   {
-    label: "Verified members",
-    title: "Complete work",
-    copy: "Contributors apply proven skill.",
+    label: "Build",
+    copy: "Use it to finish a practical project.",
     color: brand.green,
   },
   {
-    label: "Payment",
-    title: "Outcome unlocked",
-    copy: "Work creates earning potential.",
+    label: "Improve",
+    copy: "Get feedback and make your work better.",
     color: brand.gold,
   },
   {
-    label: "Proof profile",
-    title: "New proof added",
-    copy: "The result becomes visible evidence.",
-    color: brand.ink,
+    label: "Prove",
+    copy: "Keep a clear record of the work, feedback, and changes.",
+    color: brand.blue,
   },
-];
-
-const exampleCompanyBrief = {
-  badge: "Example brief / early access preview",
-  category: "AI/no-code operations automation for a small B2B company/operator",
-  title: "Example company brief: automate inbound request triage",
-  context:
-    "A small B2B team receives demo requests, support questions, and customer follow-ups across forms and email. The team wants a lightweight workflow that sorts requests, drafts next steps, and creates a weekly summary.",
-  problem:
-    "Manual triage takes several hours each week, follow-ups are inconsistent, and the team has no simple view of which requests need action first.",
-  objective:
-    "Design an AI/no-code workflow that classifies inbound requests, routes them to the right place, drafts a suggested reply, and produces a weekly summary for the team.",
-  constraints: [
-    "Use sample data only.",
-    "No real customer PII.",
-    "Keep the workflow understandable to a non-technical operator.",
-    "Timebox: 4-6 hours of contributor work.",
-    "Prototype/proof artifact, not production software.",
-  ],
-  deliverables: [
-    "Workflow map.",
-    "Working prototype or clickable demo using AI/no-code tools.",
-    "Sample input/output examples.",
-    "Short explanation of tools used and assumptions.",
-    "Before/after estimate of time saved or operational improvement.",
-    "Revision notes after feedback.",
-  ],
-  evaluation: [
-    "Solves the stated business problem.",
-    "Clear workflow and handoff.",
-    "Sensible use of AI/no-code tooling.",
-    "Handles edge cases in sample data.",
-    "Easy for the company/operator to review.",
-    "Produces credible proof that can be added to a proof profile.",
-  ],
-  proofOutcome:
-    "Proof added: AI operations automation, workflow design, business problem solving, feedback/revision history, opportunity-readiness signal.",
-};
-
-const companySteps = [
-  "Submit a task",
-  "Receive completed work",
-  "Review proof profiles",
-  "Identify future hires",
 ];
 
 const faqItems = [
   {
-    question: "Is SOMLIA an online course platform?",
+    question: "What is SOMLIA?",
     answer:
-      "No. SOMLIA includes learning, but the core product is proof of progress: projects, feedback, competence signals, and opportunity readiness.",
+      "SOMLIA is a place to learn by doing useful work, improve through feedback, and build proof of what you can do. It is not just a course platform or a job board.",
   },
   {
-    question: "Is SOMLIA a job board?",
+    question: "What can I use today?",
     answer:
-      "No. Opportunities come after users demonstrate capability. SOMLIA is designed to connect proof profiles with real assignments, not list open roles.",
-  },
-  {
-    question: "Who should join the waitlist?",
-    answer:
-      "Students, career changers, young professionals, early reviewers, and companies interested in talent signals based on demonstrated work.",
-  },
-  {
-    question: "What happens after I join?",
-    answer:
-      "You will be part of the early access group as SOMLIA validates skill tracks, company briefs, review flows, and paid opportunity pathways.",
+      "SOMLIA is in early access. You can join the public waitlist. The dashboard and the rest of the product are still being built and tested.",
   },
 ];
 
@@ -394,7 +227,7 @@ const noticeAtCollectionRows = [
 
 const defaultRouteMetadata = {
   title: "SOMLIA | Build proof of progress",
-  description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+  description: "Learn by doing real projects, get feedback, and build proof of what you can do.",
   canonical: "https://somlia.com/",
   robots: "index,follow",
 };
@@ -485,11 +318,9 @@ function LandingPage() {
   return (
     <>
       <HeroSection />
-      <ProblemSection />
       <HowItWorksSection />
-      <ProofSystemSection />
-      <CommunitySection />
-      <OpportunitiesSection onCompanyInterest={() => setCompanyInterestRequest((current) => current + 1)} />
+      <ProjectProofSection />
+      <CompaniesSection onCompanyInterest={() => setCompanyInterestRequest((current) => current + 1)} />
       <WaitlistSection companyInterestRequest={companyInterestRequest} />
       <FaqSection />
     </>
@@ -514,7 +345,7 @@ function Navbar() {
         </div>
         <div className="hidden items-center gap-3 lg:flex">
           <ButtonLink href="/#waitlist" variant="primary" size="sm">
-            Join waitlist
+            Join the waitlist
           </ButtonLink>
         </div>
         <button
@@ -542,9 +373,9 @@ function Navbar() {
             <a
               href="/#waitlist"
               onClick={() => setIsOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white"
             >
-              Join waitlist
+              Join the waitlist
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
@@ -558,25 +389,15 @@ function HeroSection() {
   return (
     <section id="top" className="relative overflow-hidden border-b border-[#E5E7EB] bg-[#F8FAFC] pt-20">
       <HeroBackdrop />
-      <div className="relative mx-auto flex min-h-[72svh] max-w-7xl flex-col justify-center px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="relative mx-auto flex min-h-[34rem] max-w-7xl flex-col justify-center px-5 py-16 sm:min-h-[calc(100svh-17rem)] sm:px-6 lg:px-8 lg:py-20">
         <Reveal immediate>
           <div className="max-w-4xl">
-            <div className="mb-7 flex items-center gap-3 text-sm font-semibold text-[#2563EB]">
-              <img
-                src={progressSymbolSrc}
-                alt=""
-                width={36}
-                height={36}
-                decoding="async"
-                className="h-9 w-9 object-contain"
-              />
-              Proof Of Progress
-            </div>
-            <h1 className="max-w-4xl text-4xl font-semibold leading-[1.02] text-[#111827] sm:text-6xl lg:text-7xl">
+            <p className="mb-6 text-sm font-semibold text-[#2563EB] sm:text-base">Learn. Build. Prove.</p>
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] text-[#111827] sm:text-6xl lg:text-7xl">
               Build proof of progress.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#475569] sm:mt-7 sm:text-xl sm:leading-8">
-              SOMLIA helps ambitious people learn practical skills, apply them through real projects, and create proof companies can use to discover emerging talent.
+              SOMLIA helps you learn a useful skill, use it in real projects, get feedback, and keep proof of what you can do.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="#waitlist" variant="primary">
@@ -585,14 +406,6 @@ function HeroSection() {
               <ButtonLink href="#how-it-works" variant="secondary">
                 See how it works
               </ButtonLink>
-            </div>
-            <div className="mt-7 grid max-w-2xl grid-cols-3 gap-2 sm:mt-9 sm:gap-3">
-              {progressSteps.map((step) => (
-                <div key={step.label} className="border-l-2 bg-white/70 px-3 py-2 sm:px-4 sm:py-3" style={{ borderColor: step.color }}>
-                  <p className="text-sm font-semibold text-[#111827]">{step.label}</p>
-                  <p className="mt-1 text-xs leading-5 text-[#64748B] sm:text-sm">{step.metric}</p>
-                </div>
-              ))}
             </div>
           </div>
         </Reveal>
@@ -608,76 +421,48 @@ function HeroBackdrop() {
         <div data-testid="hero-wave-row" className="hero-wave-row hero-wave-row-forward" />
         <div data-testid="hero-wave-row" className="hero-wave-row hero-wave-row-reverse" />
       </div>
-      <div className="pointer-events-none absolute inset-x-0 top-80 hidden min-[1680px]:block">
-        <div className="mx-auto max-w-screen-2xl px-8">
-          <div className="hero-profile-float ml-auto w-[30rem] translate-x-32">
-            <ProofConsole />
-          </div>
-        </div>
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-[#F8FAFC]" />
+      <div className="hero-wave-fade absolute inset-0" />
     </div>
   );
 }
 
-function ProofConsole() {
-  return (
-    <div className="proof-console-card border border-[#D9E0EA] bg-white p-5 shadow-[0_18px_44px_rgba(17,24,39,0.08)]">
-      <div className="flex items-start justify-between border-b border-[#E5E7EB] pb-5">
-        <div className="flex items-center gap-3">
-          <img src={appSymbolSrc} alt="" width={56} height={56} decoding="async" className="h-14 w-14 object-contain" />
-          <div>
-            <p className="font-semibold text-[#111827]">Progress profile</p>
-            <p className="mt-1 text-sm text-[#64748B]">AI Automation track</p>
-          </div>
-        </div>
-        <span className="proof-verified-pill rounded-full bg-[#ECFDF5] px-3 py-1 text-sm font-semibold text-[#16A34A]">Verified</span>
-      </div>
-      <div className="grid grid-cols-3 border-b border-[#E5E7EB]">
-        {proofSignals.map((signal, index) => (
-          <div key={signal.label} className="border-r border-[#E5E7EB] px-4 py-5 last:border-r-0">
-            <p className="proof-metric-value text-3xl font-semibold" style={{ color: signal.color, animationDelay: `${0.18 + index * 0.08}s` }}>
-              {signal.value}
-            </p>
-            <p className="mt-2 text-sm leading-5 text-[#64748B]">{signal.label}</p>
-          </div>
-        ))}
-      </div>
-      <div className="grid gap-3 pt-5">
-        {["Customer research workflow", "Automation brief", "Peer review revision"].map((item, index) => (
-          <div key={item} className="proof-row-signal flex items-center justify-between border border-[#E5E7EB] bg-[#F8FAFC] p-3" style={{ animationDelay: `${0.28 + index * 0.08}s` }}>
-            <div className="flex items-center gap-3">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm font-semibold text-[#111827]">
-                {index + 1}
-              </span>
-              <p className="text-sm font-medium text-[#111827]">{item}</p>
-            </div>
-            <CheckCircle2 className="proof-checkmark h-5 w-5 text-[#16A34A]" style={{ animationDelay: `${1.1 + index * 0.45}s` }} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+function ProjectProofPreview() {
+  const proofItems = [
+    ["The task", "Sort sample customer requests and suggest the next step."],
+    ["The work", "A simple AI and no-code workflow."],
+    ["Feedback", "Make the handoff clearer."],
+    ["Revision", "Added routing rules and a clearer summary."],
+  ];
 
-function ProblemSection() {
   return (
-    <Section id="problem" eyebrow="The gap" title="Learning alone is not enough." copy="SOMLIA is built for people caught between acquiring skills and proving they can use them in the real world.">
-      <div className="overflow-hidden border border-[#D9E0EA] bg-white">
-        {comparisonRows.map((row, index) => (
-          <div key={row.old} className="grid border-b border-[#E5E7EB] last:border-b-0 md:grid-cols-2">
-            <div className="border-b border-[#E5E7EB] p-5 md:border-b-0 md:border-r">
-              <p className="text-sm font-semibold text-[#64748B]">Old model {index + 1}</p>
-              <p className="mt-3 text-lg font-medium text-[#111827]">{row.old}</p>
-            </div>
-            <div className="p-5">
-              <p className="text-sm font-semibold text-[#2563EB]">SOMLIA model</p>
-              <p className="mt-3 text-lg font-medium text-[#111827]">{row.somlia}</p>
-            </div>
+    <article className="project-proof-preview overflow-hidden rounded-lg border border-[#D9E0EA] bg-white shadow-[0_20px_48px_rgba(17,24,39,0.08)]">
+      <div className="border-b border-[#E5E7EB] p-5 sm:p-6">
+        <span className="inline-flex rounded-md border border-[#BFDBFE] bg-[#EFF6FF] px-2.5 py-1 text-xs font-semibold text-[#2563EB]">
+          Example only
+        </span>
+        <h3 className="mt-4 text-2xl font-semibold text-[#111827]">Inbound request triage</h3>
+        <p className="mt-1 text-sm text-[#64748B]">Simulated project</p>
+      </div>
+      <dl>
+        {proofItems.map(([label, value], index) => (
+          <div key={label} className="grid gap-2 border-b border-[#E5E7EB] px-5 py-4 sm:grid-cols-[7rem_1fr] sm:gap-5 sm:px-6">
+            <dt className="flex items-center gap-3 font-semibold text-[#111827]">
+              <span
+                aria-hidden="true"
+                className="h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: [brand.blue, brand.green, brand.gold, brand.blue][index] }}
+              />
+              {label}
+            </dt>
+            <dd className="leading-7 text-[#64748B]">{value}</dd>
           </div>
         ))}
+      </dl>
+      <div className="grid grid-cols-2 divide-x divide-[#E5E7EB] bg-[#F8FAFC] text-sm font-medium text-[#64748B]">
+        <p className="px-5 py-4 text-center">Not yet reviewed</p>
+        <p className="px-5 py-4 text-center">Private</p>
       </div>
-    </Section>
+    </article>
   );
 }
 
@@ -686,42 +471,15 @@ function HowItWorksSection() {
     <Section
       id="how-it-works"
       eyebrow="How it works"
-      title="A structured path from skill to outcome."
-      copy="The experience is simple enough to understand quickly, but strong enough to create credible evidence over time."
+      title="Learn by doing."
+      copy="Each step turns practice into clear evidence of your skills."
     >
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="relative grid gap-0 border-y border-[#D9E0EA] md:grid-cols-4 md:border-y-0">
+        <div aria-hidden="true" className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-px bg-[#CBD5E1] md:block" />
         {progressSteps.map((step, index) => (
-          <Reveal key={step.label} delay={index * 0.08}>
-            <ProgressStepCard step={step} index={index} />
-          </Reveal>
+          <ProgressStepCard key={step.label} step={step} index={index} />
         ))}
       </div>
-      <Reveal>
-        <div className="mt-8 border border-[#D9E0EA] bg-white p-5">
-          <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold text-[#64748B]">Experience loop</p>
-              <h3 className="mt-3 text-2xl font-semibold text-[#111827]">Learn, apply, review, improve, prove.</h3>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-5">
-              {["Learn", "Apply", "Review", "Improve", "Prove"].map((item, index) => (
-                <div key={item} className="border border-[#E5E7EB] bg-[#F8FAFC] p-3">
-                  <p className="text-sm font-semibold text-[#111827]">{item}</p>
-                  <div className="mt-3 h-1.5 bg-[#E5E7EB]">
-                    <div
-                      className="h-full"
-                      style={{
-                        width: `${38 + index * 14}%`,
-                        backgroundColor: index < 2 ? brand.blue : index < 4 ? brand.green : brand.gold,
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Reveal>
     </Section>
   );
 }
@@ -733,249 +491,78 @@ function ProgressStepCard({
   step: (typeof progressSteps)[number];
   index: number;
 }) {
-  const Icon = step.icon;
-
   return (
-    <article className="h-full border border-[#D9E0EA] bg-white p-6">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-[#64748B]">0{index + 1}</span>
-        <span className="flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: `${step.color}14`, color: step.color }}>
-          <Icon className="h-5 w-5" />
-        </span>
+    <article className="group relative grid grid-cols-[3.25rem_1fr] gap-4 border-b border-[#E5E7EB] py-6 last:border-b-0 md:block md:border-b-0 md:px-5 md:py-0">
+      <div
+        className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 bg-white text-sm font-semibold transition duration-200 group-hover:-translate-y-1"
+        style={{ borderColor: step.color, color: step.color }}
+      >
+        0{index + 1}
       </div>
-      <h3 className="mt-8 text-3xl font-semibold text-[#111827]">{step.label}</h3>
-      <p className="mt-3 text-lg font-medium text-[#111827]">{step.title}</p>
-      <p className="mt-4 leading-7 text-[#64748B]">{step.copy}</p>
-      <div className="mt-8 h-1.5 bg-[#E5E7EB]">
-        <div
-          className="h-full"
-          style={{ width: `${48 + index * 22}%`, backgroundColor: step.color }}
-        />
+      <div className="md:mt-7">
+        <h3 className="text-xl font-semibold text-[#111827]">{step.label}</h3>
+        <p className="mt-2 max-w-[16rem] leading-7 text-[#64748B]">{step.copy}</p>
       </div>
     </article>
   );
 }
 
-function ProofSystemSection() {
+function ProjectProofSection() {
   return (
-    <Section
-      id="proof-system"
-      eyebrow="Proof system"
-      title="Your ability, made visible."
-      copy="Proof Of Progress is the credibility layer: not a badge for showing up, but a record of work, feedback, revision, and demonstrated competence."
-    >
-      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+    <section id="project-proof" className="scroll-mt-24 border-y border-[#E5E7EB] bg-white">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:py-28">
         <Reveal>
-          <ProofProfile />
-        </Reveal>
-        <div className="grid gap-4">
-          {proofFeatures.map((feature, index) => (
-            <Reveal key={feature.title} delay={index * 0.08}>
-              <FeatureRow icon={feature.icon} title={feature.title} copy={feature.copy} color={index === 0 ? brand.blue : index === 1 ? brand.green : brand.gold} />
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function ProofProfile() {
-  return (
-    <div className="border border-[#D9E0EA] bg-white">
-      <div className="flex flex-col gap-5 border-b border-[#E5E7EB] p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
-          <img src={appSymbolSrc} alt="" width={64} height={64} loading="lazy" decoding="async" className="h-16 w-16 object-contain" />
-          <div>
-            <p className="text-sm font-semibold text-[#64748B]">Proof profile</p>
-            <h3 className="mt-1 text-2xl font-semibold text-[#111827]">Maya, Career transition</h3>
-          </div>
-        </div>
-        <div className="rounded-full bg-[#EFF6FF] px-4 py-2 text-sm font-semibold text-[#2563EB]">Opportunity-ready</div>
-      </div>
-      <div className="grid border-b border-[#E5E7EB] sm:grid-cols-3">
-        {proofSignals.map((signal) => (
-          <div key={signal.label} className="border-b border-[#E5E7EB] p-5 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-            <p className="text-4xl font-semibold" style={{ color: signal.color }}>
-              {signal.value}
+          <div className="max-w-xl">
+            <p className="text-sm font-semibold text-[#2563EB]">Project Proof</p>
+            <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#111827] sm:text-5xl">
+              The work behind your skills, kept in one place.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-[#64748B]">
+              A Project Proof records what you were asked to do, what you made, the feedback you received, and how your work changed. It is private by default.
             </p>
-            <p className="mt-2 text-sm text-[#64748B]">{signal.label}</p>
-          </div>
-        ))}
-      </div>
-      <div className="grid gap-4 p-6">
-        <ProofRow title="Research workflow redesign" status="Reviewed" score="92%" color={brand.green} />
-        <ProofRow title="Automation project brief" status="Revised" score="88%" color={brand.blue} />
-        <ProofRow title="Client communication simulation" status="Milestone" score="Gold" color={brand.gold} />
-      </div>
-    </div>
-  );
-}
-
-function ProofRow({ title, status, score, color }: { title: string; status: string; score: string; color: string }) {
-  return (
-    <div className="grid gap-4 border border-[#E5E7EB] bg-[#F8FAFC] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-      <div className="flex items-center gap-3">
-        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: color }} />
-        <p className="font-medium text-[#111827]">{title}</p>
-      </div>
-      <span className="text-sm text-[#64748B]">{status}</span>
-      <span className="text-sm font-semibold text-[#111827]">{score}</span>
-    </div>
-  );
-}
-
-function CommunitySection() {
-  return (
-    <Section
-      id="community"
-      eyebrow="Community layer"
-      title="Feedback turns practice into progress."
-      copy="SOMLIA uses community review to make learning active. Users improve their work while building a reputation for the feedback they give."
-    >
-      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <Reveal>
-          <div className="border-l-2 border-[#16A34A] bg-white p-6">
-            <h3 className="text-3xl font-semibold leading-tight text-[#111827]">The review process is part of the learning.</h3>
-            <p className="mt-5 leading-8 text-[#64748B]">
-              Every submission creates a loop: work is shared, reviewed, improved, and converted into credible proof. Good reviewers also build reputation by helping others improve.
-            </p>
-            <div className="mt-8">
-              <ButtonLink href="#waitlist" variant="primary">
-                Join early access
-              </ButtonLink>
-            </div>
           </div>
         </Reveal>
-        <div className="grid gap-3">
-          {communityItems.map((item, index) => (
-            <Reveal key={item} delay={index * 0.06}>
-              <div className="flex items-center justify-between border border-[#D9E0EA] bg-white p-4">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ECFDF5] text-sm font-semibold text-[#16A34A]">
-                    {index + 1}
-                  </span>
-                  <p className="font-medium text-[#111827]">{item}</p>
-                </div>
-                <ArrowRight className="h-4 w-4 text-[#94A3B8]" />
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={0.08}>
+          <ProjectProofPreview />
+        </Reveal>
       </div>
-    </Section>
+    </section>
   );
 }
 
-function OpportunitiesSection({ onCompanyInterest }: { onCompanyInterest: () => void }) {
+function CompaniesSection({ onCompanyInterest }: { onCompanyInterest: () => void }) {
   return (
-    <Section
-      id="companies"
-      eyebrow="Real opportunities"
-      title="Proof should lead to real assignments."
-      copy="SOMLIA creates a new way to discover talent: company work is matched to verified contributors after capability is demonstrated."
-    >
-      <div className="grid gap-4 md:grid-cols-3">
-        {realOpportunityItems.map((item, index) => (
-          <Reveal key={item.title} delay={index * 0.08}>
-            <OpportunityCard item={item} />
-          </Reveal>
-        ))}
+    <section id="companies" className="scroll-mt-24 bg-[#111827] text-white">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-8 lg:py-24">
+        <Reveal>
+          <div className="max-w-2xl">
+            <p className="text-sm font-semibold text-[#93C5FD]">For companies</p>
+            <h2 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">
+              Find people through their work, not only their resume.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-white/70">
+              SOMLIA is being built so companies can share small, useful tasks and discover people through clear proof of what they can do.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="border-l-2 border-[#F5B841] pl-6 sm:pl-8">
+            <p className="font-semibold text-[#F5B841]">Company briefs and paid opportunities are not live yet.</p>
+            <p className="mt-5 text-lg leading-8 text-white/80">
+              Have a small task in mind? Join the waitlist as a Company and tell us about it.
+            </p>
+            <button
+              type="button"
+              onClick={onCompanyInterest}
+              className="mt-7 inline-flex items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-5 py-3.5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#1D4ED8] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#93C5FD]"
+            >
+              Share a company task
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+        </Reveal>
       </div>
-
-      <Reveal>
-        <div className="mt-8 border border-[#D9E0EA] bg-white p-6">
-          <div className="grid gap-6 lg:grid-cols-[0.74fr_1.26fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold text-[#2563EB]">Opportunity loop</p>
-              <h3 className="mt-3 text-3xl font-semibold leading-tight text-[#111827]">
-                Company work becomes measurable progress.
-              </h3>
-              <p className="mt-5 leading-8 text-[#64748B]">
-                The payoff is not a badge. It is a completed assignment, a recorded outcome, and a stronger proof profile.
-              </p>
-            </div>
-            <div className="grid gap-3 md:grid-cols-4">
-              {opportunityFlow.map((step) => (
-                <div key={step.title} className="border border-[#E5E7EB] bg-[#F8FAFC] p-4">
-                  <p className="text-sm font-semibold" style={{ color: step.color }}>
-                    {step.label}
-                  </p>
-                  <h4 className="mt-3 text-lg font-semibold text-[#111827]">{step.title}</h4>
-                  <p className="mt-3 text-sm leading-6 text-[#64748B]">{step.copy}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal>
-        <ExampleCompanyBriefPanel />
-      </Reveal>
-
-      <Reveal>
-        <div className="mt-8 border border-[#111827] bg-[#111827] p-6 text-white">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold text-[#93C5FD]">For companies</p>
-              <h3 className="mt-3 text-3xl font-semibold leading-tight">Discover ability before hiring.</h3>
-              <p className="mt-5 leading-8 text-white/70">
-                Instead of relying on resumes, companies can submit real projects and evaluate demonstrated capability.
-              </p>
-              <div className="mt-7 border-t border-white/15 pt-6">
-                <p className="max-w-xl text-sm leading-6 text-white/70">
-                  Have a small, useful task that could become a practical brief? Tell us what you’d like emerging talent to
-                  solve. We’re validating early company pilots.
-                </p>
-                <button
-                  type="button"
-                  onClick={onCompanyInterest}
-                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#1D4ED8] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#93C5FD]"
-                >
-                  Share a company task
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-6 grid gap-2 text-sm font-medium text-white sm:grid-cols-3">
-                {["No resumes required.", "No credentials required.", "Only demonstrated capability."].map((item) => (
-                  <div key={item} className="border border-white/15 bg-white/5 px-3 py-2">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-4">
-              {companySteps.map((step, index) => (
-                <div key={step} className="border border-white/15 bg-white/5 p-4">
-                  <p className="text-sm text-white/45">0{index + 1}</p>
-                  <p className="mt-3 text-sm font-semibold text-white">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal>
-        <div className="mt-8 border border-[#D9E0EA] bg-[#111827] p-6 text-white">
-          <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold text-[#93C5FD]">Early access roadmap</p>
-              <h3 className="mt-3 text-3xl font-semibold">A proof-of-work network for emerging talent, built in stages.</h3>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-3">
-              {roadmapPhases.slice(0, 6).map((phase, index) => (
-                <div key={phase} className="border border-white/15 bg-white/5 p-3">
-                  <p className="text-sm text-white/50">0{index + 1}</p>
-                  <p className="mt-2 text-sm font-medium text-white">{phase}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Reveal>
-    </Section>
+    </section>
   );
 }
 
@@ -1022,7 +609,7 @@ function WaitlistSection({ companyInterestRequest }: { companyInterestRequest: n
       setSubmitMessage(
         formData.role === "Company"
           ? "Thanks — your company interest is recorded. We’ll follow up about early company pilots and how briefs may work."
-          : "Thanks. Your interest is logged for early access.",
+          : "Thanks — you’re on the SOMLIA early-access waitlist.",
       );
       setFormData({ name: "", email: "", role: "Learner", message: "" });
     } catch (error) {
@@ -1032,29 +619,22 @@ function WaitlistSection({ companyInterestRequest }: { companyInterestRequest: n
   }
 
   return (
-    <section ref={sectionRef} id="waitlist" className="scroll-mt-20 border-y border-[#D9E0EA] bg-white">
+    <section ref={sectionRef} id="waitlist" className="scroll-mt-20 border-b border-[#D9E0EA] bg-[#F8FAFC]">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-28">
         <Reveal>
-          <div>
-            <p className="text-sm font-semibold text-[#2563EB]">Join the first proof-of-work network</p>
+          <div className="max-w-xl lg:pt-6">
+            <p className="text-sm font-semibold text-[#2563EB]">Early access</p>
             <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#111827] sm:text-5xl">
-              Be early to the platform connecting proof profiles to real opportunities.
+              Help us build SOMLIA.
             </h2>
-            <p className="mt-6 text-lg leading-8 text-[#64748B]">
-              Join the waitlist to help shape practical tracks, company briefs, review systems, and paid outcomes for emerging talent.
+            <p className="mt-5 text-lg leading-8 text-[#64748B]">
+              Join the waitlist if you want to learn by doing, share a company task, or support the project.
             </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {["Company briefs", "Proof profiles", "Paid opportunities"].map((item) => (
-                <div key={item} className="border border-[#E5E7EB] bg-[#F8FAFC] p-3 text-sm font-medium text-[#111827]">
-                  {item}
-                </div>
-              ))}
-            </div>
           </div>
         </Reveal>
 
         <Reveal delay={0.08}>
-          <form onSubmit={handleSubmit} className="border border-[#D9E0EA] bg-[#F8FAFC] p-5 sm:p-7">
+          <form onSubmit={handleSubmit} className="rounded-lg border border-[#D9E0EA] bg-white p-5 shadow-[0_18px_44px_rgba(17,24,39,0.06)] sm:p-7">
             <div className="grid gap-5 sm:grid-cols-2">
               <FormField label="Name" id="name">
                 <input
@@ -1125,7 +705,7 @@ function WaitlistSection({ companyInterestRequest }: { companyInterestRequest: n
                   placeholder={
                     formData.role === "Company"
                       ? "What small task or business problem would you like contributors to solve? (Optional)"
-                      : "Tell us what you want to learn, build, or prove."
+                      : "What would you like to learn, build, or prove? (Optional)"
                   }
                 />
               </FormField>
@@ -1133,9 +713,9 @@ function WaitlistSection({ companyInterestRequest }: { companyInterestRequest: n
             <button
               type="submit"
               disabled={submitState === "loading"}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#2563EB] px-6 py-4 font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#1D4ED8] active:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#94A3B8]"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-6 py-4 font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[#1D4ED8] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2563EB] disabled:cursor-not-allowed disabled:bg-[#94A3B8]"
             >
-              {submitState === "loading" ? "Saving..." : "Join early access"}
+              {submitState === "loading" ? "Saving..." : "Join the waitlist"}
               <ArrowRight className="h-5 w-5" />
             </button>
             <p className="mt-4 text-xs leading-5 text-[#64748B]">
@@ -1183,86 +763,15 @@ function WaitlistSubmissionFeedback({ state, message }: { state: "idle" | "loadi
   );
 }
 
-function ExampleCompanyBriefPanel() {
-  return (
-    <article className="mt-8 border border-[#D9E0EA] bg-white">
-      <div className="grid border-b border-[#E5E7EB] lg:grid-cols-[0.94fr_1.06fr]">
-        <div className="border-b border-[#E5E7EB] p-5 sm:p-6 lg:border-b-0 lg:border-r">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="bg-[#EFF6FF] px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[#2563EB]">
-              {exampleCompanyBrief.badge}
-            </span>
-            <span className="bg-[#F8FAFC] px-3 py-1 text-xs font-semibold text-[#64748B]">Simulated brief</span>
-          </div>
-          <p className="mt-5 text-sm font-semibold text-[#16A34A]">{exampleCompanyBrief.category}</p>
-          <h3 className="mt-3 text-3xl font-semibold leading-tight text-[#111827]">{exampleCompanyBrief.title}</h3>
-          <p className="mt-5 leading-8 text-[#64748B]">{exampleCompanyBrief.context}</p>
-        </div>
-        <div className="grid divide-y divide-[#E5E7EB]">
-          <BriefSummaryBlock label="Business problem" copy={exampleCompanyBrief.problem} />
-          <BriefSummaryBlock label="Task objective" copy={exampleCompanyBrief.objective} />
-        </div>
-      </div>
-
-      <div className="grid border-b border-[#E5E7EB] lg:grid-cols-3">
-        <BriefListBlock title="Constraints" items={exampleCompanyBrief.constraints} accent={brand.blue} />
-        <BriefListBlock title="Deliverables" items={exampleCompanyBrief.deliverables} accent={brand.green} />
-        <BriefListBlock title="Evaluation criteria" items={exampleCompanyBrief.evaluation} accent={brand.gold} />
-      </div>
-
-      <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
-        <div>
-          <p className="text-sm font-semibold text-[#2563EB]">Proof outcome</p>
-          <p className="mt-3 leading-8 text-[#111827]">{exampleCompanyBrief.proofOutcome}</p>
-        </div>
-        <div className="grid gap-2 text-sm font-semibold text-[#111827] sm:grid-cols-5 lg:w-[34rem]">
-          {["Company brief", "Verified contributor", "Completed work", "Payment issued", "New proof added"].map((step) => (
-            <div key={step} className="border border-[#E5E7EB] bg-[#F8FAFC] px-3 py-2">
-              {step}
-            </div>
-          ))}
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function BriefSummaryBlock({ label, copy }: { label: string; copy: string }) {
-  return (
-    <div className="p-5 sm:p-6">
-      <p className="text-sm font-semibold text-[#2563EB]">{label}</p>
-      <p className="mt-3 leading-7 text-[#64748B]">{copy}</p>
-    </div>
-  );
-}
-
-function BriefListBlock({ title, items, accent }: { title: string; items: string[]; accent: string }) {
-  return (
-    <div className="border-b border-[#E5E7EB] p-5 last:border-b-0 sm:p-6 lg:border-b-0 lg:border-r lg:last:border-r-0">
-      <p className="text-sm font-semibold" style={{ color: accent }}>
-        {title}
-      </p>
-      <ul className="mt-4 grid gap-3">
-        {items.map((item) => (
-          <li key={item} className="grid grid-cols-[0.75rem_1fr] gap-3 text-sm leading-6 text-[#64748B]">
-            <span className="mt-2 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: accent }} />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function FaqSection() {
   return (
-    <Section id="faq" eyebrow="FAQ" title="What early users should know." copy="SOMLIA is intentionally not another course catalog or job marketplace. The platform starts with proof.">
-      <div className="mx-auto max-w-4xl border border-[#D9E0EA] bg-white">
+    <Section id="faq" eyebrow="FAQ" title="A few quick answers." copy="">
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-lg border border-[#D9E0EA] bg-white">
         {faqItems.map((item) => (
           <details key={item.question} className="group border-b border-[#E5E7EB] p-5 last:border-b-0">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-[#111827]">
               {item.question}
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F8FAFC] text-[#64748B] transition group-open:rotate-45">+</span>
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F8FAFC] text-[#64748B] transition duration-200 group-open:rotate-45">+</span>
             </summary>
             <p className="mt-4 max-w-2xl leading-7 text-[#64748B]">{item.answer}</p>
           </details>
@@ -1420,7 +929,7 @@ function Section({
         <div className="mb-12 max-w-3xl">
           <p className="text-sm font-semibold text-[#2563EB]">{eyebrow}</p>
           <h2 className="mt-4 text-4xl font-semibold leading-tight text-[#111827] sm:text-5xl">{title}</h2>
-          <p className="mt-5 text-lg leading-8 text-[#64748B]">{copy}</p>
+          {copy ? <p className="mt-5 text-lg leading-8 text-[#64748B]">{copy}</p> : null}
         </div>
       </Reveal>
       {children}
@@ -1444,53 +953,6 @@ function Reveal({
     >
       {children}
     </div>
-  );
-}
-
-function OpportunityCard({ item }: { item: (typeof realOpportunityItems)[number] }) {
-  const Icon = item.icon;
-
-  return (
-    <article className="flex h-full flex-col border border-[#D9E0EA] bg-white p-6">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full" style={{ backgroundColor: `${item.color}14`, color: item.color }}>
-        <Icon className="h-5 w-5" />
-      </span>
-      <h3 className="mt-7 text-2xl font-semibold text-[#111827]">{item.title}</h3>
-      <p className="mt-4 leading-7 text-[#64748B]">{item.copy}</p>
-      <div className="mt-auto grid gap-2 pt-6">
-        {item.examples.map((example) => (
-          <div key={example} className="border border-[#E5E7EB] bg-[#F8FAFC] px-3 py-2 text-sm font-medium text-[#111827]">
-            {example}
-          </div>
-        ))}
-      </div>
-    </article>
-  );
-}
-
-function FeatureRow({
-  icon: Icon,
-  title,
-  copy,
-  color,
-}: {
-  icon: IconType;
-  title: string;
-  copy: string;
-  color: string;
-}) {
-  return (
-    <article className="border border-[#D9E0EA] bg-white p-5">
-      <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${color}14`, color }}>
-          <Icon className="h-5 w-5" />
-        </span>
-        <div>
-          <h3 className="text-xl font-semibold text-[#111827]">{title}</h3>
-          <p className="mt-3 leading-7 text-[#64748B]">{copy}</p>
-        </div>
-      </div>
-    </article>
   );
 }
 
@@ -1523,7 +985,7 @@ function ButtonLink({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition duration-200 hover:-translate-y-0.5 active:translate-y-0 ${padding} ${classes}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition duration-200 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2563EB] ${padding} ${classes}`}
     >
       {children}
       <ArrowRight className="h-4 w-4" />
@@ -1563,11 +1025,11 @@ function Footer() {
           <a className="transition hover:text-[#111827]" href="/#how-it-works">
             How it works
           </a>
-          <a className="transition hover:text-[#111827]" href="/#proof-system">
-            Proof system
+          <a className="transition hover:text-[#111827]" href="/#project-proof">
+            Project Proof
           </a>
           <a className="transition hover:text-[#111827]" href="/#companies">
-            Companies
+            For companies
           </a>
           <a className="transition hover:text-[#111827]" href="/roadmap">
             Roadmap
@@ -1576,7 +1038,7 @@ function Footer() {
             Privacy Policy
           </a>
           <a className="transition hover:text-[#111827]" href="/#waitlist">
-            Contact
+            Join the waitlist
           </a>
         </div>
         <div className="flex flex-col gap-4 md:items-end">
@@ -1592,7 +1054,7 @@ function Footer() {
                   rel="noreferrer noopener"
                   aria-label={link.label}
                   title={link.label}
-                  className="inline-flex h-10 w-10 items-center justify-center border border-[#CBD5E1] bg-white text-[#64748B] transition duration-200 hover:-translate-y-0.5 hover:border-[#111827] hover:text-[#111827] active:translate-y-0"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#CBD5E1] bg-white text-[#64748B] transition duration-200 hover:-translate-y-0.5 hover:border-[#111827] hover:text-[#111827] active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#2563EB]"
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
                 </a>

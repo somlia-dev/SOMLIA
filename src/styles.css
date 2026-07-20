@@ -39,75 +39,36 @@ textarea {
 .hero-wave-pattern {
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.58;
 }
 
 .hero-wave-row {
   position: absolute;
   inset-block: 0;
-  left: -168px;
-  width: calc(100% + 336px);
+  inset-inline: 0;
   background-repeat: repeat;
   background-size: 168px 84px;
   transform: translate3d(0, 0, 0);
-  will-change: transform;
 }
 
 .hero-wave-row-forward {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84' viewBox='0 0 168 84'%3E%3Cpath d='M0 21 C10.5 7 31.5 7 42 21 C52.5 35 73.5 35 84 21 C94.5 7 115.5 7 126 21 C136.5 35 157.5 35 168 21' fill='none' stroke='%23E5E7EB' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-  animation: hero-wave-forward 24s linear infinite;
 }
 
 .hero-wave-row-reverse {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84' viewBox='0 0 168 84'%3E%3Cpath d='M0 63 C10.5 49 31.5 49 42 63 C52.5 77 73.5 77 84 63 C94.5 49 115.5 49 126 63 C136.5 77 157.5 77 168 63' fill='none' stroke='%23E5E7EB' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
-  animation: hero-wave-reverse 24s linear infinite;
+}
+
+.hero-wave-fade {
+  background: linear-gradient(90deg, #f8fafc 0%, rgba(248, 250, 252, 0.9) 44%, rgba(248, 250, 252, 0.18) 100%);
 }
 
 .content-reveal {
-  animation: content-reveal 420ms ease-out both;
-}
-
-.hero-profile-float {
-  transform: translate3d(8rem, 0, 0);
-}
-
-.proof-console-card {
-  animation: proof-console-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.proof-verified-pill {
-  animation: proof-verified-breathe 4.8s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.proof-metric-value {
-  animation: proof-metric-pop 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  transform-origin: left center;
-}
-
-.proof-row-signal {
-  animation: proof-row-enter 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.proof-checkmark {
-  animation: proof-check-breathe 4.6s ease-in-out infinite;
-  transform-origin: center;
+  animation: content-reveal 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .waitlist-skeleton {
   animation: skeleton-pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes hero-wave-forward {
-  to {
-    transform: translate3d(168px, 0, 0);
-  }
-}
-
-@keyframes hero-wave-reverse {
-  to {
-    transform: translate3d(-168px, 0, 0);
-  }
 }
 
 @keyframes content-reveal {
@@ -118,65 +79,6 @@ textarea {
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes proof-console-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(10px, 8px, 0) scale(0.992);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes proof-metric-pop {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 6px, 0) scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes proof-row-enter {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 5px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes proof-check-breathe {
-  0%,
-  72%,
-  100% {
-    opacity: 0.82;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  82% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1.08);
-  }
-}
-
-@keyframes proof-verified-breathe {
-  0%,
-  78%,
-  100% {
-    opacity: 0.92;
-    transform: translate3d(0, 0, 0);
-  }
-  88% {
-    opacity: 1;
-    transform: translate3d(0, -1px, 0);
   }
 }
 
@@ -198,7 +100,6 @@ textarea {
   .hero-wave-row {
     animation: none !important;
     transform: translate3d(0, 0, 0);
-    will-change: auto;
   }
 
   *,

@@ -22,7 +22,7 @@ const routeMetadataCases = [
   {
     path: "/",
     title: "SOMLIA | Build proof of progress",
-    description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+    description: "Learn by doing real projects, get feedback, and build proof of what you can do.",
     canonical: "https://somlia.com/",
     robots: "index,follow",
   },
@@ -61,7 +61,7 @@ const routeMetadataCases = [
   {
     path: "/unknown-path",
     title: "SOMLIA | Build proof of progress",
-    description: "Learn practical skills, apply them through real projects, and build proof companies can trust.",
+    description: "Learn by doing real projects, get feedback, and build proof of what you can do.",
     canonical: "https://somlia.com/",
     robots: "index,follow",
   },
@@ -72,10 +72,10 @@ describe("App routing", () => {
     renderAt("/");
 
     expect(screen.getByRole("heading", { name: /build proof of progress/i })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /be early to the platform/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /help us build somlia/i })).toBeInTheDocument();
   });
 
-  it("renders two hero wave rows moving in opposite directions", () => {
+  it("renders the restrained two-row hero wave structure", () => {
     const { container } = renderAt("/");
 
     const pattern = screen.getByTestId("hero-wave-pattern");
@@ -106,8 +106,7 @@ describe("App routing", () => {
     expect(logos[1]).toHaveAttribute("src", expect.stringContaining("full-logo-somlia.svg"));
 
     const imageSources = Array.from(container.querySelectorAll("img")).map((image) => image.getAttribute("src") ?? "");
-    expect(imageSources).toEqual(expect.arrayContaining([expect.stringContaining("symbol-somlia.svg")]));
-    expect(imageSources).toEqual(expect.arrayContaining([expect.stringContaining("somlia-symbol-transparent.svg")]));
+    expect(imageSources).toHaveLength(2);
     expect(imageSources).not.toEqual(expect.arrayContaining([expect.stringMatching(/\.(png|webp)(\?|$)/i)]));
   });
 
@@ -141,19 +140,27 @@ describe("App routing", () => {
     expect(transparentSymbolSvgSource).toContain('height="150"');
   });
 
-  it("renders the approved example company brief preview without live paid-marketplace claims", () => {
+  it("renders the approved Project Proof example and future-qualified company section", () => {
     const { container } = renderAt("/");
 
-    expect(screen.getByRole("heading", { name: /example company brief: automate inbound request triage/i })).toBeInTheDocument();
-    expect(screen.getByText("Example brief / early access preview")).toBeInTheDocument();
-    expect(screen.getByText(/AI\/no-code operations automation for a small B2B company\/operator/i)).toBeInTheDocument();
-    expect(screen.getByText("Use sample data only.")).toBeInTheDocument();
-    expect(screen.getByText("No real customer PII.")).toBeInTheDocument();
-    expect(screen.getByText(/Proof added: AI operations automation, workflow design/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Inbound request triage" })).toBeInTheDocument();
+    expect(screen.getByText("Example only")).toBeInTheDocument();
+    expect(screen.getByText("Simulated project")).toBeInTheDocument();
+    expect(screen.getByText("Not yet reviewed")).toBeInTheDocument();
+    expect(screen.getByText("Private")).toBeInTheDocument();
+    expect(screen.getByText("Company briefs and paid opportunities are not live yet.")).toBeInTheDocument();
 
-    expect(container).not.toHaveTextContent(/paid opportunities are live/i);
-    expect(container).not.toHaveTextContent(/earn money today/i);
-    expect(container).not.toHaveTextContent(/get paid now/i);
+    expect(container).not.toHaveTextContent(/Opportunity-ready/i);
+    expect(container).not.toHaveTextContent(/Payment issued/i);
+    expect(container).not.toHaveTextContent(/\bVerified\b/i);
+  });
+
+  it("renders only the approved simplified landing sections in order", () => {
+    const { container } = renderAt("/");
+    const sectionIds = Array.from(container.querySelectorAll("main section[id]")).map((section) => section.id);
+
+    expect(sectionIds).toEqual(["top", "how-it-works", "project-proof", "companies", "waitlist", "faq"]);
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(5);
   });
 
   it("renders the roadmap page for /roadmap", () => {
@@ -257,7 +264,7 @@ describe("Waitlist form", () => {
     expect(screen.getByLabelText("I am a")).toHaveValue("Investor / Partner");
     expect(screen.getByLabelText("Short message")).toHaveAttribute(
       "placeholder",
-      "Tell us what you want to learn, build, or prove.",
+      "What would you like to learn, build, or prove? (Optional)",
     );
   });
 
@@ -272,14 +279,14 @@ describe("Waitlist form", () => {
 
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Ada Lovelace" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /join the waitlist/i }));
 
     expect(screen.getByRole("status", { name: "Saving waitlist signup" })).toBeInTheDocument();
     expect(screen.getByTestId("waitlist-submit-skeleton")).toBeInTheDocument();
 
     resolveSignup();
 
-    expect(await screen.findByText("Thanks. Your interest is logged for early access.")).toBeInTheDocument();
+    expect(await screen.findByText("Thanks — you’re on the SOMLIA early-access waitlist.")).toBeInTheDocument();
   });
 
   it("submits entered waitlist details and shows success feedback", async () => {
@@ -290,7 +297,7 @@ describe("Waitlist form", () => {
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Ada Lovelace" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "Ada@Example.com" } });
     fireEvent.change(screen.getByLabelText("Short message"), { target: { value: "We want to submit company briefs." } });
-    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /join the waitlist/i }));
 
     await waitFor(() => {
       expect(submitWaitlistSignup).toHaveBeenCalledWith({
@@ -314,7 +321,7 @@ describe("Waitlist form", () => {
 
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Ada Lovelace" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "ada@example.com" } });
-    fireEvent.click(screen.getByRole("button", { name: /join early access/i }));
+    fireEvent.click(screen.getByRole("button", { name: /join the waitlist/i }));
 
     expect(await screen.findByText("This email is already on the early access list.")).toBeInTheDocument();
   });
