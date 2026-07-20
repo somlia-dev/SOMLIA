@@ -14,15 +14,17 @@
     "dev:landing": "vite",
     "dev:dashboard": "npm --workspace @somlia/dashboard start",
     "build": "npm run build:landing",
-    "build:landing": "tsc -b && vite build",
+    "build:landing": "tsc -b && vite build && npm run verify:font:dist",
     "build:dashboard": "npm --workspace @somlia/dashboard run build",
     "build:all": "npm run build:landing && npm run build:dashboard",
     "preview": "vite preview",
-    "test": "vitest run",
-    "test:landing": "vitest run",
+    "test": "npm run verify:font && vitest run",
+    "test:landing": "npm run verify:font && vitest run",
     "test:dashboard": "npm --workspace @somlia/dashboard test -- --watch=false",
     "test:all": "npm run test:landing && npm run test:dashboard",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "verify:font": "node scripts/verify-font-assets.mjs",
+    "verify:font:dist": "node scripts/verify-font-assets.mjs --dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",
