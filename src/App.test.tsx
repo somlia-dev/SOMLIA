@@ -163,6 +163,13 @@ describe("App routing", () => {
     const howItWorks = container.querySelector("#how-it-works");
     const connector = howItWorks?.querySelector('[aria-hidden="true"]');
     expect(connector).toHaveClass("top-6", "hidden", "md:block");
+    expect(connector).toHaveStyle({ left: "2.75rem", right: "calc(25% - 2.75rem)" });
+
+    const numberedCircles = howItWorks?.querySelectorAll("article > div:first-child");
+    expect(numberedCircles).toHaveLength(4);
+    numberedCircles?.forEach((circle) =>
+      expect(circle).toHaveClass("relative", "z-10", "h-12", "w-12", "bg-white"),
+    );
 
     expect(container).not.toHaveTextContent(/Opportunity-ready/i);
     expect(container).not.toHaveTextContent(/Payment issued/i);

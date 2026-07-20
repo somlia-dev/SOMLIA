@@ -477,7 +477,8 @@ function HowItWorksSection() {
       <div className="relative grid gap-0 border-y border-[#D9E0EA] md:grid-cols-4 md:border-y-0">
         <div
           aria-hidden="true"
-          className="absolute left-[12.5%] right-[12.5%] top-6 hidden h-px bg-[#CBD5E1] md:block"
+          className="absolute top-6 hidden h-px bg-[#CBD5E1] md:block"
+          style={{ left: "2.75rem", right: "calc(25% - 2.75rem)" }}
         />
         {progressSteps.map((step, index) => (
           <ProgressStepCard key={step.label} step={step} index={index} />
