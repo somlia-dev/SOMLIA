@@ -48,6 +48,7 @@ Goal: move from authenticated shell to one safe, private, end-to-end MVP workflo
 
 ## Completed
 
+- SOM-70 simplified and modernized the public landing page into the approved seven-part flow, self-hosted the official Mozilla Text v1.00 variable WOFF2 with OFL/provenance/integrity verification, restored the SOMLIA Blue opposite-direction transform-only hero waves with reduced-motion support, and preserved the waitlist, company CTA, routes, metadata, and current-stage opportunity guardrails. PR #14 was merged and the matching Vercel Production deployment was verified.
 - SOMLIA brand is active; legacy LERN/LERNI assets remain but are not the active brand.
 - Landing page exists with proof-of-progress positioning.
 - Routes exist for `/`, `/roadmap`, and `/privacy-policy`.
@@ -127,7 +128,7 @@ Goal: move from authenticated shell to one safe, private, end-to-end MVP workflo
 ### Current Priorities
 
 - Keep the product wedge focused on waitlist validation.
-- Preserve the core positioning: Learn -> Apply -> Earn and Build proof of progress.
+- Preserve the shipped landing narrative: Learn -> Build -> Improve -> Earn and Build proof of progress, with earning and paid tasks explicitly future-qualified until those capabilities are live and approved.
 - Keep the site learner-first but not learner-only, roughly 70% learner progress and 30% company/opportunity narrative.
 - Treat the first 14-day sprint as a proof-of-progress validation sprint, not only a proof-of-shipped-work campaign.
 - Keep AI/no-code builders as the primary first audience wedge while testing secondary learner signal from career changers and early-career builders.

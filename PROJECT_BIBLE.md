@@ -204,44 +204,42 @@ Global Open Graph and Twitter tags and `public/og-somlia.png` remain unchanged. 
 The landing page currently includes:
 
 - Fixed responsive navigation with a mobile menu.
-- Hero: "Build proof of progress."
-- Problem comparison: old model vs SOMLIA model.
-- How it works: Learn, Apply, Earn.
-- Proof system: proof profiles, feedback history, competence signals.
-- Community layer: review and revision loop.
-- Real opportunities: company briefs, verified contributors, outcomes.
-- For Companies panel with a `Share a company task` CTA that reuses the existing waitlist.
+- Hero: "Build proof of progress." with the SOMLIA Blue animated wave motif.
+- How it works: Learn, Build, Improve, Earn, with earning explicitly framed as a future outcome SOMLIA is being built toward.
+- Project Proof: one clearly simulated, private-by-default example with safe provenance and review labels.
+- For Companies panel with a `Share a company task` CTA that reuses the existing waitlist and states that company briefs and paid opportunities are not live yet.
 - Waitlist form.
-- FAQ.
+- Two-item FAQ.
 - Footer links to the main site sections, roadmap, privacy policy, and contact/waitlist.
 
 Current navigation:
 
 - How it works
-- Proof system
-- Community
-- Companies
-- FAQ
+- Project Proof
+- For companies
 - Join waitlist
 
 Current landing page order:
 
 1. Hero: introduces SOMLIA as proof of progress.
-2. Problem: explains why learning alone is not enough.
-3. How SOMLIA Works: shows Learn -> Apply -> Earn.
-4. Proof System: makes credibility visible through proof profiles.
-5. Community Layer: explains how review and feedback create progress.
-6. Real Opportunities: shows the payoff through company briefs, verified contributors, and outcomes.
-7. For Companies: explains how companies discover talent before hiring.
-8. Roadmap: frames the future as a proof-of-work network.
-9. Waitlist: converts early users, companies, and partners.
-10. FAQ: clarifies what SOMLIA is and is not.
+2. How it works: shows Learn -> Build -> Improve -> Earn while clearly qualifying paid tasks as a future goal.
+3. Project Proof: explains the private evidence record through a simulated example.
+4. For Companies: explains the future company-task direction without implying a live marketplace or paid-opportunity flow.
+5. Waitlist: converts early users, companies, and partners.
+6. FAQ: answers the two essential current-stage questions.
+7. Footer: provides route, social, contact, and policy links.
+
+The landing intentionally omits the previous standalone Problem and Community sections, detailed opportunity and company-brief flows, roadmap teaser, fake metrics or scores, standalone `Verified`, `Opportunity-ready`, and `Payment issued` claims. Project Proof remains the evidence concept immediately following the four-step journey.
 
 The waitlist form writes to Supabase. It collects name, email, role, and an optional short message. It trims name, email, and message values; lowercases email before insertion; stores empty messages as `null`; shows a friendly duplicate-email error for Supabase `23505` failures; and includes an at-collection privacy notice linking to the privacy policy.
 
 The `Share a company task` CTA in the For Companies panel scrolls to the existing waitlist, preselects the exact `Company` role, moves accessible focus to the optional message textarea, and shows company-specific guidance: "What small task or business problem would you like contributors to solve? (Optional)" Company submissions use the approved early-pilot success copy. The interaction preserves the existing roles and submit shape and introduces no new fields, routes, forms, calendar flow, backend contract, privacy data categories, processors, analytics, marketplace, payment, or live-brief claim.
 
 Vercel Analytics is loaded lazily from `src/main.tsx` after idle time or timeout. The waitlist submission helper is dynamically imported from `WaitlistSection`, and `@supabase/supabase-js` is dynamically imported inside `src/lib/waitlist.ts` so the initial frontend stays lighter.
+
+The landing site self-hosts the official Mozilla Text v1.00 variable WOFF2 under OFL 1.1. The exact upstream font, complete license, and provenance record live under `public/fonts/mozilla-text/`; `scripts/verify-font-assets.mjs` checks approved source and distribution hashes, required provenance, and same-origin loading. The landing uses `font-display: swap` and a robust fallback stack. The Angular dashboard typography is unchanged. BT Beau Sans and the unidentified Jrk/Behance OTF remain unapproved and must not be added, converted, or deployed without a later Security/Legal-approved license decision.
+
+The hero wave motif uses two overscanned SOMLIA Blue SVG-pattern layers moving in opposite directions through CSS transform-only 18-second loops. It uses no JavaScript animation loop or expensive animated paint property. `prefers-reduced-motion` disables both animations, resets transforms and `will-change`, and retains a clear static motif.
 
 Tests cover routing, waitlist form success and error states, waitlist helper normalization, empty-message handling, duplicate email errors, and missing Supabase environment configuration.
 
@@ -1017,6 +1015,7 @@ Future platform and engineering considerations:
 
 Dates marked `estimated` are inferred from local git history, handover timestamps, and conversation context. They approximate when the decision first appeared in the project, not necessarily the exact moment it was made.
 
+- 2026-07-21: Product and Frontend simplified and modernized the public landing page through SOM-70. The shipped narrative is Hero -> How it works -> Project Proof -> future-qualified For companies -> Waitlist -> two-item FAQ -> Footer. The four-step journey is Learn -> Build -> Improve -> Earn, with future company tasks and pay clearly described as a direction SOMLIA is being built toward rather than a live marketplace, opportunity, or payment feature. The landing now self-hosts the exact official Mozilla Text v1.00 variable WOFF2 under OFL 1.1 with tracked provenance and automated integrity checks, and restores a SOMLIA Blue opposite-direction transform-only hero wave motif with reduced-motion support. PR #14 was merged and the matching production deployment was verified.
 - 2026-07-14: Founder paused new marketing campaigns and user-validation execution until the Dashboard MVP is built far enough to demonstrate meaningfully. Existing completed marketing research, community setup, drafts, and positioning decisions remain retained for later reuse; canceled Linear marketing/validation tickets are not current backlog work.
 - 2026-07-14: Operations reconciled task handling after founder/CTO and agent work diverged from the documented state. Founder, CTO, other-developer, and coding-agent changes follow the same named Linear owner, issue branch, PR, review, verification, deployment, and docs-closeout workflow. Merged `main` is implementation truth, Linear is workflow truth, and external production configuration must be verified separately from a merge.
 - 2026-07-12: SOM-62 through SOM-65 established the implemented Dashboard MVP auth foundation. Angular is organized under `core`, `features`, and `shared`; Supabase Auth owns Google identity/session handling; Angular performs the explicit callback exchange and guards dashboard routes; privileged checks stay server-side; and the invite gate uses `public.dashboard_invites`, separate from `public."Whitelist"`. Google OAuth was verified on `app.somlia.com`. Invite-gate code is merged, but production SQL, function, flag, cohort, and invited/non-invited verification remain an explicit deployment checklist until independently confirmed.
