@@ -148,7 +148,21 @@ describe("App routing", () => {
     expect(screen.getByText("Simulated project")).toBeInTheDocument();
     expect(screen.getByText("Not yet reviewed")).toBeInTheDocument();
     expect(screen.getByText("Private")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Learn by doing." })).toBeInTheDocument();
+    expect(
+      screen.getByText("Learn a skill, build a project, improve it with feedback, and work toward future paid tasks."),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Earn" })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "SOMLIA is being built to connect your proof to future company tasks you can complete for pay.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText("Company briefs and paid opportunities are not live yet.")).toBeInTheDocument();
+
+    const howItWorks = container.querySelector("#how-it-works");
+    const connector = howItWorks?.querySelector('[aria-hidden="true"]');
+    expect(connector).toHaveClass("top-6", "hidden", "md:block");
 
     expect(container).not.toHaveTextContent(/Opportunity-ready/i);
     expect(container).not.toHaveTextContent(/Payment issued/i);

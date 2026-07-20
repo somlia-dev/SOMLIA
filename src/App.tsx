@@ -65,8 +65,8 @@ const progressSteps = [
     color: brand.gold,
   },
   {
-    label: "Prove",
-    copy: "Keep a clear record of the work, feedback, and changes.",
+    label: "Earn",
+    copy: "SOMLIA is being built to connect your proof to future company tasks you can complete for pay.",
     color: brand.blue,
   },
 ];
@@ -472,10 +472,13 @@ function HowItWorksSection() {
       id="how-it-works"
       eyebrow="How it works"
       title="Learn by doing."
-      copy="Each step turns practice into clear evidence of your skills."
+      copy="Learn a skill, build a project, improve it with feedback, and work toward future paid tasks."
     >
       <div className="relative grid gap-0 border-y border-[#D9E0EA] md:grid-cols-4 md:border-y-0">
-        <div aria-hidden="true" className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-px bg-[#CBD5E1] md:block" />
+        <div
+          aria-hidden="true"
+          className="absolute left-[12.5%] right-[12.5%] top-6 hidden h-px bg-[#CBD5E1] md:block"
+        />
         {progressSteps.map((step, index) => (
           <ProgressStepCard key={step.label} step={step} index={index} />
         ))}
