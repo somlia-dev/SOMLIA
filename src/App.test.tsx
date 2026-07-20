@@ -75,16 +75,19 @@ describe("App routing", () => {
     expect(screen.getByRole("heading", { name: /help us build somlia/i })).toBeInTheDocument();
   });
 
-  it("renders the restrained two-row hero wave structure", () => {
+  it("renders two performant hero wave rows moving in opposite directions", () => {
     const { container } = renderAt("/");
 
     const pattern = screen.getByTestId("hero-wave-pattern");
     const rows = pattern.querySelectorAll('[data-testid="hero-wave-row"]');
 
     expect(pattern).toHaveClass("hero-wave-pattern");
+    expect(pattern.parentElement).toHaveAttribute("aria-hidden", "true");
     expect(rows).toHaveLength(2);
-    expect(rows[0]).toHaveClass("hero-wave-row-forward");
-    expect(rows[1]).toHaveClass("hero-wave-row-reverse");
+    expect(rows[0]).toHaveClass("hero-wave-row", "hero-wave-row-forward");
+    expect(rows[0]).not.toHaveClass("hero-wave-row-reverse");
+    expect(rows[1]).toHaveClass("hero-wave-row", "hero-wave-row-reverse");
+    expect(rows[1]).not.toHaveClass("hero-wave-row-forward");
     expect(container.innerHTML).not.toContain("linear-gradient");
     expect(container.innerHTML).not.toContain("bg-[size:84px_84px]");
   });
