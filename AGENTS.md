@@ -34,6 +34,7 @@ For Feedback / Review specifically, SOM-56 defines a planning workflow only. Do 
 - `npm run test:dashboard` - run the Angular dashboard tests once.
 - `npm run build:dashboard` - generate public dashboard env config and build Angular.
 - `npm run test:all` / `npm run build:all` - verify both product surfaces.
+- `npm run verify:font` - verify the tracked Mozilla Text source asset, OFL license, provenance, CSS contract, and approved hashes. Landing tests and builds invoke the relevant source/distribution font checks automatically.
 
 For frontend changes, run `npm test` and `npm run build` at minimum. For visual or interaction changes, also open the app in a browser and check the affected viewport(s).
 
@@ -99,7 +100,11 @@ Keep the visual direction restrained, professional, and concrete. Both product s
 - Cloud: `#F8FAFC`
 - Slate: `#64748B`
 
-The React/Vite landing site keeps its established light editorial composition, hard-edged panels, Tailwind utilities, section functions, local data arrays, and `lucide-react` icons unless a scoped issue approves a redesign. Use existing patterns in `src/App.tsx` before adding abstractions. Keep assets real and brand-relevant; active landing assets live in `src/assets/*.webp`.
+The React/Vite landing site keeps its established light editorial composition, Tailwind utilities, section functions, local data arrays, and `lucide-react` icons unless a scoped issue approves a redesign. Its shipped homepage order is Hero, How it works, Project Proof, future-qualified For companies, Waitlist, two-item FAQ, and Footer. Preserve the concise Learn / Build / Improve / Earn narrative and do not imply that paid tasks, marketplace access, or payment behavior are live. Use existing patterns in `src/App.tsx` before adding abstractions. Keep assets real and brand-relevant; active landing assets live in `src/assets/*.webp`.
+
+The landing self-hosts Mozilla Text from `public/fonts/mozilla-text/` under OFL 1.1. Preserve the exact reviewed variable WOFF2, complete license, provenance README, `.gitattributes` treatment, and `scripts/verify-font-assets.mjs` integrity checks. Do not hotlink an external font provider, modify/subset/convert the approved file, add BT Beau Sans or the unidentified Jrk/Behance OTF, or change the landing font source without an approved issue and Security/Legal review. This font decision does not change Angular dashboard typography.
+
+The landing hero uses two overscanned SOMLIA Blue wave layers moving in opposite directions through transform-only CSS loops. Preserve seamless edge coverage and the reduced-motion static state; do not replace the animation with JavaScript timers, canvas/WebGL, animated background position, blur, or other paint-heavy effects without an approved performance-reviewed issue.
 
 The Angular dashboard keeps the merged SOM-68 product treatment: consistent 6-8px panel/card radii, restrained Blue/Green/Gold gradients on Cloud/white/Ink foundations, subtle shadows, visible focus states, and dense scan-friendly hierarchy. Preserve the real SOMLIA logo and the existing Angular `core` / `features` / `shared` component boundaries. Do not revert the dashboard to uniformly sharp geometry, add decorative gradient blobs, heavy glassmorphism, or turn workflow pages into marketing sections without an approved visual issue.
 
